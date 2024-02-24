@@ -13,7 +13,7 @@ export class ProblemUpdateDTO {
 
     constraints?: string;
 
-    approved?: string;
+    approved?: boolean;
 
     @IsIn(difficulties)
     difficulty?: Difficulty;

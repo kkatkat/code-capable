@@ -1,5 +1,8 @@
-import { Column, Entity, PrimaryGeneratedColumn } from "typeorm";
+import { Column, CreateDateColumn, Entity, PrimaryGeneratedColumn } from "typeorm";
 
+export const difficulties = ['easy', 'medium', 'hard'] as const;
+
+export type Difficulty = typeof difficulties[number];
 
 @Entity()
 export class Problem {
@@ -9,12 +12,36 @@ export class Problem {
     @Column()
     name: string;
 
-    @Column()
+    @Column({
+        type: "varchar",
+        length: 2000
+    })
     description: string;
 
-    @Column()
+    @Column({
+        type: "varchar",
+        length: 2000
+    })
     starterCode: string;
 
-    @Column()
+    @Column({
+        type: "varchar",
+        length: 2000,
+        nullable: true
+    })
+    constraints?: string;
+
+    @Column({
+        default: false
+    })
     approved: boolean;
+
+    @Column()
+    difficulty: string;
+
+    @Column()
+    creatorId: number;
+
+    @CreateDateColumn()
+    createdAt: Date;
 }

@@ -5,7 +5,7 @@ import { ConfigService } from '@nestjs/config';
 
 @Injectable()
 export class RunnerService {
-  async runCode(code: string, problemId: string): Promise<RunResponse> {
+  async runCode(code: string, problemId: number): Promise<RunResponse> {
     const result: RunResponse = await PythonShell.runString(code)
     .then((messages) => {
         return {output: messages, error: false}

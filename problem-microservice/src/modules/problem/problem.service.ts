@@ -1,7 +1,7 @@
 import { InjectRepository } from "@nestjs/typeorm";
-import { Problem } from "./problem.entity";
+import { Problem, difficulties } from "./problem.entity";
 import { FindManyOptions, FindOneOptions, FindOptionsWhere, Repository } from "typeorm";
-import { Injectable } from "@nestjs/common";
+import { BadRequestException, Injectable, NotFoundException } from "@nestjs/common";
 import { ProblemInputDTO } from "./problemInput.dto";
 import { ProblemUpdateDTO } from "./problemUpdate.dto";
 
@@ -36,6 +36,16 @@ export class ProblemService {
     }
 
     async update(problemData: Partial<Problem> & ProblemUpdateDTO): Promise<Problem> {
+        if (!(await this.findOne({where: {id:problemData.id}}))) {
+            throw new NotFoundException();
+        }
+
+        if (problemData.difficulty) {
+            if (!difficulties.includes(problemData.difficulty)) {
+                throw new BadRequestException('Invalid difficulty');
+            }
+        }
+
         const problem: Partial<Problem> = problemData;
 
         // TODO checks for relations (see duo)

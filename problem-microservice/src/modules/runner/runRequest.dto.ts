@@ -5,5 +5,5 @@ export class RunRequest {
     code: string;
 
     @IsNotEmpty()
-    problemId: string;
+    problemId: number;
 }

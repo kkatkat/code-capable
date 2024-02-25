@@ -1,4 +1,4 @@
-import { Controller, Delete, Get, Param, Post, Put } from "@nestjs/common";
+import { Body, Controller, Delete, Get, Param, Post, Put } from "@nestjs/common";
 import { ProblemService } from "./problem.service";
 import { ProblemInputDTO } from "./problemInput.dto";
 import { Problem } from "./problem.entity";
@@ -30,12 +30,12 @@ export class ProblemController {
   }
 
   @Post()
-  async create(input: ProblemInputDTO): Promise<Problem> {
+  async create(@Body() input: ProblemInputDTO): Promise<Problem> {
     return this.problemService.create(input);
   }
 
   @Put()
-  async update(input: ProblemUpdateDTO): Promise<Problem> {
+  async update(@Body() input: ProblemUpdateDTO): Promise<Problem> {
     return this.problemService.update(input);
   }
 

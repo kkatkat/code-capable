@@ -1,4 +1,4 @@
-import { IsIn, IsNotEmpty, MinLength } from "class-validator";
+import { Allow, IsIn, IsNotEmpty, MinLength } from "class-validator";
 import { Difficulty, difficulties } from "./problem.entity";
 
 export class ProblemInputDTO {
@@ -10,6 +10,7 @@ export class ProblemInputDTO {
     @MinLength(5)
     description: string;
 
+    @Allow()
     constraints?: string;
 
     @IsNotEmpty()

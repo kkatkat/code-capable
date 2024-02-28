@@ -12,7 +12,7 @@ export class ProblemController {
   async getForUser(@Param('userId') userId: number): Promise<Problem[]> {
     return this.problemService.find({
         where: {
-            creatorId: userId
+            creatorId: userId,
         },
         order: {
             createdAt: 'DESC'
@@ -24,7 +24,7 @@ export class ProblemController {
   async getById(@Param('id') id: number) {
     const problem = await this.problemService.findOne({
         where: {
-            id
+            id,
         },
         relations: {
             unitTests: true
@@ -36,6 +36,11 @@ export class ProblemController {
     }
 
     return problem;
+  }
+
+  @Get()
+  async getAll() {
+    return this.problemService.find();
   }
 
   @Post()

@@ -1,4 +1,4 @@
-import { Body, Controller, Delete, Get, Param, Post, Put } from "@nestjs/common";
+import { Body, Controller, Delete, Get, NotFoundException, Param, Post, Put } from "@nestjs/common";
 import { ProblemService } from "./problem.service";
 import { ProblemInputDTO } from "./problemInput.dto";
 import { Problem } from "./problem.entity";
@@ -22,11 +22,20 @@ export class ProblemController {
 
   @Get('/:id')
   async getById(@Param('id') id: number) {
-    return this.problemService.findOne({
+    const problem = await this.problemService.findOne({
         where: {
             id
+        },
+        relations: {
+            unitTests: true
         }
     })
+
+    if (!problem) {
+      throw new NotFoundException();
+    }
+
+    return problem;
   }
 
   @Post()

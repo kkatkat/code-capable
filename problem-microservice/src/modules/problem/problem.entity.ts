@@ -1,4 +1,5 @@
-import { Column, CreateDateColumn, Entity, PrimaryGeneratedColumn } from "typeorm";
+import { Column, CreateDateColumn, Entity, OneToMany, PrimaryGeneratedColumn } from "typeorm";
+import { UnitTest } from "../unit-test/unit-test.entity";
 
 export const difficulties = ['easy', 'medium', 'hard'] as const;
 
@@ -44,4 +45,7 @@ export class Problem {
 
     @CreateDateColumn()
     createdAt: Date;
+
+    @OneToMany(() => UnitTest, (unitTest) => unitTest.problem)
+    unitTests: UnitTest[];
 }

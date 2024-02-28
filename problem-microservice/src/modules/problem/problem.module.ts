@@ -6,7 +6,7 @@ import { ProblemController } from './problem.controller';
 
 @Module({
   imports: [TypeOrmModule.forFeature([Problem])],
-  exports: [TypeOrmModule],
+  exports: [TypeOrmModule, ProblemService],
   controllers: [ProblemController],
   providers: [ProblemService],
 })

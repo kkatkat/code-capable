@@ -1,11 +1,10 @@
-import { Injectable, NotFoundException } from "@nestjs/common";
+import { Inject, Injectable, NotFoundException, forwardRef } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
 import { UnitTest } from "./unit-test.entity";
 import { FindManyOptions, FindOneOptions, FindOptionsWhere, Repository } from "typeorm";
 import { UnitTestInputDTO } from "./unit-testIput.dto";
-import { Problem } from "../problem/problem.entity";
 import { UnitTestUpdateDTO } from "./unit-testUpdate.dto";
-import { ProblemService } from "../problem/problem.service";
+import { ServiceFactory } from "../factory/service-factory.service";
 
 
 @Injectable()
@@ -13,7 +12,8 @@ export class UnitTestService {
     constructor(
         @InjectRepository(UnitTest)
         protected readonly unitTestRepo: Repository<UnitTest>,
-        protected readonly problemService: ProblemService
+        @Inject(forwardRef(() => ServiceFactory))
+        protected readonly sf: ServiceFactory,
     ) {}
 
     async findOne(options: FindOneOptions<UnitTest>): Promise<UnitTest> {
@@ -34,7 +34,7 @@ export class UnitTestService {
         });
 
         if (unitTestData.problemId) {
-            const problem = await this.problemService.findOne({
+            const problem = await this.sf.problemService.findOne({
                 where: {
                     id: unitTestData.problemId
                 }

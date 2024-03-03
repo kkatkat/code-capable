@@ -1,13 +1,15 @@
-import { configObject } from "src/config/config";
+import config from "src/config/config";
 import { DataSource, DataSourceOptions } from "typeorm";
 
+const cfg = config();
+
 export const dataSourceOptions: DataSourceOptions = {
-    type: configObject.dbType,
-    host: configObject.dbHost,
-    port: configObject.dbPort,
-    username: configObject.dbUsername,
-    password: configObject.dbPassword,
-    database: configObject.dbName,
+    type: cfg.dbType,
+    host: cfg.dbHost,
+    port: cfg.dbPort,
+    username: cfg.dbUsername,
+    password: cfg.dbPassword,
+    database: cfg.dbName,
     entities: ['dist/**/*.entity.js'],
     migrations: ['dist/database/migrations/*.js'],
 }

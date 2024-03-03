@@ -57,8 +57,6 @@ export class UnitTestService {
 
         const unitTest: Partial<UnitTest> = unitTestData;
 
-        // TODO checks for relations (see duo)
-
         return this.unitTestRepo.save(unitTest);
     }
 

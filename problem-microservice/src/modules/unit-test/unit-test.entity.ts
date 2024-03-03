@@ -1,4 +1,4 @@
-import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
+import { Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
 import { Problem } from "../problem/problem.entity";
 
 
@@ -23,7 +23,14 @@ export class UnitTest {
         nullable: false,
         onDelete: 'CASCADE'
     })
+    @JoinColumn({
+        name: 'problemId'
+    })
     problem: Problem
 
-    // TODO complete this relation with single ID (see duo)
+    @Column({
+        nullable: false,
+        name: 'problemId'
+    })
+    problemId: number
 }

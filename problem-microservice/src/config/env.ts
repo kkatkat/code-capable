@@ -1,3 +1,10 @@
+import { config } from 'dotenv'
+
+import { resolve } from 'path'
+
+// load environment variables
+config({path: resolve(process.cwd(), '.env')});
+
 export default function parseEnv(value: any, defaultValue: any = null): any {
     if (value === undefined) {
       return defaultValue;

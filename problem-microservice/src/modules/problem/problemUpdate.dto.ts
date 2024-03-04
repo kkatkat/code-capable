@@ -21,5 +21,5 @@ export class ProblemUpdateDTO {
     approved?: boolean;
 
     @Allow()
-    difficulty?: Difficulty;
+    difficulty?: string;
 }

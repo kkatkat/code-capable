@@ -58,4 +58,21 @@ export class ProblemController {
     return this.problemService.delete({id});
   }
 
+  @Post('/approve/:id')
+  async approve(@Param('id') id: number) {
+    const problem = await this.problemService.findOne({
+      where: {
+        id
+      }
+    })
+
+    if (!problem) {
+      throw new NotFoundException();
+    }
+
+    problem.approved = true;
+
+    this.problemService.update(problem);
+  }
+
 }

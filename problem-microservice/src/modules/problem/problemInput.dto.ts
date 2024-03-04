@@ -19,7 +19,7 @@ export class ProblemInputDTO {
 
     @IsNotEmpty()
     @IsIn(difficulties)
-    difficulty: Difficulty;
+    difficulty: string;
 
     @IsNotEmpty()
     creatorId: number;

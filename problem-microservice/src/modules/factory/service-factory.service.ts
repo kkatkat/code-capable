@@ -2,6 +2,7 @@ import { Inject, Injectable, forwardRef } from "@nestjs/common";
 import { UnitTestService } from "../unit-test/unit-test.service";
 import { ProblemService } from "../problem/problem.service";
 import { RunnerService } from "../runner/runner.service";
+import { SolutionService } from "../solution/solution.service";
 
 
 @Injectable()
@@ -15,5 +16,8 @@ export class ServiceFactory {
 
         @Inject(forwardRef(() => RunnerService))
         public readonly runnerService: RunnerService,
+
+        @Inject(forwardRef(() => SolutionService))
+        public readonly solutionService: SolutionService,
     ) {}
 }

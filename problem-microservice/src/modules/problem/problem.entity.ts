@@ -1,5 +1,6 @@
 import { Column, CreateDateColumn, Entity, OneToMany, PrimaryGeneratedColumn } from "typeorm";
 import { UnitTest } from "../unit-test/unit-test.entity";
+import { Solution } from "../solution/solution.entity";
 
 export const difficulties = ['easy', 'medium', 'hard'] as const;
 
@@ -48,4 +49,7 @@ export class Problem {
 
     @OneToMany(() => UnitTest, (unitTest) => unitTest.problem)
     unitTests: UnitTest[];
+
+    @OneToMany(() => Solution, (solution) => solution.problem)
+    solutions: Solution[];
 }

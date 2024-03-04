@@ -6,6 +6,7 @@ import config from 'src/config/config';
 import { ProblemModule } from '../problem/problem.module';
 import { UnitTestModule } from '../unit-test/unit-test.module';
 import { dataSourceOptions } from 'database/data-source';
+import { SolutionModule } from '../solution/solution.module';
 
 @Module({
   imports: [
@@ -15,6 +16,7 @@ import { dataSourceOptions } from 'database/data-source';
     RunnerModule,
     ProblemModule,
     UnitTestModule,
+    SolutionModule,
     TypeOrmModule.forRoot(dataSourceOptions)
   ],
   controllers: [],

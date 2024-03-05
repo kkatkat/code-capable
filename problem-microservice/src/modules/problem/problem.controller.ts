@@ -1,8 +1,11 @@
-import { Body, Controller, Delete, Get, NotFoundException, Param, Post, Put } from "@nestjs/common";
+import { Body, Controller, Delete, Get, ImATeapotException, NotFoundException, Param, Post, Put, Req, UseGuards } from "@nestjs/common";
 import { ProblemService } from "./problem.service";
 import { ProblemInputDTO } from "./problemInput.dto";
 import { Problem } from "./problem.entity";
 import { ProblemUpdateDTO } from "./problemUpdate.dto";
+import { AuthGuard } from "src/common/guards/auth-guard";
+import { JwtUser } from "src/common/jwt-user";
+import { Role } from "src/common/roles";
 
 @Controller('problem')
 export class ProblemController {
@@ -43,8 +46,12 @@ export class ProblemController {
     return this.problemService.find();
   }
 
+  @UseGuards(AuthGuard)
   @Post()
-  async create(@Body() input: ProblemInputDTO): Promise<Problem> {
+  async create(@Body() input: ProblemInputDTO, @Req() req: Request): Promise<Problem> {
+    const jwtUser = req['user'] as JwtUser;
+    input.creatorId = jwtUser.id;
+
     return this.problemService.create(input);
   }
 

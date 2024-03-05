@@ -4,9 +4,10 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { ProblemService } from './problem.service';
 import { ProblemController } from './problem.controller';
 import { FactoryModule } from '../factory/factory.module';
+import { ConfigModule } from '@nestjs/config';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([Problem]), forwardRef(() => FactoryModule)],
+  imports: [TypeOrmModule.forFeature([Problem]), forwardRef(() => FactoryModule), ConfigModule],
   exports: [TypeOrmModule, ProblemService],
   controllers: [ProblemController],
   providers: [ProblemService],

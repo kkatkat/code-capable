@@ -41,8 +41,6 @@ export class UserService {
     }
 
     async create(userData: Partial<User> & UserCreateDTO): Promise<User> {
-        //hash password here
-
         const user: User = this.userRepo.create({
             ...userData
         });

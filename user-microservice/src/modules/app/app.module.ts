@@ -3,12 +3,14 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import config from 'src/config/config';
 import { dataSourceOptions } from 'database/data-source';
+import { UserModule } from '../user/user.module';
 
 @Module({
   imports: [
     ConfigModule.forRoot({
       load: [config]
     }),
+    UserModule,
     TypeOrmModule.forRoot(dataSourceOptions)
   ],
   controllers: [],

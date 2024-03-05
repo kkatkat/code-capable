@@ -6,6 +6,8 @@ import { User } from "../user/user.entity";
 import * as jwt from 'jsonwebtoken';
 import { LoginResponse } from "./login-response.dto";
 import { ConfigService } from "@nestjs/config";
+import { UserCreateDTO } from "../user/user-create.dto";
+import * as bcrypt from 'bcrypt';
 
 
 
@@ -25,7 +27,9 @@ export class AuthService {
             }
         })
 
-        if (user.password !== body.password) {
+        const passwordsMatch = await bcrypt.compare(body.password, user.password);
+
+        if (!passwordsMatch) {
             throw new UnauthorizedException();
         }
 
@@ -38,6 +42,14 @@ export class AuthService {
             user,
             accessToken: token
         }
+    }
+
+    async register(body: UserCreateDTO): Promise<void> {
+        const hashedPwd = await this.hashPassword(body.password);
+
+        body.password = hashedPwd;
+
+        await this.sf.userService.create(body);
     }
 
     signJwt(user: User): string {
@@ -70,9 +82,7 @@ export class AuthService {
         return token
     }
 
-    hashPassword(rawPassword: string): string {
-        
-
-        return '123';
+    async hashPassword(rawPassword: string): Promise<string> {
+        return bcrypt.hash(rawPassword, 10)
     }
 }

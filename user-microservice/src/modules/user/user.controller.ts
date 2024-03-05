@@ -1,6 +1,5 @@
 import { Body, Controller, Get, NotFoundException, Param, Post, Put } from "@nestjs/common";
 import { UserService } from "./user.service";
-import { UserCreateDTO } from "./user-create.dto";
 import { UserUpdateDTO } from "./user-update.dto";
 
 
@@ -21,11 +20,6 @@ export class UserController {
         }
 
         return user;
-    }
-
-    @Post()
-    async createUser(@Body() body: UserCreateDTO) {
-        this.userService.create(body);
     }
 
     @Put()

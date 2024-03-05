@@ -1,5 +1,4 @@
 import { Allow, IsNotEmpty } from "class-validator";
-import { Difficulty } from "./problem.entity";
 
 export class ProblemUpdateDTO {
     @IsNotEmpty()

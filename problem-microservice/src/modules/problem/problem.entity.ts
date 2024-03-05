@@ -2,9 +2,9 @@ import { Column, CreateDateColumn, Entity, OneToMany, PrimaryGeneratedColumn } f
 import { UnitTest } from "../unit-test/unit-test.entity";
 import { Solution } from "../solution/solution.entity";
 
-export const difficulties = ['easy', 'medium', 'hard'] as const;
+export const difficulties = ['easy', 'medium', 'hard'];
 
-export type Difficulty = typeof difficulties[number];
+// export type Difficulty = typeof difficulties[number];
 
 @Entity()
 export class Problem {

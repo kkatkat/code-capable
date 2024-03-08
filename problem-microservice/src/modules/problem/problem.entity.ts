@@ -15,20 +15,17 @@ export class Problem {
     name: string;
 
     @Column({
-        type: "varchar",
-        length: 2000
+        type: 'text'
     })
     description: string;
 
     @Column({
-        type: "varchar",
-        length: 2000
+        type: 'text'
     })
     starterCode: string;
 
     @Column({
-        type: "varchar",
-        length: 2000,
+        type: 'text',
         nullable: true
     })
     constraints?: string;

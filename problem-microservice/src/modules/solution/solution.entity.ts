@@ -12,8 +12,7 @@ export class Solution {
     userId: number;
 
     @Column({
-        type: 'varchar',
-        length: 5000
+        type: 'text'
     })
     code: string;
 

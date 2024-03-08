@@ -9,8 +9,7 @@ export class UnitTest {
     id: number;
 
     @Column({
-        type: 'varchar',
-        length: 1000
+        type: 'text'
     })
     code: string
 

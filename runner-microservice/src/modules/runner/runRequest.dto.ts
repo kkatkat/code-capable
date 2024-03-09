@@ -1,4 +1,4 @@
-import { IsNotEmpty } from "class-validator";
+import { Allow, IsNotEmpty } from "class-validator";
 
 export class RunRequest {
     @IsNotEmpty()
@@ -6,4 +6,7 @@ export class RunRequest {
 
     @IsNotEmpty()
     problemId: number;
+
+    @Allow()
+    submit?: boolean;
 }

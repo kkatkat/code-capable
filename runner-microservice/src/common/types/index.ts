@@ -17,3 +17,9 @@ export type UnitTest = {
     visible: boolean;
     problemId: number;
 }
+
+export type SolutionSubmission = {
+    userId: number;
+    code: string;
+    problemId: number;
+}

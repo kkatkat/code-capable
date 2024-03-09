@@ -9,6 +9,8 @@ export default () => {
         dbUsername: parseEnv(process.env.DB_USERNAME),
         dbPassword: parseEnv(process.env.DB_PASSWORD),
         dbName: parseEnv(process.env.DB_NAME),
-        jwtPublicKey: parseEnv(process.env.JWT_PUBLIC_KEY)
+        jwtPublicKey: parseEnv(process.env.JWT_PUBLIC_KEY),
+        rmqHost: parseEnv(process.env.RABBITMQ_HOST),
+        rmqPort: parseEnv(process.env.RABBITMQ_PORT),
     }
 }

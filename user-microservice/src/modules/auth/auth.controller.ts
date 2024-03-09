@@ -1,10 +1,11 @@
-import { Body, Controller, Inject, Post, Req, UseGuards, forwardRef } from "@nestjs/common";
+import { Body, Controller, ImATeapotException, Inject, Post, Req, UseGuards, forwardRef } from "@nestjs/common";
 import { AuthService } from "./auth.service";
 import { LoginRequest } from "./login-request.dto";
 import { UserCreateDTO } from "../user/user-create.dto";
 import { AuthGuard } from "src/common/guards/auth-guard";
 import { JwtUser } from "src/common/jwt-user";
 import { ServiceFactory } from "../factory/service-factory.service";
+import { ClientProxy } from "@nestjs/microservices";
 
 
 
@@ -13,7 +14,9 @@ export class AuthController {
     constructor(
         private readonly authService: AuthService,
         @Inject(forwardRef(() => ServiceFactory))
-        private readonly sf: ServiceFactory
+        private readonly sf: ServiceFactory,
+        @Inject('PROBLEM_MICROSERVICE')
+        private problemMicroservice: ClientProxy,
     ) { }
 
     @Post('/login')
@@ -30,6 +33,8 @@ export class AuthController {
     @Post('/delete-account')
     async deleteAccount(@Req() req: Request) {
         const user = req['user'] as JwtUser
+
+        this.problemMicroservice.emit<number>('user_deleted', user.id);
 
         await this.sf.userService.delete({
             id: user.id

@@ -1,6 +1,7 @@
 import { Controller, Delete, Get, NotFoundException, Param } from "@nestjs/common";
 import { SolutionService } from "./solution.service";
 import { Solution } from "./solution.entity";
+import { Ctx, EventPattern, Payload, RmqContext } from "@nestjs/microservices";
 
 
 @Controller('solution')
@@ -55,4 +56,16 @@ export class SolutionController {
     async delete(@Param('id') id: number) {
         return await this.solutionService.delete({id});
     }
+
+    @EventPattern('solution_submitted')
+    async handleSolutionSubmitted(@Payload() submission: any, @Ctx() context: RmqContext) {
+        const channel = context.getChannelRef();
+        const originamMsg = context.getMessage();
+        console.log('solution_submitted event received, adding submission to db')
+
+        await this.solutionService.create(submission);
+
+        channel.ack(originamMsg);
+    }
+
 }

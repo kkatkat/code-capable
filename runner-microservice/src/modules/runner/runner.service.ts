@@ -1,7 +1,6 @@
 import { Inject, Injectable } from '@nestjs/common';
 import { RunResponse } from './runResponse.dto';
 import {PythonShell} from 'python-shell';
-import { ConfigService } from '@nestjs/config';
 import { Problem, SolutionSubmission } from 'src/common/types';
 import { ClientProxy } from '@nestjs/microservices';
 import { JwtUser } from 'src/common/jwt-user';
@@ -15,11 +14,11 @@ export class RunnerService {
 
 
   async runCode(code: string, problem: Problem, user: JwtUser, submit?: boolean): Promise<RunResponse> {
+    const originalCode = code;
+    
     problem.unitTests.forEach((unitTest) => {
         code += `\n${unitTest.code}`
     })
-
-    console.log(code);
     
     const result: RunResponse = await PythonShell.runString(code)
     .then((messages) => {
@@ -31,7 +30,7 @@ export class RunnerService {
     if (submit && !result.error) {
       const submission: SolutionSubmission = {
         userId: user.id,
-        code,
+        code: originalCode,
         problemId: problem.id,
       }
 

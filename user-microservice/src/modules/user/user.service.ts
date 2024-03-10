@@ -5,6 +5,7 @@ import { FindManyOptions, FindOneOptions, FindOptionsSelect, FindOptionsWhere, Q
 import { ServiceFactory } from "../factory/service-factory.service";
 import { UserCreateDTO } from "./user-create.dto";
 import { UserUpdateDTO } from "./user-update.dto";
+import { randomString } from "src/common/lib";
 
 
 @Injectable()
@@ -48,6 +49,8 @@ export class UserService {
         if (!user.role) {
             user.role = 'user'
         }
+
+        user.confirmationCode = randomString(24);
 
         try {
             return await this.userRepo.save(user)

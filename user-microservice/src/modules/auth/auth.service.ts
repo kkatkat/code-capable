@@ -1,4 +1,4 @@
-import { Inject, Injectable, InternalServerErrorException, UnauthorizedException, forwardRef } from "@nestjs/common";
+import { ForbiddenException, Inject, Injectable, InternalServerErrorException, UnauthorizedException, forwardRef } from "@nestjs/common";
 import { ServiceFactory } from "../factory/service-factory.service";
 import { LoginRequest } from "./login-request.dto";
 import { JwtUser } from "src/common/jwt-user";
@@ -49,6 +49,10 @@ export class AuthService {
     }
 
     async register(body: UserCreateDTO): Promise<void> {
+        if (!body.acceptedTermsAndConditions) {
+            throw new ForbiddenException('You must accept the terms and conditions to register an account.')
+        }
+
         const hashedPwd = await this.hashPassword(body.password);
 
         body.password = hashedPwd;

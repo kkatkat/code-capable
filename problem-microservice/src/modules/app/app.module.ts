@@ -1,5 +1,4 @@
 import { Module } from '@nestjs/common';
-import { RunnerModule } from '../runner/runner.module';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import config from 'src/config/config';
@@ -13,7 +12,6 @@ import { SolutionModule } from '../solution/solution.module';
     ConfigModule.forRoot({
       load: [config]
     }),
-    RunnerModule,
     ProblemModule,
     UnitTestModule,
     SolutionModule,

@@ -1,7 +1,10 @@
-import { Controller, Delete, Get, NotFoundException, Param } from "@nestjs/common";
+import { Controller, Delete, ForbiddenException, Get, NotFoundException, Param, Req, UseGuards } from "@nestjs/common";
 import { SolutionService } from "./solution.service";
 import { Solution } from "./solution.entity";
 import { Ctx, EventPattern, Payload, RmqContext } from "@nestjs/microservices";
+import { AuthGuard } from "src/common/guards/auth-guard";
+import { JwtUser } from "src/common/jwt-user";
+import { Role } from "src/common/roles";
 
 
 @Controller('solution')
@@ -52,8 +55,23 @@ export class SolutionController {
         return solutions;
     }
 
+    @UseGuards(AuthGuard)
     @Delete(':id')
-    async delete(@Param('id') id: number) {
+    async delete(@Param('id') id: number, @Req() req: Request) {
+        const user = req['user'] as JwtUser;
+
+        const solution = await this.solutionService.findOne({
+            where: {
+                id
+            }
+        })
+
+        if (!solution) throw new NotFoundException();
+
+        if (solution.userId !== user.id && user.role !== Role.ADMIN) {
+            throw new ForbiddenException();
+        }
+
         return await this.solutionService.delete({id});
     }
 

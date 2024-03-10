@@ -2,7 +2,6 @@ import { Module, forwardRef } from "@nestjs/common";
 import { ServiceFactory } from "./service-factory.service";
 import { UnitTestModule } from "../unit-test/unit-test.module";
 import { ProblemModule } from "../problem/problem.module";
-import { RunnerModule } from "../runner/runner.module";
 import { SolutionModule } from "../solution/solution.module";
 
 
@@ -10,7 +9,6 @@ import { SolutionModule } from "../solution/solution.module";
     imports: [
         forwardRef(() => UnitTestModule),
         forwardRef(() => ProblemModule),
-        forwardRef(() => RunnerModule),
         forwardRef(() => SolutionModule),
     ],
     providers: [ServiceFactory],

@@ -1,4 +1,4 @@
-import { Body, Controller, Delete, Get, Inject, NotFoundException, Param, Post, Put, Req, UseGuards, forwardRef } from "@nestjs/common";
+import { Body, Controller, Delete, ForbiddenException, Get, Inject, NotFoundException, Param, Post, Put, Req, UseGuards, forwardRef } from "@nestjs/common";
 import { ProblemService } from "./problem.service";
 import { ProblemInputDTO } from "./problemInput.dto";
 import { Problem } from "./problem.entity";
@@ -57,18 +57,51 @@ export class ProblemController {
     return this.problemService.create(input);
   }
 
+  @UseGuards(AuthGuard)
   @Put()
-  async update(@Body() input: ProblemUpdateDTO): Promise<Problem> {
+  async update(@Body() input: ProblemUpdateDTO, @Req() req: Request): Promise<Problem> {
+    const user = req['user'] as JwtUser;
+
+    const problem = await this.problemService.findOne({
+      where: {
+        id: input.id
+      }
+    })
+
+    if (problem && user.role !== Role.ADMIN && problem.creatorId !== user.id) {
+      throw new ForbiddenException();
+    }
+
     return this.problemService.update(input);
   }
 
+  @UseGuards(AuthGuard)
   @Delete(':id')
-  async delete(@Param('id') id: number) {
+  async delete(@Param('id') id: number, @Req() req: Request){
+    const user = req['user'] as JwtUser;
+
+    const problem = await this.problemService.findOne({
+      where: {
+        id
+      }
+    })
+
+    if (problem && problem.creatorId !== user.id && user.role !== Role.ADMIN) {
+      throw new ForbiddenException('Attempted to delete another user\'s problem');
+    }
+
     return this.problemService.delete({id});
   }
 
+  @UseGuards(AuthGuard)
   @Post('/approve/:id')
-  async approve(@Param('id') id: number) {
+  async approve(@Param('id') id: number, @Req() req: Request) {
+    const user = req['user'] as JwtUser;
+
+    if (user.role !== Role.ADMIN) {
+      throw new ForbiddenException();
+    }
+
     const problem = await this.problemService.findOne({
       where: {
         id

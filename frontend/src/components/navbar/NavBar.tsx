@@ -26,7 +26,7 @@ const handleSearchBarChange = (e: any) => {
 
   return (
     <div className="NavBar">
-      <nav className="navbar navbar-expand-lg navbar-light bg-light border-bottom fixed-top border-primary border-1">
+      <nav className="navbar navbar-expand-lg border-bottom fixed-top border-primary border-1">
         <div className="container-lg">
           <Link to="/" className="navbar-brand">
             <img src={logo} height="35" className="d-inline-block align-top" />

@@ -23,17 +23,20 @@ function Footer() {
                 </div>
 
                 <div className="col mb-3">
-
+                    <h5>Follow us</h5>
+                    <ul className="nav flex-column">
+                        <li className="nav-item mb-2"><a href="#" className="nav-link p-0 text-muted"><i className="bi bi-twitter-x me-2"></i>Twitter</a></li>
+                        <li className="nav-item mb-2"><a href="#" className="nav-link p-0 text-muted"><i className="bi bi-instagram me-2"></i>Instagram</a></li>
+                        <li className="nav-item mb-2"><a href="#" className="nav-link p-0 text-muted"><i className="bi bi-linkedin me-2"></i>Linkedin</a></li>
+                    </ul>
                 </div>
 
                 <div className="col mb-3">
                     <h5>About us</h5>
                     <ul className="nav flex-column">
                         <li className="nav-item mb-2"><a href="#" className="nav-link p-0 text-muted">Careers</a></li>
-                        <li className="nav-item mb-2"><a href="#" className="nav-link p-0 text-muted">Twitter</a></li>
-                        <li className="nav-item mb-2"><a href="#" className="nav-link p-0 text-muted">Instagram</a></li>
-                        <li className="nav-item mb-2"><a href="#" className="nav-link p-0 text-muted">Linkedin</a></li>
                         <li className="nav-item mb-2"><a href="#" className="nav-link p-0 text-muted">Contact</a></li>
+                        <li className="nav-item mb-2"><Link to="/privacy-policy" className="nav-link p-0 text-muted">Privacy policy</Link></li>
                     </ul>
                 </div>
 

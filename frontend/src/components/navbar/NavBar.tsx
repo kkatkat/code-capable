@@ -84,8 +84,8 @@ const handleSearchBarChange = (e: any) => {
             }
             {
               loggedUser === null && <>
-                <Link to='/login' className="btn btn-outline-primary ms-2">Login</Link>
-                <Link to='/signUp' className="btn btn-primary ms-2">Sign up</Link>
+                <Link to='/login' className="btn btn-outline-primary border-0 ms-2"><i className="bi bi-box-arrow-in-right me-2"></i>Login</Link>
+                <Link to='/signUp' className="btn btn-primary ms-2 border-0">Sign up</Link>
               </>
             }
 

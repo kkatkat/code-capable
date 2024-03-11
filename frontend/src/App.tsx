@@ -6,6 +6,7 @@ import { ToastContainer } from 'react-toastify';
 import HomePage from './pages/homepage/HomePage';
 import Footer from './components/footer/Footer';
 import NavBar from './components/navbar/NavBar';
+import PrivacyPolicyPage from './pages/privacy-policy-page/PrivacyPolicyPage';
 
 function App() {
     const { loggedUser, setLoggedUser } = useContext(UserContext);
@@ -21,6 +22,7 @@ function App() {
                             </header>
                             <Routes>
                                 <Route path='/' element={<HomePage/>} />
+                                <Route path='/privacy-policy' element={<PrivacyPolicyPage/>}/>
                                 {/* <Route path='/login' element={<LoginPage/>}/> */}
                             </Routes>
                         </div>

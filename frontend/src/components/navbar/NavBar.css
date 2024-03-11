@@ -1,0 +1,13 @@
+.NavBar .nav-link:hover {
+    border-radius: 5px;
+}
+
+.NavBar .nav-link {
+    border-radius: 5px;
+}
+
+.NavBar .dropdown:hover .dropdown-menu {
+    display: block;
+    margin-top: 0;
+ }
+

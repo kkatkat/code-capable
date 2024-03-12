@@ -16,7 +16,7 @@ function NavBar() {
     e.preventDefault();
     setLoggedUser(null);
     window.localStorage.removeItem('accessToken');
-    toast.success("You have been logged out.");
+    toast.success('You have been logged out.');
     nav('/');
   }
 
@@ -70,7 +70,7 @@ const handleSearchBarChange = (e: any) => {
                   <img src={user} width="35" height="35" className="rounded-circle" />
                 </a>
                 <ul className="dropdown-menu text-small mt-2">
-                  <li><span className="text-muted ms-3">{loggedUser?.username}John Doe</span></li>
+                  <li><span className="text-muted ms-3">{loggedUser?.username}</span></li>
                   <li><Link to="/create" className="dropdown-item">Submit a problem</Link></li>
                   <li><Link to={`/profile/${loggedUser?.id}`} className="dropdown-item">My profile</Link></li>
                   {

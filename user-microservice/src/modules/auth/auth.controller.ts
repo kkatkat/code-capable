@@ -41,4 +41,12 @@ export class AuthController {
         })
     }
 
+    @UseGuards(AuthGuard)
+    @Post('/check-token')
+    async checkToken(@Req() req: Request) {
+        const jwtUser = req['user'] as JwtUser;
+        
+        return this.authService.checkToken(jwtUser);
+    }
+
 }

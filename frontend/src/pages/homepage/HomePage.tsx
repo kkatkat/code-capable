@@ -1,10 +1,12 @@
 import { Link } from "react-router-dom";
 import './HomePage.css';
 import HomepageFeature from "../../components/homePageFeature/HomePageFeature";
+import { useScrollToTop } from "../../common/lib";
 
 
 
 function HomePage() {
+    useScrollToTop();
     return (
         <div className="container-lg bg-light pb-5">
             <div className="row p-5 text-center mx-3 hero border-primary border" id="hero">

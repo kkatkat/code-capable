@@ -1,15 +1,48 @@
-import { useContext, useEffect } from 'react'
+import { useContext, useEffect, useState } from 'react'
 import './App.css'
 import { UserContext } from './UserProvider';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
-import { ToastContainer } from 'react-toastify';
+import { ToastContainer, toast } from 'react-toastify';
 import HomePage from './pages/homepage/HomePage';
 import Footer from './components/footer/Footer';
 import NavBar from './components/navbar/NavBar';
 import PrivacyPolicyPage from './pages/privacy-policy-page/PrivacyPolicyPage';
+import LoginPage from './pages/login-page/LoginPage';
+import 'react-toastify/dist/ReactToastify.css';
+import { checkToken } from './services/user-service';
+import NotFoundPage from './pages/not-found-page/NotFoundPage';
+import SignUpPage from './pages/sign-up-page/SignUpPage';
+
 
 function App() {
     const { loggedUser, setLoggedUser } = useContext(UserContext);
+    const [loading, setLoading] = useState<boolean>(true);
+
+    useEffect(() => {
+        async function checkJwt() {
+            if (window.localStorage.getItem('accessToken') === null) {
+                setLoggedUser(null);
+                setLoading(false);
+                return;
+            }
+
+            await checkToken().then((res) => {
+                console.log(res);
+                setLoggedUser(res.user);
+            }).catch(() => {
+                setLoggedUser(null);
+
+                if (window.localStorage.getItem('accessToken') !== null) {
+                    toast.info('Your session has expired. Please log in again.')
+                }
+
+                window.localStorage.removeItem('accessToken');
+            })
+            setLoading(false);
+
+        }
+        checkJwt();
+    }, [])
 
     return (
         <>
@@ -18,19 +51,21 @@ function App() {
                     <BrowserRouter>
                         <div className='wrapper'>
                             <header className='header'>
-                                <NavBar/>
+                                <NavBar />
                             </header>
                             <Routes>
-                                <Route path='/' element={<HomePage/>} />
-                                <Route path='/privacy-policy' element={<PrivacyPolicyPage/>}/>
-                                {/* <Route path='/login' element={<LoginPage/>}/> */}
+                                <Route path='/' element={<HomePage />} />
+                                <Route path='/privacy-policy' element={<PrivacyPolicyPage />} />
+                                <Route path='/login' element={<LoginPage />} />
+                                <Route path='/signUp' element={<SignUpPage/>} />
+                                <Route path='*' element={<NotFoundPage/>} />
                             </Routes>
                         </div>
                         <footer className='footer'>
-                            <Footer/>
+                            <Footer />
                         </footer>
                     </BrowserRouter>
-                    <ToastContainer />
+                    <ToastContainer position='top-center' />
                 </body>
             </div>
         </>

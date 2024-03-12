@@ -1,4 +1,4 @@
-import { ForbiddenException, Inject, Injectable, InternalServerErrorException, UnauthorizedException, forwardRef } from "@nestjs/common";
+import { ForbiddenException, Inject, Injectable, InternalServerErrorException, NotFoundException, UnauthorizedException, forwardRef } from "@nestjs/common";
 import { ServiceFactory } from "../factory/service-factory.service";
 import { LoginRequest } from "./login-request.dto";
 import { JwtUser } from "src/common/jwt-user";
@@ -92,5 +92,21 @@ export class AuthService {
 
     async hashPassword(rawPassword: string): Promise<string> {
         return bcrypt.hash(rawPassword, 10)
+    }
+
+    async checkToken(jwtUser: JwtUser): Promise<Omit<LoginResponse, 'accessToken'>> {
+        const user = await this.sf.userService.findOne({
+            where: {
+                id: jwtUser.id
+            }
+        })
+
+        if (!user) {
+            throw new NotFoundException('User not found')
+        }
+
+        return {
+            user
+        }
     }
 }

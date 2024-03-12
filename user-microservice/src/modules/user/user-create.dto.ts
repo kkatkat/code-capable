@@ -1,4 +1,4 @@
-import { Allow, IsNotEmpty, IsStrongPassword } from "class-validator";
+import { Allow, IsEmail, IsNotEmpty, IsStrongPassword } from "class-validator";
 
 
 export class UserCreateDTO {
@@ -16,6 +16,7 @@ export class UserCreateDTO {
     password: string;
 
     @IsNotEmpty()
+    @IsEmail()
     email: string;
 
     @Allow()

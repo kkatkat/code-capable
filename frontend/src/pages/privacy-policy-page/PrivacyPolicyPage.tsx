@@ -1,7 +1,9 @@
+import { useScrollToTop } from "../../common/lib";
 
 
 
 function PrivacyPolicyPage() {
+    useScrollToTop();
 
     return (
         <div className="container-lg">

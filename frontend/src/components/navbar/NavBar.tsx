@@ -78,7 +78,7 @@ const handleSearchBarChange = (e: any) => {
                     <li><Link to="/adminpanel" className="dropdown-item">Admin panel</Link></li>
                   }
                   <li><hr className="dropdown-divider" /></li>
-                  <li><a onClick={logOut} className="dropdown-item" href="#">Sign out</a></li>
+                  <li><a onClick={logOut} className="dropdown-item" href="#"><i className="bi bi-box-arrow-left me-2"></i>Sign out</a></li>
                 </ul>
               </div>
             }

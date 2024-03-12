@@ -65,6 +65,12 @@ function LogInPage() {
                                         <label className="form-label mt-4">Password</label>
                                         <input type="password" id="inputPassword" className="form-control mb-1" onChange={(e) => setUserPassword(e.target.value)} value={userPassword} required />
                                     </div>
+                                    <div>
+                                        <div className="form-check mt-4">
+                                            <input className="form-check-input" type="checkbox" value='' />
+                                            <label className="form-check-label">Keep me logged in</label>
+                                        </div>
+                                    </div>
                                 </div>
                                 <div className="card-footer bg-white text-center py-4 mt-4 pt-5">
                                     <div className="d-grid">

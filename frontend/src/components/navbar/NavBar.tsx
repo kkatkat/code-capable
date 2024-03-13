@@ -57,7 +57,7 @@ const handleSearchBarChange = (e: any) => {
                 </ul>
               </li>
               <li className="nav-item me-2">
-                <Link to="/create" className="nav-link">Submit a problem</Link>
+                <Link to="/create-problem" className="nav-link">Submit a problem</Link>
               </li>
             </ul>
             <form className="d-flex mx-5 mx-lg-0">
@@ -71,7 +71,7 @@ const handleSearchBarChange = (e: any) => {
                 </a>
                 <ul className="dropdown-menu text-small mt-2">
                   <li><span className="text-muted ms-3">{loggedUser?.username}</span></li>
-                  <li><Link to="/create" className="dropdown-item">Submit a problem</Link></li>
+                  <li><Link to="/create-problem" className="dropdown-item">Submit a problem</Link></li>
                   <li><Link to={`/profile/${loggedUser?.id}`} className="dropdown-item">My profile</Link></li>
                   {
                     loggedUser?.role === 'admin' && 

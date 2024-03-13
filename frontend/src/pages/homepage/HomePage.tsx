@@ -42,7 +42,7 @@ function HomePage() {
                 <div className="col-lg-3 justify-content-center">
                     <p className="text-light text-center">Contribute to the community</p>
                     <div className="d-grid justify-content-center mb-3 mb-lg-0">
-                        <Link to="/create" className="btn btn-sm btn-primary px-5">Submit a problem</Link>
+                        <Link to="/create-problem" className="btn btn-sm btn-primary px-5">Submit a problem</Link>
                     </div>
                 </div>
             </div>

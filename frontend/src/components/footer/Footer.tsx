@@ -43,7 +43,7 @@ function Footer() {
                 <div className="col mb-3">
                     <h5>Problems</h5>
                     <ul className="nav flex-column">
-                        <li className="nav-item mb-2"><Link to="/create" className="nav-link p-0 text-muted">Submit a problem</Link></li>
+                        <li className="nav-item mb-2"><Link to="/create-problem" className="nav-link p-0 text-muted">Submit a problem</Link></li>
                         <li className="nav-item mb-2"><Link to="/offers" className="nav-link p-0 text-muted">View all</Link></li>
                         <li className="nav-item mb-2"><Link to="#" className="nav-link p-0 text-muted" onClick={focusSearchBar}>Search</Link></li>
                     </ul>

@@ -12,6 +12,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import { checkToken } from './services/user-service';
 import NotFoundPage from './pages/not-found-page/NotFoundPage';
 import SignUpPage from './pages/sign-up-page/SignUpPage';
+import CreateProblemPage from './pages/create-problem-page/CreateProblemPage';
 
 
 function App() {
@@ -58,6 +59,7 @@ function App() {
                                 <Route path='/privacy-policy' element={<PrivacyPolicyPage />} />
                                 <Route path='/login' element={<LoginPage />} />
                                 <Route path='/signUp' element={<SignUpPage/>} />
+                                <Route path='/create-problem' element={<CreateProblemPage/>}/>
                                 <Route path='*' element={<NotFoundPage/>} />
                             </Routes>
                         </div>

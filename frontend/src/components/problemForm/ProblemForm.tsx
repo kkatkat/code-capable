@@ -104,6 +104,10 @@ export function ProblemForm() {
             } else {
                 toast.error(err.response?.data.message);
             }
+
+            if (!err.response?.data.message) {
+                toast.error('An error occurred, please try again later');
+            }
         });
     }
 
@@ -186,7 +190,6 @@ export function ProblemForm() {
                     </p>
                 </div>
                 <div className="col-6">
-                    <div className="btn btn-outline-primary border-0 mb-3" onClick={addUnitTest}><i className="bi bi-plus-circle me-2"></i>Add a unit test</div>
                     {
                         unitTests.map((test, index) => {
                             return (
@@ -205,6 +208,7 @@ export function ProblemForm() {
                             )
                         })
                     }
+                    <div className="btn btn-outline-primary border-0 mb-3" onClick={addUnitTest}><i className="bi bi-plus-circle me-2"></i>Add a unit test</div>
                 </div>
             </div>
             <hr className="mb-4"/>

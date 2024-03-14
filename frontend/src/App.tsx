@@ -13,6 +13,7 @@ import { checkToken } from './services/user-service';
 import NotFoundPage from './pages/not-found-page/NotFoundPage';
 import SignUpPage from './pages/sign-up-page/SignUpPage';
 import CreateProblemPage from './pages/create-problem-page/CreateProblemPage';
+import { ProblemPage } from './pages/problem/ProblemPage';
 
 
 function App() {
@@ -60,6 +61,7 @@ function App() {
                                 <Route path='/login' element={<LoginPage />} />
                                 <Route path='/signUp' element={<SignUpPage/>} />
                                 <Route path='/create-problem' element={<CreateProblemPage/>}/>
+                                <Route path='/problem/:id' element={<ProblemPage/>} />
                                 <Route path='*' element={<NotFoundPage/>} />
                             </Routes>
                         </div>

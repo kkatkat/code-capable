@@ -1,6 +1,12 @@
-
+import { useNavigate } from "react-router-dom"
 
 export function ProblemPage() {
+
+    const nav = useNavigate();
+    
+    function goBack() {
+        nav(-1);
+    }
 
     return (
         <div className="ProblemPage">
@@ -8,7 +14,7 @@ export function ProblemPage() {
                 <div className="card shadow-sm p-2 border-0 mb-2">
                     <div className="d-flex justify-content-between">
                         <div>
-                            <button className="btn btn-outline-secondary border-0 btm-sm"><i className="bi bi-arrow-left-circle me-2"></i>Back</button>
+                            <button className="btn btn-outline-secondary border-0 btm-sm" onClick={goBack}><i className="bi bi-arrow-left-circle me-2"></i>Back</button>
                         </div>
                         <div>
                             <button className="btn btn-outline-secondary border-0 btm-sm me-2"><i className="bi bi-play-fill me-1"></i>Run</button>

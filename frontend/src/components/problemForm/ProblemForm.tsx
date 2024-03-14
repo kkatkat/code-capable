@@ -123,9 +123,10 @@ export function ProblemForm() {
                     </p>
                 </div>
                 <div className="col-6">
-                    <input type="text" className="form-control border-primary" placeholder="Title" required onChange={(e: any) => {setTitle(e.target.value)}}/>
+                    <input type="text" className="form-control border-light shadow" placeholder="Title" required onChange={(e: any) => {setTitle(e.target.value)}}/>
                 </div>
             </div>
+            <hr className="my-5"/>
             <div className="row pb-5">
                 <div className="col-6">
                     <h5>Description</h5>
@@ -135,11 +136,12 @@ export function ProblemForm() {
                     <p className="text-muted"><span className="fw-semibold">Tip: </span>Make use of Markdown syntax to describe your problem. You may include code snippets as well.</p>
                 </div>
                 <div className="col-6">
-                    <div className="card p-2 border-primary">
+                    <div className="card p-2 border-light shadow">
                         <Editor height="400px" defaultLanguage="markdown" defaultValue="" onChange={handleDescriptionChange} options={{minimap: {enabled: false}}}/>
                     </div>
                 </div>
             </div>
+            <hr className="my-5"/>
             <div className="row pb-5">
                 <div className="col-6">
                     <h5>Constraints <span className="badge text-bg-secondary">optional</span></h5>
@@ -149,11 +151,12 @@ export function ProblemForm() {
                     <p className="text-muted"><span className="fw-semibold">Tip: </span>Make use of Markdown syntax if you want to use bullet points.</p>
                 </div>
                 <div className="col-6">
-                    <div className="card p-2 border-primary">
+                    <div className="card p-2 border-light shadow">
                         <Editor height="400px" defaultLanguage="markdown" defaultValue="" onChange={handleConstraintsChange} options={{minimap: {enabled: false}}}/>
                     </div>
                 </div>
             </div>
+            <hr className="my-5"/>
             <div className="row pb-5">
                 <div className="col-6">
                     <h5>Difficulty</h5>
@@ -162,13 +165,14 @@ export function ProblemForm() {
                     </p>
                 </div>
                 <div className="col-6">
-                    <select className="form-select border-primary" onChange={(e: any) => {setDifficulty(e.target.value)}}>
+                    <select className="form-select border-light shadow" onChange={(e: any) => {setDifficulty(e.target.value)}}>
                         <option value="easy">Easy</option>
                         <option value="medium">Medium</option>
                         <option value="hard">Hard</option>
                     </select>
                 </div>
             </div>
+            <hr className="my-5"/>
             <div className="row pb-5">
                 <div className="col-6">
                     <h5>Starter code</h5>
@@ -177,11 +181,12 @@ export function ProblemForm() {
                     </p>
                 </div>
                 <div className="col-6">
-                    <div className="card p-2 border-primary">
+                    <div className="card p-2 border-light shadow">
                         <Editor height="400px" defaultLanguage="python" defaultValue="# Hello world" onChange={handleStarterCodeChange} options={{minimap: {enabled: false}}}/>
                     </div>
                 </div>
             </div>
+            <hr className="my-5"/>
             <div className="row pb-5">
                 <div className="col-6">
                     <h5>Unit tests</h5>
@@ -194,7 +199,7 @@ export function ProblemForm() {
                         unitTests.map((test, index) => {
                             return (
                                 <div className="d-flex justify-content-between">
-                                    <div className="card border-primary p-2 mb-3 flex-fill" key={index}>
+                                    <div className="card border-light shadow p-2 mb-3 flex-fill" key={index}>
                                         <Editor height="75px" defaultLanguage="python" value={test} onChange={(value) => {unitTests[index] = value as string;}} options={{minimap: {enabled: false}}}/>
                                     </div>
                                     <div className="my-auto">
@@ -208,12 +213,12 @@ export function ProblemForm() {
                             )
                         })
                     }
-                    <div className="btn btn-outline-primary border-0 mb-3" onClick={addUnitTest}><i className="bi bi-plus-circle me-2"></i>Add a unit test</div>
+                    <div className="btn btn-outline-light text-primary border-0 mb-3" onClick={addUnitTest}><i className="bi bi-plus-circle me-2"></i>Add a unit test</div>
                 </div>
             </div>
             <hr className="mb-4"/>
             <button type="submit" className="btn btn-primary border-0 px-5">Submit for review</button>
-            <button className="btn btn-outline-danger border-0 ms-3 px-3" onClick={() => {nav('/')}}>Cancel</button>
+            <button className="btn btn-outline-light text-danger border-0 ms-3 px-3" onClick={() => {nav('/')}}>Cancel</button>
         </form>
     )
 

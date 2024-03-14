@@ -14,6 +14,7 @@ import NotFoundPage from './pages/not-found-page/NotFoundPage';
 import SignUpPage from './pages/sign-up-page/SignUpPage';
 import CreateProblemPage from './pages/create-problem-page/CreateProblemPage';
 import { ProblemPage } from './pages/problem/ProblemPage';
+import { MaybeShow } from './components/util/MaybeShow';
 
 
 function App() {
@@ -52,9 +53,11 @@ function App() {
                 <body>
                     <BrowserRouter>
                         <div className='wrapper'>
-                            <header className='header'>
-                                <NavBar />
-                            </header>
+                            <MaybeShow exclude={['/problem/']}>
+                                <header className='header'>
+                                    <NavBar />
+                                </header>
+                            </MaybeShow>
                             <Routes>
                                 <Route path='/' element={<HomePage />} />
                                 <Route path='/privacy-policy' element={<PrivacyPolicyPage />} />
@@ -66,7 +69,9 @@ function App() {
                             </Routes>
                         </div>
                         <footer className='footer'>
-                            <Footer />
+                            <MaybeShow exclude={['/problem/']}>
+                                <Footer />
+                            </MaybeShow>
                         </footer>
                     </BrowserRouter>
                     <ToastContainer position='top-center' hideProgressBar={true} />

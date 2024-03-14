@@ -44,7 +44,9 @@ export class Problem {
     @CreateDateColumn()
     createdAt: Date;
 
-    @OneToMany(() => UnitTest, (unitTest) => unitTest.problem)
+    @OneToMany(() => UnitTest, (unitTest) => unitTest.problem, {
+        cascade: true
+    })
     unitTests: UnitTest[];
 
     @OneToMany(() => Solution, (solution) => solution.problem)

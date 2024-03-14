@@ -1,5 +1,7 @@
 import { Allow, IsIn, IsNotEmpty, MinLength } from "class-validator";
 import { difficulties } from "./problem.entity";
+import { UnitTestInputDTO } from "../unit-test/unit-testIput.dto";
+import { UnitTest } from "../unit-test/unit-test.entity";
 
 export class ProblemInputDTO {
     @IsNotEmpty()
@@ -23,4 +25,7 @@ export class ProblemInputDTO {
 
     @IsNotEmpty()
     creatorId: number;
+
+    @IsNotEmpty()
+    unitTests: UnitTest[];
 }

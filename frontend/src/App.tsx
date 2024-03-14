@@ -67,7 +67,7 @@ function App() {
                             <Footer />
                         </footer>
                     </BrowserRouter>
-                    <ToastContainer position='top-center' />
+                    <ToastContainer position='top-center' hideProgressBar={true} />
                 </body>
             </div>
         </>

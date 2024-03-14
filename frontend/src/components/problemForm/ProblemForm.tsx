@@ -1,11 +1,16 @@
 import { Editor } from "@monaco-editor/react";
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
+import { CreateProblemRequest, createProblem } from "../../services/problem-service";
+import { AxiosError } from "axios";
+import { UserContext } from "../../UserProvider";
 
 
 export function ProblemForm() {
     const nav = useNavigate();
+    const {loggedUser} = useContext(UserContext);
+
     const [starterCode, setStarterCode] = useState<string | undefined>('');
     const [description, setDescription] = useState<string | undefined>('');
     const [constraints, setConstraints] = useState<string | undefined>('');
@@ -67,13 +72,39 @@ export function ProblemForm() {
         return pass;
     }
 
-    const handleSubmit = (e: any) => {
+    const handleSubmit = async (e: any) => {
         e.preventDefault();
         
         if (!validate()) {
             return;
         }
-        console.log('submitted');
+        
+        const request: CreateProblemRequest = {
+            creatorId: loggedUser?.id as number,
+            name: title,
+            description: description as string,
+            constraints: constraints,
+            starterCode: starterCode as string,
+            difficulty: difficulty,
+            unitTests: unitTests.map((test) => {
+                return {
+                    code: test
+                }
+            })
+        }
+
+        await createProblem(request).then(() => {
+            toast.success('Problem submitted for review');
+            nav('/');
+        }).catch((err: AxiosError<{message: string | string[]}>) => {
+            if (Array.isArray(err.response?.data.message)) {
+                err.response.data.message.forEach((errorMessage: string) => {
+                    toast.error(errorMessage);
+                });
+            } else {
+                toast.error(err.response?.data.message);
+            }
+        });
     }
 
     return (

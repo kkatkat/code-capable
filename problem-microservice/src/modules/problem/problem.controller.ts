@@ -1,4 +1,4 @@
-import { Body, Controller, Delete, ForbiddenException, Get, Inject, NotFoundException, Param, Post, Put, Req, UseGuards, forwardRef } from "@nestjs/common";
+import { BadRequestException, Body, Controller, Delete, ForbiddenException, Get, Inject, NotFoundException, Param, Post, Put, Req, UseGuards, forwardRef } from "@nestjs/common";
 import { ProblemService } from "./problem.service";
 import { ProblemInputDTO } from "./problemInput.dto";
 import { Problem } from "./problem.entity";
@@ -53,6 +53,16 @@ export class ProblemController {
   async create(@Body() input: ProblemInputDTO, @Req() req: Request): Promise<Problem> {
     const jwtUser = req['user'] as JwtUser;
     input.creatorId = jwtUser.id;
+
+    if (input.unitTests.length === 0) {
+        throw new BadRequestException('Problem must have at least one unit test');
+    }
+
+    for (const unitTest of input.unitTests) {
+        if (unitTest.code.length < 5) {
+            throw new BadRequestException('Some of your unit tests are too short, they must be at least 5 characters long');
+        }
+    }
 
     return this.problemService.create(input);
   }

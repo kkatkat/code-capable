@@ -1,4 +1,5 @@
 import axios from "../config/axiosConfig";
+import { Problem } from "../entities/problem";
 
 export type CreateProblemRequest = {
     creatorId: number;
@@ -15,6 +16,10 @@ export type UnitTestCreateDTO = {
     visible?: boolean;
 }
 
-export function createProblem( request: CreateProblemRequest) {
+export function createProblem(request: CreateProblemRequest) {
     return axios.post('/p/problem', request).then((res) => res.data);
+}
+
+export function getProblembyId(id: number) {
+    return axios.get(`/p/problem/${id}`).then((res) => res.data as Problem)
 }

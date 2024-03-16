@@ -23,3 +23,11 @@ export function createProblem(request: CreateProblemRequest) {
 export function getProblembyId(id: number) {
     return axios.get(`/p/problem/${id}`).then((res) => res.data as Problem)
 }
+
+export function approveProblem(id: number) {
+    return axios.post(`/p/problem/approve/${id}`).then(() => {return true;})
+}
+
+export function deleteProblem(id: number) {
+    return axios.delete(`/p/problem/${id}`).then(() => {return true;})
+}

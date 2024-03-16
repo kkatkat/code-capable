@@ -30,7 +30,6 @@ function App() {
             }
 
             await checkToken().then((res) => {
-                console.log(res);
                 setLoggedUser(res.user);
             }).catch(() => {
                 setLoggedUser(null);

@@ -26,3 +26,7 @@ code {
 .btn-active {
     background-image: linear-gradient(rgba(13, 131, 250, 0.15) 0 0);
   }
+
+.md-format {
+    white-space: normal;
+}

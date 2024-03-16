@@ -7,13 +7,15 @@ export function DescriptionView({ problem }: { problem: Problem | undefined }) {
     return (
         <div className="DescriptionView">
             <h5>{`${problem?.id}. ${problem?.name}`}</h5>
-            <Markdown>{problem?.description}</Markdown>
-            <Markdown>{problem?.description}</Markdown>
+            <Markdown className='md-format'>{problem?.description}</Markdown>
 
-            <Markdown>{problem?.description}</Markdown>
-
-            <p className="fw-bold">Constraints:</p>
-            <Markdown>{problem?.constraints}</Markdown>
+            {
+                problem?.constraints &&
+                <>
+                    <p className="fw-bold">Constraints:</p>
+                    <Markdown>{problem?.constraints}</Markdown>
+                </>
+            }
         </div>
     )
 }

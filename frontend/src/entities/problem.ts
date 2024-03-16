@@ -1,7 +1,7 @@
 import { UnitTest } from "./unit-test";
 
 export type Problem = {
-    id: string,
+    id: number,
     name: string,
     description: string,
     difficulty: string,

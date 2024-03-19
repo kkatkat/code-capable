@@ -41,6 +41,20 @@ export class SolutionController {
         return solutions;
     }
 
+    @Get('/problem/:problemId')
+    async getForProblem(@Param('problemId') problemId: number): Promise<Solution[]> {
+        const solutions = await this.solutionService.find({
+            where: {
+                problemId
+            },
+            order: {
+                createdAt: 'DESC',
+            }
+        })
+
+        return solutions;
+    }
+
     @Get('user/:userId')
     async getForUser(@Param('userId') userId: number) {
         const solutions = await this.solutionService.find({

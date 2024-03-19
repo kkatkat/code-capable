@@ -2,12 +2,14 @@ import { useContext } from "react"
 import SolutionCard from "../../components/solution-card/SolutionCard"
 import { Solution } from "../../entities/solution"
 import { UserContext } from "../../UserProvider"
+import { Problem } from "../../entities/problem"
 
 export type SubmissionsViewProps = {
     submissions: Solution[]
+    problem?: Problem
 }
 
-export default function SubmissionsView( {submissions}: SubmissionsViewProps) {
+export default function SubmissionsView( {submissions, problem}: SubmissionsViewProps) {
 
     const {loggedUser} = useContext(UserContext);
 
@@ -36,7 +38,7 @@ export default function SubmissionsView( {submissions}: SubmissionsViewProps) {
         <div className="SubmissionsView">
             {
                 submissions.map((s) => {
-                    return <SolutionCard solution={s}/>
+                    return <SolutionCard solution={s} problem={problem}/>
                 })
             }
         </div>

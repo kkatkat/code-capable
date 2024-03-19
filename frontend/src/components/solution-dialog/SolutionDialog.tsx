@@ -2,32 +2,47 @@ import { Dialog, DialogTitle, DialogContent, DialogActions } from "@mui/material
 import { Solution } from "../../entities/solution";
 import { getUserById } from "../../services/user-service";
 import { User } from "../../entities/user";
-import { useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { Editor } from "@monaco-editor/react";
 import defaultPfp from '../../assets/user.png';
+import { Problem } from "../../entities/problem";
+import { UserContext } from "../../UserProvider";
 
 export type SolutionDialogProps = {
     solution: Solution,
     open: boolean,
-    onClose: () => void
+    onClose: () => void,
+    problem?: Problem
 }
 
-export default function SolutionDialog({ solution, open, onClose }: SolutionDialogProps) {
+export default function SolutionDialog({ solution, open, onClose, problem }: SolutionDialogProps) {
     const [user, setUser] = useState<User | undefined>({ id: solution.userId, username: solution.userName } as User);
+    const {loggedUser} = useContext(UserContext);
 
     async function fetchUser() {
+        if (loggedUser && solution.userId === loggedUser.id) {
+            setUser(loggedUser);
+            return;
+        }
+        
         await getUserById(solution.userId).then((user) => {
             setUser(user);
         })
     }
+
+    useEffect(() => {
+        if (open) {
+            fetchUser();
+        }
+    }, [open])
 
     return (
         <Dialog open={open} onClose={onClose} maxWidth={'md'} fullWidth>
             <DialogTitle>
                 <div className="small d-flex justify-content-between align-items-center">
                     <div className="m-0 p-0">
-                        Solution #{solution.id}
+                        Solution #{solution.id} {problem && <>for <Link to={`/problem/${problem.id}`}>{problem.id}. {problem.name}</Link></>}
                     </div>
                     <div className="d-flex align-items-center">
                         <div>

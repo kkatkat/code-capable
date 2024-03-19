@@ -36,3 +36,7 @@ export function deleteProblem(id: number) {
 export function getUserSubmissions(userId: number, problemId: number) {
     return axios.get(`/p/solution/user/${userId}/${problemId}`).then((res) => res.data as Solution[])
 }
+
+export function getSolutionsForProblem(problemId: number) {
+    return axios.get(`/p/solution/problem/${problemId}`).then((res) => res.data as Solution[])
+}

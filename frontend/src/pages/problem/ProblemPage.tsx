@@ -15,6 +15,7 @@ import { runCode } from "../../services/runner-service";
 import { AxiosError } from "axios";
 import SubmissionsView from "./SubmissionsView";
 import { Solution } from "../../entities/solution";
+import SolutionsView from "./SolutionsView";
 
 export function ProblemPage() {
     const { id } = useParams();
@@ -27,13 +28,14 @@ export function ProblemPage() {
     const [notFound, setNotFound] = useState(false);
     const [loading, setLoading] = useState(true);
     const [confirmDeleteDialogOpen, setConfirmDeleteDialogOpen] = useState(false);
+    const [confirmViewSolutionsDialogOpen, setConfirmViewSolutionsDialogOpen] = useState(false);
+    const [viewSolutionsConfirmed, setViewSolutionsConfirmed] = useState(false);
 
     const [running, setRunning] = useState(false);
     const [output, setOutput] = useState('');
     const [error, setError] = useState(false);
     const [codeValue, setCodeValue] = useState('');
     const [success, setSuccess] = useState(false);
-    const [submitted, setSubmitted] = useState(false);
     const [userSubmissions, setUserSubmissions] = useState<Solution[]>([]);
 
     async function fetchProblem() {
@@ -52,7 +54,6 @@ export function ProblemPage() {
         if (!problem) return;
 
         await getUserSubmissions(loggedUser?.id as number, +(id as string)).then((submissions) => {
-            console.log(submissions);
             setUserSubmissions(submissions);
         }).catch(() => {
             toast.error('Failed to fetch user submissions');
@@ -75,6 +76,18 @@ export function ProblemPage() {
         }).catch(() => {
             toast.error('Failed to delete problem')
         })
+    }
+
+    function handleSolutionsClick() {
+        if (!userSubmissions || userSubmissions.length === 0) {
+            if (!viewSolutionsConfirmed) {
+                setConfirmViewSolutionsDialogOpen(true);
+            } else {
+                setCurrentView('solutions');
+            }
+        } else {
+            setCurrentView('solutions');
+        }
     }
 
     function run(submit: boolean = false, codeValue: string) {
@@ -178,8 +191,8 @@ export function ProblemPage() {
                                 <div className="card-header p-1 bg-white">
                                     <div className="d-flex justify-content-between">
                                         <div>
-                                            <button className={`btn btn-light text-secondary border-0 btn-sm ${currentView === 'description' ? 'btn-active' : ''} me-1`} onClick={() => { setCurrentView('description') }}><i className="bi bi-file-text me-1"></i>Description</button>
-                                            <button className={`btn btn-light text-secondary border-0 btn-sm ${currentView === 'solutions' ? 'btn-active' : ''} me-1`} onClick={() => { setCurrentView('solutions') }}><i className="bi bi-lightbulb me-1"></i>Solutions</button>
+                                            <button className={`btn btn-light text-secondary border-0 btn-sm ${currentView === 'description' ? 'btn-active' : ''} me-1`} onClick={() => { setCurrentView('description')}}><i className="bi bi-file-text me-1"></i>Description</button>
+                                            <button className={`btn btn-light text-secondary border-0 btn-sm ${currentView === 'solutions' ? 'btn-active' : ''} me-1`} onClick={handleSolutionsClick}><i className="bi bi-lightbulb me-1"></i>Solutions</button>
                                             <button className={`btn btn-light text-secondary border-0 btn-sm ${currentView === 'submissions' ? 'btn-active' : ''} me-1`} onClick={() => { setCurrentView('submissions') }}><i className="bi bi-person me-1"></i>My submissions</button>
                                         </div>
                                         <div>
@@ -198,7 +211,11 @@ export function ProblemPage() {
                                     }
                                     {
                                         currentView === 'submissions' &&
-                                        <SubmissionsView submissions={userSubmissions} />
+                                        <SubmissionsView submissions={userSubmissions} problem={problem} />
+                                    }
+                                    {
+                                        currentView === 'solutions' &&
+                                        <SolutionsView problemId={problem?.id as number} problem={problem}/>
                                     }
                                 </div>
                             </div>
@@ -226,6 +243,18 @@ export function ProblemPage() {
                 <DialogActions>
                     <button className="btn btn-light text-danger" onClick={handleDelete}>Delete</button>
                     <button className="btn btn-light text-secondary" onClick={() => {setConfirmDeleteDialogOpen(false)}}>Cancel</button>
+                </DialogActions>
+            </Dialog>
+
+            <Dialog open={confirmViewSolutionsDialogOpen} onClose={() => {setConfirmViewSolutionsDialogOpen(false)}}>
+                <DialogContent>
+                    <DialogContentText>
+                        You haven't solved this problem yourself yet. Are you sure you want to view other users' solutions?
+                    </DialogContentText>
+                </DialogContent>
+                <DialogActions>
+                    <button className="btn btn-light text-primary" onClick={() => {setCurrentView('solutions'); setConfirmViewSolutionsDialogOpen(false); setViewSolutionsConfirmed(true)}}>View solutions</button>
+                    <button className="btn btn-light text-secondary" onClick={() => {setConfirmViewSolutionsDialogOpen(false)}}>Cancel</button>
                 </DialogActions>
             </Dialog>
         </div>

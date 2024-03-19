@@ -2,9 +2,10 @@ import { useState } from "react";
 import { truncateString } from "../../common/lib";
 import { Solution } from "../../entities/solution";
 import SolutionDialog from "../solution-dialog/SolutionDialog";
+import { Problem } from "../../entities/problem";
 
 
-export default function SolutionCard({ solution }: { solution: Solution }) {
+export default function SolutionCard({ solution, problem }: { solution: Solution, problem?: Problem }) {
     const [showDialog, setShowDialog] = useState(false);
 
     return (
@@ -13,7 +14,7 @@ export default function SolutionCard({ solution }: { solution: Solution }) {
                 <div className="card-body py-1 w-100">
                     <div className="small d-flex justify-content-between">
                         <div>
-                            Solution #{solution.id}
+                            Solution #{solution.id} {problem ? `for ${problem.id}. ${problem.name}` : ''}
                         </div>
                         <div className="text-muted">
                             by <span className="fw-semibold">{solution.userName}</span> on {new Date(solution.createdAt).toLocaleDateString('en-GB')}
@@ -24,7 +25,7 @@ export default function SolutionCard({ solution }: { solution: Solution }) {
                     </div>
                 </div>
             </button>
-            <SolutionDialog solution={solution} open={showDialog} onClose={() => setShowDialog(false)} />
+            <SolutionDialog solution={solution} open={showDialog} onClose={() => setShowDialog(false)} problem={problem} />
         </>
 
     )

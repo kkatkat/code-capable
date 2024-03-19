@@ -1,10 +1,11 @@
-import { Inject, Injectable } from '@nestjs/common';
+import { ForbiddenException, Inject, Injectable } from '@nestjs/common';
 import { RunResponse } from './runResponse.dto';
 import {PythonShell} from 'python-shell';
 import { Problem, SolutionSubmission, UnitTest } from 'src/common/types';
 import { ClientProxy } from '@nestjs/microservices';
 import { JwtUser } from 'src/common/jwt-user';
 import template from './template';
+import { Role } from 'src/common/roles';
 
 @Injectable()
 export class RunnerService {
@@ -15,6 +16,10 @@ export class RunnerService {
 
 
   async runCode(code: string, problem: Problem, user: JwtUser, submit?: boolean): Promise<RunResponse> {
+    if (!problem.approved && user.role !== Role.ADMIN) {
+        throw new ForbiddenException('This problem has not been approved yet. Please try again later.')
+    }
+    
     const originalCode = code;
     
     problem.unitTests.forEach((unitTest) => {

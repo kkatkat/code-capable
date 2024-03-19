@@ -3,7 +3,7 @@ import { useGoBack } from "../../common/lib"
 import logo from '../../assets/logo_cc.png'
 import { useContext, useEffect, useState } from "react";
 import { Problem } from "../../entities/problem";
-import { approveProblem, deleteProblem, getProblembyId } from "../../services/problem-service";
+import { approveProblem, deleteProblem, getUserSubmissions, getProblembyId } from "../../services/problem-service";
 import NotFoundPage from "../not-found-page/NotFoundPage";
 import { UserContext } from "../../UserProvider";
 import { DescriptionView } from "./DescriptionView";
@@ -13,6 +13,8 @@ import { Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle } 
 import { CodeEditor } from "./right-side/CodeEditor";
 import { runCode } from "../../services/runner-service";
 import { AxiosError } from "axios";
+import SubmissionsView from "./SubmissionsView";
+import { Solution } from "../../entities/solution";
 
 export function ProblemPage() {
     const { id } = useParams();
@@ -30,6 +32,9 @@ export function ProblemPage() {
     const [output, setOutput] = useState('');
     const [error, setError] = useState(false);
     const [codeValue, setCodeValue] = useState('');
+    const [success, setSuccess] = useState(false);
+    const [submitted, setSubmitted] = useState(false);
+    const [userSubmissions, setUserSubmissions] = useState<Solution[]>([]);
 
     async function fetchProblem() {
         setLoading(true);
@@ -39,6 +44,18 @@ export function ProblemPage() {
             setNotFound(true);
         }).finally(() => {
             setLoading(false);
+        })
+    }
+
+    async function fetchSubmissions() {
+        if (!loggedUser) return;
+        if (!problem) return;
+
+        await getUserSubmissions(loggedUser?.id as number, +(id as string)).then((submissions) => {
+            console.log(submissions);
+            setUserSubmissions(submissions);
+        }).catch(() => {
+            toast.error('Failed to fetch user submissions');
         })
     }
 
@@ -61,22 +78,39 @@ export function ProblemPage() {
     }
 
     function run(submit: boolean = false, codeValue: string) {
-        if (!codeValue) {
+        if (!codeValue.trim()) {
             toast.error('The code you provided is empty');
             return;
         }
 
+        //setSubmitted(false);
         setRunning(true);
         
         runCode({ code: codeValue, problemId: problem?.id as number, submit }).then((res) => {
             console.log(res);
             setOutput(res.output?.join('\n') || '');
             setError(res.error || false);
+            
+            if (!res.error) {
+                setSuccess(true);
+
+                if (submit && res.submitted) {
+                    toast.success('Your solution has been submitted!');
+                    setTimeout(() => fetchSubmissions(), 2000);
+                    setCurrentView('submissions');
+                }
+            } else {
+                setSuccess(false);
+            }
+
         }).catch((error: AxiosError<{message?: string}>) => {
             if (error.response?.data.message) {
                 toast.error(error.response.data.message);
+                setError(true);
+                setSuccess(false);
             } else {
                 toast.error('Failed to run the code');
+                setError(true);
             }
         }).finally(() => {
             setRunning(false);
@@ -87,6 +121,10 @@ export function ProblemPage() {
     useEffect(() => {
         fetchProblem();
     }, [id])
+
+    useEffect(() => {
+        fetchSubmissions();
+    }, [loggedUser, problem])
 
     if (loading) {
         return <Loading />
@@ -122,9 +160,12 @@ export function ProblemPage() {
                                 <button className="btn btn-outline-light text-danger border-0 btm-sm" onClick={() => { setConfirmDeleteDialogOpen(true) }}><i className="bi bi-x-circle me-2"></i>Delete</button>
                             }
                         </div>
-                        <div>
-                            <button className="btn btn-light text-secondary border-0 btm-sm me-2" onClick={() => {run(false, codeValue)}}><i className="bi bi-play-fill me-1"></i>Run</button>
-                            <button className="btn btn-success border-0 btm-sm"><i className="bi bi-send-fill me-2"></i>Submit</button>
+                        <div className="d-flex justify-content-center align-items-center">
+                            <div className="spinner-border text-primary me-2" role="status" style={{height:'25px', width: '25px', display: running ? 'block' : 'none'}}>
+                                <span className="visually-hidden">Loading...</span>
+                            </div>
+                            <button className="btn btn-light text-secondary border-0 btm-sm me-2" disabled={running} onClick={() => {run(false, codeValue)}}><i className="bi bi-play-fill me-1"></i>Run</button>
+                            <button className="btn btn-success border-0 btm-sm" disabled={running} onClick={() => {run(true, codeValue)}}><i className="bi bi-send-fill me-2"></i>Submit</button>
                         </div>
                     </div>
                 </div>
@@ -140,7 +181,10 @@ export function ProblemPage() {
                                             <button className={`btn btn-light text-secondary border-0 btn-sm ${currentView === 'submissions' ? 'btn-active' : ''} me-1`} onClick={() => { setCurrentView('submissions') }}><i className="bi bi-person me-1"></i>My submissions</button>
                                         </div>
                                         <div>
-                                            <button className="btn text-secondary border-0 btn-sm text-success fw-semibold" onClick={() => {setCurrentView('submissions')}}><i className="bi bi-check2-circle me-1"></i>Solved</button>
+                                            {
+                                                userSubmissions.length > 0 &&
+                                                <button className="btn text-secondary border-0 btn-sm text-success fw-semibold" onClick={() => {setCurrentView('submissions')}}><i className="bi bi-check2-circle me-1"></i>Solved</button>
+                                            }
                                         </div>
 
                                     </div>
@@ -150,12 +194,16 @@ export function ProblemPage() {
                                         currentView === 'description' &&
                                         <DescriptionView problem={problem} />
                                     }
+                                    {
+                                        currentView === 'submissions' &&
+                                        <SubmissionsView submissions={userSubmissions} />
+                                    }
                                 </div>
                             </div>
                         </div>
                         <div className="col-6">
                             <div className="card h-100 border-0 bg-light">
-                                <CodeEditor problem={problem} running={running} error={error} output={output} codeValue={codeValue} setCodeValue={setCodeValue}/>
+                                <CodeEditor problem={problem} running={running} error={error} output={output} codeValue={codeValue} setCodeValue={setCodeValue} success={success}/>
                             </div>
                         </div>
                     </div>

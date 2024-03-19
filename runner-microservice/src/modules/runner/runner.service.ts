@@ -1,9 +1,10 @@
 import { Inject, Injectable } from '@nestjs/common';
 import { RunResponse } from './runResponse.dto';
 import {PythonShell} from 'python-shell';
-import { Problem, SolutionSubmission } from 'src/common/types';
+import { Problem, SolutionSubmission, UnitTest } from 'src/common/types';
 import { ClientProxy } from '@nestjs/microservices';
 import { JwtUser } from 'src/common/jwt-user';
+import template from './template';
 
 @Injectable()
 export class RunnerService {
@@ -22,9 +23,12 @@ export class RunnerService {
     
     const result: RunResponse = await PythonShell.runString(code)
     .then((messages) => {
-        return {output: messages, error: false}
+        return {output: messages, error: false, submitted: submit}
     }).catch((error) => {
-        return {output: [error.stack], error: true}
+        return {
+            output: error.traceback ? [error.logs.join('\n'), error.traceback] : [error.stack.split('at PythonShell.parseError')[0]], 
+            error: true
+        }
     })
 
     if (submit && !result.error) {
@@ -38,5 +42,22 @@ export class RunnerService {
     }
 
     return result;
+  }
+
+  private appendUnitTests(code: string, unitTests: UnitTest[]): string {
+    code = template.replace('#solution', `\n${code}`);
+    code = code.replace('#start-test', `\n\t${unitTests.map(test => test.code).join('\n\t')}`);
+    return code;
+
+  }
+
+  sanitizeOutput(output: string[]): string[] {
+    const sanitizedArray = [];
+
+    for (const item of [...output]) {
+      sanitizedArray.push(item.replace(/File ".*?"/g, 'File "solution.py"'))
+    }
+
+    return sanitizedArray;
   }
 }

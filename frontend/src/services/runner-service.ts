@@ -9,6 +9,7 @@ export type RunCodeRequest = {
 export type RunCodeResponse = {
     output?: string[];
     error?: boolean;
+    submitted?: boolean;
 }
 
 export async function runCode(request: RunCodeRequest) {

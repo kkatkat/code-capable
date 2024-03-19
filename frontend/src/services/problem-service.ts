@@ -1,5 +1,6 @@
 import axios from "../config/axiosConfig";
 import { Problem } from "../entities/problem";
+import { Solution } from "../entities/solution";
 
 export type CreateProblemRequest = {
     creatorId: number;
@@ -30,4 +31,8 @@ export function approveProblem(id: number) {
 
 export function deleteProblem(id: number) {
     return axios.delete(`/p/problem/${id}`).then(() => {return true;})
+}
+
+export function getUserSubmissions(userId: number, problemId: number) {
+    return axios.get(`/p/solution/user/${userId}/${problemId}`).then((res) => res.data as Solution[])
 }

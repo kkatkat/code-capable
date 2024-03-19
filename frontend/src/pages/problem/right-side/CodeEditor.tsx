@@ -1,17 +1,19 @@
 import { Editor } from "@monaco-editor/react";
 import { Problem } from "../../../entities/problem";
 import { useEffect, useState } from "react";
+
 export type CodeEditorProps = {
     problem: Problem | undefined;
     running: boolean;
     output: string;
     error: boolean;
+    success: boolean;
     codeValue: string;
     setCodeValue: (code: string) => void;
 }
 
 
-export function CodeEditor({ problem, running, output, error, codeValue, setCodeValue }: CodeEditorProps) {
+export function CodeEditor({ problem, running, output, error, codeValue, setCodeValue, success }: CodeEditorProps) {
     
     const [currentLowerView, setCurrentLowerView] = useState<'tests' | 'output'>('tests');
 
@@ -54,7 +56,9 @@ export function CodeEditor({ problem, running, output, error, codeValue, setCode
     }, [])
 
     useEffect(() => {
-        setCurrentLowerView('output');
+        if (running) {
+            setCurrentLowerView('output');
+        }
     }, [running])
 
     return (
@@ -72,8 +76,28 @@ export function CodeEditor({ problem, running, output, error, codeValue, setCode
             </div>
             <div className="card shadow-sm border-0 p-0" style={{ height: '39%' }}>
                 <div className="card-header p-1 bg-white text-secondary">
-                    <button className={`btn btn-light text-secondary border-0 btn-sm ${currentLowerView === 'tests' ? 'btn-active' : ''} me-1`} onClick={() => { setCurrentLowerView('tests') }}><i className="bi bi-code-slash me-1"></i>Tests</button>
-                    <button className={`btn btn-light text-secondary border-0 btn-sm ${currentLowerView === 'output' ? 'btn-active' : ''} me-1`} onClick={() => { setCurrentLowerView('output') }}><i className="bi bi-terminal me-1"></i>Output</button>
+                    <div className="d-flex justify-content-between align-items-center">
+                        <div>
+                            <button className={`btn btn-light text-secondary border-0 btn-sm ${currentLowerView === 'tests' ? 'btn-active' : ''} me-1`} onClick={() => { setCurrentLowerView('tests') }}><i className="bi bi-code-slash me-1"></i>Tests</button>
+                            <button className={`btn btn-light text-secondary border-0 btn-sm ${currentLowerView === 'output' ? 'btn-active' : ''} me-1`} onClick={() => { setCurrentLowerView('output') }}><i className="bi bi-terminal me-1"></i>Output</button>
+                        </div>
+                        <div>
+                            {
+                                running &&
+                                <div className="spinner-border text-primary me-2" role="status" style={{height:'20px', width: '20px'}}>
+                                    <span className="visually-hidden">Loading...</span>
+                                </div>
+                            }
+                            {
+                                !running && error &&
+                                <button className={`btn btn-light text-danger fw-bold border-0 btn-sm me-1`} disabled><i className="bi bi-exclamation-circle me-1"></i>Error</button>
+                            }
+                            {
+                                !running && success &&
+                                <button className={`btn btn-light text-success fw-bold border-0 btn-sm me-1`} disabled><i className="bi bi-check-circle me-1"></i>All test cases passed</button>
+                            }
+                        </div>
+                    </div>
                 </div>
                 <div className="card-body p-1">
                     {

@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Inject, NotFoundException, Post, Req, UseGuards } from '@nestjs/common';
+import { BadRequestException, Body, Controller, Get, Inject, NotFoundException, Post, Req, UseGuards } from '@nestjs/common';
 import { RunnerService } from './runner.service';
 import { RunRequest } from './runRequest.dto';
 import { ClientProxy } from '@nestjs/microservices';
@@ -19,10 +19,20 @@ export class RunnerController {
   async runCode(@Body() body: RunRequest, @Req() req: Request): Promise<any> {
     const user = req['user'] as JwtUser;
 
+    if (!body.problemId || !body.code.trim()) {
+        throw new BadRequestException('Invalid request')
+    }
+
     const problem: Problem = await this.problemMicroservice.send('get_problem', body.problemId).toPromise().catch(e => {
       throw new NotFoundException('Problem not found')
     })
 
-    return await this.runnerService.runCode(body.code, problem, user, body.submit)
+    const response =  await this.runnerService.runCode(body.code, problem, user, body.submit);
+    
+    if (response.output) {
+        response.output = this.runnerService.sanitizeOutput(response.output);
+    }
+
+    return response;
   }
 }

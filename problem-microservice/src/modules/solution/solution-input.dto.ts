@@ -10,4 +10,7 @@ export class SolutionInputDTO {
     @IsNotEmpty()
     problemId: number;
 
+    @IsNotEmpty()
+    userName: string;
+
 }

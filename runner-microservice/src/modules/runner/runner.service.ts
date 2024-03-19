@@ -36,6 +36,7 @@ export class RunnerService {
         userId: user.id,
         code: originalCode,
         problemId: problem.id,
+        userName: user.username,
       }
 
       this.problemMicroservice.emit<SolutionSubmission>('solution_submitted', submission);

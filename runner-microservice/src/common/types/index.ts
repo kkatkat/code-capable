@@ -20,6 +20,7 @@ export type UnitTest = {
 
 export type SolutionSubmission = {
     userId: number;
+    userName: string;
     code: string;
     problemId: number;
 }

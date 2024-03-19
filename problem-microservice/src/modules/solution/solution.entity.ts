@@ -11,6 +11,9 @@ export class Solution {
     @Column()
     userId: number;
 
+    @Column()
+    userName: string;
+
     @Column({
         type: 'text'
     })

@@ -25,3 +25,7 @@ export function checkToken() {
 export function register( request: RegisterRequest) {
     return axios.post('/u/auth/register', request).then(() => null);
 }
+
+export function getUserById(id: number) {
+    return axios.get(`/u/user/${id}`).then((res) => res.data as User)
+}

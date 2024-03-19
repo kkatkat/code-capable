@@ -30,3 +30,9 @@ code {
 .md-format {
     white-space: normal;
 }
+
+.hoverable-card:hover {
+    box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.2) !important;
+    background-color: var(--bs-light);
+    transition: 0.3s;
+}

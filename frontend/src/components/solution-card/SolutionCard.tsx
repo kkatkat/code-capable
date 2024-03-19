@@ -1,17 +1,31 @@
+import { useState } from "react";
+import { truncateString } from "../../common/lib";
 import { Solution } from "../../entities/solution";
+import SolutionDialog from "../solution-dialog/SolutionDialog";
 
 
-export default function SolutionCard({solution}: {solution: Solution}) {
+export default function SolutionCard({ solution }: { solution: Solution }) {
+    const [showDialog, setShowDialog] = useState(false);
 
     return (
-        <div className="card shadow-sm mb-2">
-            <div className="card-body py-1">
-                <div className="small d-flex justify-content-between">
-                    <div>
-                        Solution #{solution.id}
+        <>
+            <button className="card shadow-sm mb-2 w-100 hoverable-card" onClick={() => setShowDialog(true)}>
+                <div className="card-body py-1 w-100">
+                    <div className="small d-flex justify-content-between">
+                        <div>
+                            Solution #{solution.id}
+                        </div>
+                        <div className="text-muted">
+                            by <span className="fw-semibold">{solution.userName}</span> on {new Date(solution.createdAt).toLocaleDateString('en-GB')}
+                        </div>
+                    </div>
+                    <div className="small text-muted d-flex">
+                        {truncateString(solution.code, 100)}
                     </div>
                 </div>
-            </div>
-        </div>
+            </button>
+            <SolutionDialog solution={solution} open={showDialog} onClose={() => setShowDialog(false)} />
+        </>
+
     )
 }

@@ -106,11 +106,9 @@ export function ProblemPage() {
         }).catch((error: AxiosError<{message?: string}>) => {
             if (error.response?.data.message) {
                 toast.error(error.response.data.message);
-                setError(true);
                 setSuccess(false);
             } else {
                 toast.error('Failed to run the code');
-                setError(true);
             }
         }).finally(() => {
             setRunning(false);
@@ -164,8 +162,12 @@ export function ProblemPage() {
                             <div className="spinner-border text-primary me-2" role="status" style={{height:'25px', width: '25px', display: running ? 'block' : 'none'}}>
                                 <span className="visually-hidden">Loading...</span>
                             </div>
-                            <button className="btn btn-light text-secondary border-0 btm-sm me-2" disabled={running} onClick={() => {run(false, codeValue)}}><i className="bi bi-play-fill me-1"></i>Run</button>
-                            <button className="btn btn-success border-0 btm-sm" disabled={running} onClick={() => {run(true, codeValue)}}><i className="bi bi-send-fill me-2"></i>Submit</button>
+                            <button className="btn btn-light text-secondary border-0 btm-sm me-2" disabled={running || !loggedUser} onClick={() => {run(false, codeValue)}}><i className="bi bi-play-fill me-1"></i>Run</button>
+                            <button className="btn btn-success border-0 btm-sm" disabled={running || !loggedUser} onClick={() => {run(true, codeValue)}}><i className="bi bi-send-fill me-2"></i>Submit</button>
+                            {
+                                !loggedUser &&
+                                <Link to='/login' className="btn text-primary border-0"><i className="bi bi-box-arrow-in-right me-2"></i>Login</Link>
+                            }
                         </div>
                     </div>
                 </div>

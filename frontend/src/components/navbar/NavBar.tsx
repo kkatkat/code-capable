@@ -67,7 +67,7 @@ const handleSearchBarChange = (e: any) => {
             {
               loggedUser && <div className="dropdown pt-3 pb-2 pb-lg-0 pt-lg-0 ms-lg-4 ms-5">
                 <a href="#" className="d-block link-dark text-decoration-none dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
-                  <img src={user} width="35" height="35" className="rounded-circle" />
+                  <img src={loggedUser.pfp ?? user} width="35" height="35" className="rounded-circle" />
                 </a>
                 <ul className="dropdown-menu text-small mt-2">
                   <li><span className="text-muted ms-3">{loggedUser?.username}</span></li>

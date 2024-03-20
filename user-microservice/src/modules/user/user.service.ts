@@ -50,7 +50,9 @@ export class UserService {
             user.role = 'user'
         }
 
-        user.confirmationCode = randomString(24);
+        if (!user.provider) {
+            user.confirmationCode = randomString(24);
+        }
 
         try {
             return await this.userRepo.save(user)

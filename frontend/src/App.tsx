@@ -15,6 +15,7 @@ import SignUpPage from './pages/sign-up-page/SignUpPage';
 import CreateProblemPage from './pages/create-problem-page/CreateProblemPage';
 import { ProblemPage } from './pages/problem/ProblemPage';
 import { MaybeShow } from './components/util/MaybeShow';
+import LoggedInPage from './pages/logged-in-page/LoggedInPage';
 
 
 function App() {
@@ -52,7 +53,7 @@ function App() {
                 <body>
                     <BrowserRouter>
                         <div className='wrapper'>
-                            <MaybeShow exclude={['/problem/']}>
+                            <MaybeShow exclude={['/problem/', '/logged-in']}>
                                 <header className='header'>
                                     <NavBar />
                                 </header>
@@ -64,11 +65,12 @@ function App() {
                                 <Route path='/signUp' element={<SignUpPage/>} />
                                 <Route path='/create-problem' element={<CreateProblemPage/>}/>
                                 <Route path='/problem/:id' element={<ProblemPage/>} />
+                                <Route path='/logged-in' element={<LoggedInPage/>} />
                                 <Route path='*' element={<NotFoundPage/>} />
                             </Routes>
                         </div>
                         <footer className='footer'>
-                            <MaybeShow exclude={['/problem/']}>
+                            <MaybeShow exclude={['/problem/', '/logged-in']}>
                                 <Footer />
                             </MaybeShow>
                         </footer>

@@ -6,7 +6,7 @@ function PrivacyPolicyPage() {
     useScrollToTop();
 
     return (
-        <div className="container-lg">
+        <div className="container-lg cc-margin">
             <div className="pt-3">
                 <h3>Privacy Policy</h3>
                 <p>This privacy policy applies to the website CodeCapable (hereinafter referred to as "we", "us", or "our"). We respect your privacy and are committed to protecting any information you provide while using our website.</p>

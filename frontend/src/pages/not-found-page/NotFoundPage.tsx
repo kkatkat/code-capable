@@ -2,7 +2,7 @@
 
 function NotFoundPage() {
   return (
-    <div className="container-lg">
+    <div className="container-lg cc-margin">
         <div className="text-center mt-5">
             <h1>404</h1>
             <p>Oops! The page you are looking for does not exist.</p>

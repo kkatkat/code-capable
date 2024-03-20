@@ -66,7 +66,7 @@ function SignUpPage() {
 
 
     return (
-        <div className="SignUpPage">
+        <div className="SignUpPage" style={{marginTop: '7rem'}}>
             <main className="d-flex" id="mainSignUp">
                 <div className="container m-auto">
                     <div className="row justify-content-md-center">

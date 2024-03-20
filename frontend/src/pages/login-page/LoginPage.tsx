@@ -6,6 +6,9 @@ import { toast } from 'react-toastify';
 import { login } from '../../services/user-service';
 import { AxiosError } from 'axios';
 import { useScrollToTop } from '../../common/lib';
+import { Divider } from '@mui/material';
+
+const GITHUB_CLIENT_ID = import.meta.env.VITE_GITHUB_CLIENT_ID;
 
 function LogInPage() {
     useScrollToTop();
@@ -48,7 +51,7 @@ function LogInPage() {
 
 
     return (
-        <div className="LogInPage">
+        <div className="LogInPage" style={{marginTop: '10rem'}}> 
             <main className="d-flex" id="mainSignUp">
                 <div className="container m-auto">
                     <div className="row justify-content-md-center">
@@ -72,12 +75,16 @@ function LogInPage() {
                                         </div>
                                     </div>
                                 </div>
-                                <div className="card-footer bg-white text-center py-4 mt-4 pt-5">
+                                <div className="card-footer bg-white text-center py-4 border-0">
                                     <div className="d-grid">
                                         <input type="submit" name="submit" className="btn btn-primary px-5" value="Log in" />
                                     </div>
+                                    <Divider sx={{marginY: '0.5rem'}}>or</Divider>
+                                    <div className="d-grid">
+                                        <Link to="/signup" className="btn btn-outline-primary px-5">Sign up with email</Link>
+                                    </div>
                                     <div className="d-grid pt-3">
-                                        <Link to="/signup" className="btn btn-outline-primary px-5">Don't have an account? Sign up.</Link>
+                                        <Link to={`https://github.com/login/oauth/authorize?client_id=${GITHUB_CLIENT_ID}&scope=user:email`} className="btn btn-outline-dark px-5"><i className="bi bi-github me-2"></i>Sign in with GitHub</Link>
                                     </div>
                                 </div>
                             </form>

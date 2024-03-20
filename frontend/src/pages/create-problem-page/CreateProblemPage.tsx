@@ -13,7 +13,7 @@ function CreateProblemPage() {
     const nav = useNavigate();
 
     return (
-        <div className="CreateProblemPage">
+        <div className="CreateProblemPage cc-margin">
             <div className="container-lg pt-3">
                 <h2 className="mb-3">Create a problem</h2>
                 {

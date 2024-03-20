@@ -1,12 +1,11 @@
 body {
   display:flex;
   flex-direction:column;
-  min-height:100vh;
 }
 
 .wrapper {
-  margin-top: 3.9rem;
   flex:1;
+  min-height:100vh;
 }
 
 .bg-ccdarkblue {
@@ -35,4 +34,8 @@ code {
     box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.2) !important;
     background-color: var(--bs-light);
     transition: 0.3s;
+}
+
+.cc-margin {
+    margin-top: 3.9rem;
 }

@@ -146,7 +146,7 @@ export function ProblemPage() {
     }
 
     return (
-        <div className="ProblemPage" style={{ marginTop: '-3.9rem' }}>
+        <div className="ProblemPage">
             <div className="container-fluid pt-2 bg-light pb-2">
                 <div className="card shadow-sm p-2 border-0 mb-2">
                     <div className="d-flex justify-content-between">

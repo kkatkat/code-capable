@@ -1,4 +1,4 @@
-import { Body, Controller, ImATeapotException, Inject, Post, Req, UseGuards, forwardRef } from "@nestjs/common";
+import { Body, Controller, ImATeapotException, Inject, Param, Post, Req, UseGuards, forwardRef } from "@nestjs/common";
 import { AuthService } from "./auth.service";
 import { LoginRequest } from "./login-request.dto";
 import { UserCreateDTO } from "../user/user-create.dto";
@@ -6,6 +6,7 @@ import { AuthGuard } from "src/common/guards/auth-guard";
 import { JwtUser } from "src/common/jwt-user";
 import { ServiceFactory } from "../factory/service-factory.service";
 import { ClientProxy } from "@nestjs/microservices";
+import { GitHubService } from "./github.service";
 
 
 
@@ -17,6 +18,7 @@ export class AuthController {
         private readonly sf: ServiceFactory,
         @Inject('PROBLEM_MICROSERVICE')
         private problemMicroservice: ClientProxy,
+        private gitHubService: GitHubService,
     ) { }
 
     @Post('/login')
@@ -47,6 +49,11 @@ export class AuthController {
         const jwtUser = req['user'] as JwtUser;
         
         return this.authService.checkToken(jwtUser);
+    }
+
+    @Post('github/token/:code')
+    async signInWithGitHub(@Param('code') code: string) {
+        return this.gitHubService.doGitHubSignIn(code);
     }
 
 }

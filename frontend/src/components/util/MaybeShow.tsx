@@ -6,7 +6,7 @@ export function MaybeShow({children, ...props}: {children: any, exclude?: string
     const [show, setShow] = useState<boolean>(false);
 
     useEffect(() => {
-        if (props.exclude?.includes(recursivelyRemoveLastChar(location.pathname))) {
+        if (props.exclude?.includes(recursivelyRemoveLastChar(removeSearchParams(location.pathname)))) {
             setShow(false);
         } else {
             setShow(true);
@@ -23,5 +23,9 @@ export function MaybeShow({children, ...props}: {children: any, exclude?: string
         }
 
         return recursivelyRemoveLastChar(str.slice(0, str.length - 1));
+    }
+
+    function removeSearchParams(str: string): string {
+        return str.split('?')[0]
     }
 }

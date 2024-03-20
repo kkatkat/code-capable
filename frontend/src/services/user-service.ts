@@ -29,3 +29,7 @@ export function register( request: RegisterRequest) {
 export function getUserById(id: number) {
     return axios.get(`/u/user/${id}`).then((res) => res.data as User)
 }
+
+export function gitHubLogin(code: string) {
+    return axios.post(`/u/auth/github/token/${code}`).then((res) => res.data)
+}

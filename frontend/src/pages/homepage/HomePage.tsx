@@ -8,7 +8,7 @@ import { useScrollToTop } from "../../common/lib";
 function HomePage() {
     useScrollToTop();
     return (
-        <div className="container-lg bg-light pb-5">
+        <div className="container-lg bg-light pb-5 cc-margin">
             <div className="row p-5 text-center mx-3 hero border-primary border" id="hero">
                 <div className="col-lg-6 mx-auto my-5 py-5">
                     <div className="text-shadow">

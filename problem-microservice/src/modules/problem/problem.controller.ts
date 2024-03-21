@@ -9,6 +9,7 @@ import { Role } from "src/common/roles";
 import { Ctx, EventPattern, MessagePattern, Payload, RmqContext, RpcException } from "@nestjs/microservices";
 import { ServiceFactory } from "../factory/service-factory.service";
 import { Like } from "typeorm";
+import { JwtUserGuard } from "src/common/guards/jwt-user-guard";
 
 @Controller('problem')
 export class ProblemController {
@@ -26,34 +27,58 @@ export class ProblemController {
     })
   }
 
+  @UseGuards(JwtUserGuard)
   @Get()
   async getAllFiltered(
-    @Query('page', ParseIntPipe) page: number = 1,
-    @Query('pageSize', ParseIntPipe) pageSize: number = 20,
+    @Req() req: Request,
+    @Query('page') page: number = 1,
+    @Query('pageSize') pageSize: number = 20,
     @Query('query') query?: string,
     @Query('difficulty') difficulty?: string,
+    @Query('order') order: string = 'desc',
   ) {
+    const user = req['user'] as JwtUser;
+
+    if (isNaN(page) || page < 1) {
+        page = 1;
+    }
+
+    if (isNaN(pageSize) || pageSize < 1) {
+        pageSize = 5;
+    }
+
+    if (order !== 'desc' && order !== 'asc') {
+        order = 'desc';
+    }
+
     const result = await this.problemService.findAndCount({
         where: {
-            approved: true,
+            approved: user && user.role === Role.ADMIN ? undefined : true,
             name: query ? Like(`%${query}%`) : undefined,
             difficulty: difficulty ? difficulty : undefined
         },
         take: pageSize,
         skip: (page - 1) * pageSize,
+        order: {
+            createdAt: order as 'desc' | 'asc'
+        },
         cache: true
     })
 
+    const totalPages = Math.ceil(result[1] / pageSize);
     return {
         items: result[0],
         total: result[1],
-        totalPages: Math.ceil(result[1] / pageSize),
-        currentPage: +page
+        totalPages,
+        currentPage: (+page) > totalPages ? totalPages : +page
     }
   }
 
+  @UseGuards(JwtUserGuard)
   @Get('/:id')
-  async getById(@Param('id') id: number) {
+  async getById(@Param('id') id: number, @Req() req: Request){
+    const user = req['user'] as JwtUser;
+
     const problem = await this.problemService.findOne({
         where: {
             id,
@@ -65,6 +90,16 @@ export class ProblemController {
 
     if (!problem) {
       throw new NotFoundException();
+    }
+
+    if (!problem.approved) {
+        if (!user || user.role !== Role.ADMIN) {
+            throw new ForbiddenException();
+        }
+    }
+
+    if (!user || user.role !== Role.ADMIN) {
+        problem.unitTests = [...problem.unitTests].filter(ut => ut.visible);
     }
 
     return problem;
@@ -105,7 +140,11 @@ export class ProblemController {
       }
     })
 
-    if (problem && user.role !== Role.ADMIN && problem.creatorId !== user.id) {
+    if (!problem) {
+        throw new NotFoundException();
+    }
+
+    if (user.role !== Role.ADMIN && problem.creatorId !== user.id) {
       throw new ForbiddenException();
     }
 

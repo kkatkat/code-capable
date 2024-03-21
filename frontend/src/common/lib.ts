@@ -22,3 +22,10 @@ export function useGoBack() {
 export function truncateString(str: string, length: number) {
     return str.length > length ? str.substring(0, length) + '...' : str;
 }
+
+export type Paginated<T> = {
+    items: T[];
+    total: number;
+    totalPages: number;
+    currentPage: number;
+}

@@ -1,3 +1,4 @@
+import { Paginated } from "../common/lib";
 import axios from "../config/axiosConfig";
 import { Problem } from "../entities/problem";
 import { Solution } from "../entities/solution";
@@ -15,6 +16,14 @@ export type CreateProblemRequest = {
 export type UnitTestCreateDTO = {
     code: string;
     visible?: boolean;
+}
+
+export type ProblemFilter = {
+    difficulty?: string;
+    order?: string;
+    query?: string;
+    page?: string;
+    pageSize?: string;
 }
 
 export function createProblem(request: CreateProblemRequest) {
@@ -39,4 +48,8 @@ export function getUserSubmissions(userId: number, problemId: number) {
 
 export function getSolutionsForProblem(problemId: number) {
     return axios.get(`/p/solution/problem/${problemId}`).then((res) => res.data as Solution[])
+}
+
+export function getAllProblemsFiltered(filters: ProblemFilter) {
+    return axios.get('/p/problem', {params: filters}).then((res) => res.data as Paginated<Problem>)
 }

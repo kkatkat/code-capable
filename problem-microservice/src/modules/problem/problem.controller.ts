@@ -1,4 +1,4 @@
-import { BadRequestException, Body, Controller, Delete, ForbiddenException, Get, Inject, NotFoundException, Param, Post, Put, Req, UseGuards, forwardRef } from "@nestjs/common";
+import { BadRequestException, Body, Controller, Delete, ForbiddenException, Get, Inject, NotFoundException, Param, ParseIntPipe, Post, Put, Query, Req, UseGuards, forwardRef } from "@nestjs/common";
 import { ProblemService } from "./problem.service";
 import { ProblemInputDTO } from "./problemInput.dto";
 import { Problem } from "./problem.entity";
@@ -8,6 +8,7 @@ import { JwtUser } from "src/common/jwt-user";
 import { Role } from "src/common/roles";
 import { Ctx, EventPattern, MessagePattern, Payload, RmqContext, RpcException } from "@nestjs/microservices";
 import { ServiceFactory } from "../factory/service-factory.service";
+import { Like } from "typeorm";
 
 @Controller('problem')
 export class ProblemController {
@@ -23,6 +24,32 @@ export class ProblemController {
             createdAt: 'DESC'
         }
     })
+  }
+
+  @Get()
+  async getAllFiltered(
+    @Query('page', ParseIntPipe) page: number = 1,
+    @Query('pageSize', ParseIntPipe) pageSize: number = 20,
+    @Query('query') query?: string,
+    @Query('difficulty') difficulty?: string,
+  ) {
+    const result = await this.problemService.findAndCount({
+        where: {
+            approved: true,
+            name: query ? Like(`%${query}%`) : undefined,
+            difficulty: difficulty ? difficulty : undefined
+        },
+        take: pageSize,
+        skip: (page - 1) * pageSize,
+        cache: true
+    })
+
+    return {
+        items: result[0],
+        total: result[1],
+        totalPages: Math.ceil(result[1] / pageSize),
+        currentPage: +page
+    }
   }
 
   @Get('/:id')

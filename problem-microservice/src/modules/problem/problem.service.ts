@@ -17,6 +17,10 @@ export class ProblemService {
         return this.problemRepo.findOne(options);
     }
 
+    async findAndCount(options?: FindManyOptions<Problem>): Promise<[Problem[], number]> {
+        return this.problemRepo.findAndCount(options);
+    }
+
     async find(options?: FindManyOptions<Problem>): Promise<Problem[]> {
         return this.problemRepo.find(options);
     }

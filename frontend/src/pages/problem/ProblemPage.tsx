@@ -16,12 +16,16 @@ import { AxiosError } from "axios";
 import SubmissionsView from "./SubmissionsView";
 import { Solution } from "../../entities/solution";
 import SolutionsView from "./SolutionsView";
+import { User } from "../../entities/user";
+import { getUserById } from "../../services/user-service";
 
 export function ProblemPage() {
     const { id } = useParams();
     const goBack = useGoBack();
     const { loggedUser } = useContext(UserContext);
     const nav = useNavigate();
+
+    const [problemCreator, setProblemCreator] = useState<User>({} as User);
 
     const [currentView, setCurrentView] = useState<'description' | 'solutions' | 'submissions'>('description');
     const [problem, setProblem] = useState<Problem>();
@@ -46,6 +50,18 @@ export function ProblemPage() {
             setNotFound(true);
         }).finally(() => {
             setLoading(false);
+        })
+    }
+
+    async function fetchProblemCreator() {
+        if (!problem) return;
+        if (loggedUser && problem.creatorId === loggedUser.id) {
+            setProblemCreator(loggedUser);
+            return;
+        }
+        
+        await getUserById(problem.creatorId).then((user) => {
+            setProblemCreator(user);
         })
     }
 
@@ -134,6 +150,11 @@ export function ProblemPage() {
     }, [id])
 
     useEffect(() => {
+        if (!problem) return;
+        fetchProblemCreator();
+    }, [problem])
+
+    useEffect(() => {
         fetchSubmissions();
     }, [loggedUser, problem])
 
@@ -207,7 +228,7 @@ export function ProblemPage() {
                                 <div className="card-body" style={{ overflowY: 'scroll', height: '10px' }}>
                                     {
                                         currentView === 'description' &&
-                                        <DescriptionView problem={problem} />
+                                        <DescriptionView problem={problem} user={problemCreator} />
                                     }
                                     {
                                         currentView === 'submissions' &&

@@ -41,6 +41,9 @@ export class Problem {
     @Column()
     creatorId: number;
 
+    @Column()
+    creatorName: string;
+
     @CreateDateColumn()
     createdAt: Date;
 

@@ -23,8 +23,15 @@ export class RunnerService {
     const originalCode = code;
     
     problem.unitTests.forEach((unitTest) => {
-        code += `\n${unitTest.code}`
+        if (submit) {
+            code += `\n${unitTest.code}`
+        } else {
+            if (unitTest.visible) {
+                code += `\n${unitTest.code}`
+            }
+        }
     })
+
     
     const result: RunResponse = await PythonShell.runString(code)
     .then((messages) => {

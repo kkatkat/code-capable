@@ -44,7 +44,7 @@ export class ProblemController {
     }
 
     if (isNaN(pageSize) || pageSize < 1) {
-        pageSize = 5;
+        pageSize = 20;
     }
 
     if (order !== 'desc' && order !== 'asc') {
@@ -115,6 +115,7 @@ export class ProblemController {
   async create(@Body() input: ProblemInputDTO, @Req() req: Request): Promise<Problem> {
     const jwtUser = req['user'] as JwtUser;
     input.creatorId = jwtUser.id;
+    input.creatorName = jwtUser.username;
 
     if (input.unitTests.length === 0) {
         throw new BadRequestException('Problem must have at least one unit test');
@@ -218,6 +219,10 @@ export class ProblemController {
       },
       relations: {
         unitTests: true
+      },
+      cache: {
+        id: `problem-${data}`,
+        milliseconds: 10000
       }
     })
 

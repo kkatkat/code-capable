@@ -15,7 +15,7 @@ export const problemData: DeepPartial<Problem>[] = [
         difficulty: 'easy',
         starterCode: `def twoSum(nums, target):`,
         approved: true,
-        creatorId: 1,
+        creatorId: 7,
         unitTests: [
             {
                 id: 1,
@@ -48,7 +48,7 @@ export const problemData: DeepPartial<Problem>[] = [
         difficulty: 'medium',
         starterCode: `def addTwoNumbers(l1, l2):`,
         approved: true,
-        creatorId: 1,
+        creatorId: 7,
         unitTests: [
             {
                 id: 4,
@@ -79,7 +79,7 @@ export const problemData: DeepPartial<Problem>[] = [
         difficulty: 'medium',
         starterCode: `def lengthOfLongestSubstring(s):`,
         approved: true,
-        creatorId: 1,
+        creatorId: 7,
         unitTests: [
             {
                 id: 7,
@@ -112,7 +112,7 @@ export const problemData: DeepPartial<Problem>[] = [
         difficulty: 'hard',
         starterCode: `def findMedianSortedArrays(nums1, nums2):`,
         approved: true,
-        creatorId: 1,
+        creatorId: 7,
         unitTests: [
             {
                 id: 10,
@@ -145,7 +145,7 @@ export const problemData: DeepPartial<Problem>[] = [
         difficulty: 'medium',
         starterCode: `def longestPalindrome(s):`,
         approved: true,
-        creatorId: 1,
+        creatorId: 7,
         unitTests: [
             {
                 id: 12,
@@ -178,7 +178,7 @@ export const problemData: DeepPartial<Problem>[] = [
         difficulty: 'medium',
         starterCode: `def convert(s, numRows):`,
         approved: true,
-        creatorId: 1,
+        creatorId: 7,
         unitTests: [
             {
                 id: 14,
@@ -203,7 +203,7 @@ export const problemData: DeepPartial<Problem>[] = [
         difficulty: 'easy',
         starterCode: `def reverse(x):`,
         approved: true,
-        creatorId: 1,
+        creatorId: 7,
         unitTests: [
             {
                 id: 16,
@@ -247,7 +247,7 @@ export const problemData: DeepPartial<Problem>[] = [
         difficulty: 'medium',
         starterCode: `def myAtoi(s):`,
         approved: true,
-        creatorId: 1,
+        creatorId: 7,
         unitTests: [
             {
                 id: 19,
@@ -280,7 +280,7 @@ export const problemData: DeepPartial<Problem>[] = [
         difficulty: 'easy',
         starterCode: `def isPalindrome(x):`,
         approved: true,
-        creatorId: 1,
+        creatorId: 7,
         unitTests: [
             {
                 id: 22,
@@ -316,7 +316,7 @@ export const problemData: DeepPartial<Problem>[] = [
         difficulty: 'hard',
         starterCode: `def isMatch(s, p):`,
         approved: true,
-        creatorId: 1,
+        creatorId: 7,
         unitTests: [
             {
                 id: 25,

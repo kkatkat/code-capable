@@ -5,6 +5,7 @@ import { Solution } from "../entities/solution";
 
 export type CreateProblemRequest = {
     creatorId: number;
+    creatorName: string;
     name: string;
     description: string;
     constraints?: string;

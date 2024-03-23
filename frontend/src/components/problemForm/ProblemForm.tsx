@@ -81,6 +81,7 @@ export function ProblemForm() {
         
         const request: CreateProblemRequest = {
             creatorId: loggedUser?.id as number,
+            creatorName: loggedUser?.username as string,
             name: title,
             description: description as string,
             constraints: constraints,

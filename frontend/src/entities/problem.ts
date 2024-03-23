@@ -6,6 +6,7 @@ export type Problem = {
     description: string,
     difficulty: string,
     creatorId: number,
+    creatorName: string,
     createdAt: Date,
     constraints?: string,
     starterCode: string,

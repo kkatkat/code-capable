@@ -27,5 +27,8 @@ export class ProblemInputDTO {
     creatorId: number;
 
     @IsNotEmpty()
+    creatorName: string;
+
+    @IsNotEmpty()
     unitTests: UnitTest[];
 }

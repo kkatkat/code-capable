@@ -3,6 +3,7 @@ import { useSearchParams } from "react-router-dom";
 import { Problem } from "../../entities/problem";
 import { getAllProblemsFiltered } from "../../services/problem-service";
 import { Paginated } from "../../common/lib";
+import ProblemCard from "../../components/problem-card/ProblemCard";
 
 
 export default function ProblemsPage() {
@@ -18,8 +19,17 @@ export default function ProblemsPage() {
         e.preventDefault();
 
         if (orderFilter) searchParams.set('order', orderFilter);
+        
         if (difficultyFilter) searchParams.set('difficulty', difficultyFilter);
-        if (queryFilter) searchParams.set('query', queryFilter);
+
+        if (queryFilter) {
+            searchParams.set('query', queryFilter)
+        } else {
+            searchParams.delete('query');
+        }
+
+        searchParams.set('page', '1');
+        setPageFilter('1');
 
         setSearchParams(searchParams)
     }
@@ -70,7 +80,7 @@ export default function ProblemsPage() {
     return (
         <div className="cc-margin ProblemsPage">
             <div className="container-lg pt-2">
-                <div className="card border-0 shadow-sm">
+                <div className="card border-0 shadow-sm mb-3">
                     <div className="card-body py-2">
                         <form>
                             <div className="d-flex justify-content-between">
@@ -101,6 +111,17 @@ export default function ProblemsPage() {
                             </div>
                         </form>
                     </div>
+                </div>
+                <div className="row gx-2">
+                    {
+                        problems.map((problem) => {
+                            return (
+                                <div className="col-6">
+                                    <ProblemCard key={problem.id} problem={problem}/>
+                                </div>
+                            )
+                        })
+                    }
                 </div>
             </div>
         </div>

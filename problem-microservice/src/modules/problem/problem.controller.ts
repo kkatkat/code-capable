@@ -10,6 +10,7 @@ import { Ctx, EventPattern, MessagePattern, Payload, RmqContext, RpcException } 
 import { ServiceFactory } from "../factory/service-factory.service";
 import { Like } from "typeorm";
 import { JwtUserGuard } from "src/common/guards/jwt-user-guard";
+import { Paginated } from "src/common/paginated";
 
 @Controller('problem')
 export class ProblemController {
@@ -36,7 +37,7 @@ export class ProblemController {
     @Query('query') query?: string,
     @Query('difficulty') difficulty?: string,
     @Query('order') order: string = 'desc',
-  ) {
+  ): Promise<Paginated<Problem>> {
     const user = req['user'] as JwtUser;
 
     if (isNaN(page) || page < 1) {

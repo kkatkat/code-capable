@@ -1,10 +1,11 @@
-import { Controller, Delete, ForbiddenException, Get, NotFoundException, Param, Req, UseGuards } from "@nestjs/common";
+import { Controller, Delete, ForbiddenException, Get, NotFoundException, Param, Query, Req, UseGuards } from "@nestjs/common";
 import { SolutionService } from "./solution.service";
 import { Solution } from "./solution.entity";
 import { Ctx, EventPattern, Payload, RmqContext } from "@nestjs/microservices";
 import { AuthGuard } from "src/common/guards/auth-guard";
 import { JwtUser } from "src/common/jwt-user";
 import { Role } from "src/common/roles";
+import { Paginated } from "src/common/paginated";
 
 
 @Controller('solution')
@@ -42,22 +43,45 @@ export class SolutionController {
     }
 
     @Get('/problem/:problemId')
-    async getForProblem(@Param('problemId') problemId: number): Promise<Solution[]> {
-        const solutions = await this.solutionService.find({
+    async getForProblem(@Param('problemId') problemId: number,  @Query('page') page: number = 1, @Query('pageSize') pageSize: number = 20): Promise<Paginated<Solution>> {
+        if (pageSize > 100) {
+            pageSize = 100;
+        }
+
+        if (pageSize < 1) {
+            pageSize = 1;
+        }
+
+        const solutions = await this.solutionService.findAndCount({
             where: {
                 problemId
             },
             order: {
                 createdAt: 'DESC',
-            }
+            },
+            take: pageSize,
+            skip: (page - 1) * pageSize
         })
 
-        return solutions;
+        return {
+            items: solutions[0],
+            total: solutions[1],
+            currentPage: page,
+            totalPages: Math.ceil(solutions[1] / pageSize)
+        }
     }
 
     @Get('user/:userId')
-    async getForUser(@Param('userId') userId: number) {
-        const solutions = await this.solutionService.find({
+    async getForUser(@Param('userId') userId: number, @Query('page') page: number = 1, @Query('pageSize') pageSize: number = 20): Promise<Paginated<Solution>> {
+        if (pageSize > 100) {
+            pageSize = 100;
+        }
+
+        if (pageSize < 1) {
+            pageSize = 1;
+        }
+        
+        const solutions = await this.solutionService.findAndCount({
             where: {
                 userId
             },
@@ -66,10 +90,17 @@ export class SolutionController {
             },
             order: {
                 createdAt: 'DESC'
-            }
+            },
+            take: pageSize,
+            skip: (page - 1) * pageSize
         })
 
-        return solutions;
+        return {
+            items: solutions[0],
+            total: solutions[1],
+            currentPage: page,
+            totalPages: Math.ceil(solutions[1] / pageSize)
+        }
     }
 
     @UseGuards(AuthGuard)

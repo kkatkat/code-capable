@@ -32,6 +32,10 @@ export class SolutionService {
         return this.solutionRepo.find(options);
     }
 
+    async findAndCount(options?: FindManyOptions<Solution>): Promise<[Solution[], number]> {
+        return this.solutionRepo.findAndCount(options);
+    }
+
     async count(options?: FindManyOptions<Solution>) {
         return this.solutionRepo.count(options);
     }

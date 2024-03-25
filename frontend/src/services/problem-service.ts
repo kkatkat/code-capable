@@ -25,6 +25,7 @@ export type ProblemFilter = {
     query?: string;
     page?: string;
     pageSize?: string;
+    creatorId?: number;
 }
 
 export type UserStatistics = {
@@ -54,8 +55,8 @@ export function getUserSubmissions(userId: number, problemId: number) {
     return axios.get(`/p/solution/user/${userId}/${problemId}`).then((res) => res.data as Solution[])
 }
 
-export function getSolutionsForProblem(problemId: number) {
-    return axios.get(`/p/solution/problem/${problemId}`).then((res) => res.data as Solution[])
+export function getSolutionsForProblem(problemId: number, page?: number) {
+    return axios.get(`/p/solution/problem/${problemId}?page=${page}`).then((res) => res.data as Paginated<Solution>)
 }
 
 export function getAllProblemsFiltered(filters: ProblemFilter) {
@@ -66,6 +67,6 @@ export function getUserStatistics(userId: number) {
     return axios.get(`/p/solution/statistics/user/${userId}`).then((res) => res.data as UserStatistics)
 }
 
-export function getSolutionsForUser(userId: number) {
-    return axios.get(`/p/solution/user/${userId}`).then((res) => res.data as Solution[])
+export function getSolutionsForUser(userId: number, page?: number) {
+    return axios.get(`/p/solution/user/${userId}?page=${page}`).then((res) => res.data as Paginated<Solution>)
 }

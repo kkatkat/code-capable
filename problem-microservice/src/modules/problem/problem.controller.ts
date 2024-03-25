@@ -37,6 +37,7 @@ export class ProblemController {
     @Query('query') query?: string,
     @Query('difficulty') difficulty?: string,
     @Query('order') order: string = 'desc',
+    @Query('creatorId') creatorId?: number
   ): Promise<Paginated<Problem>> {
     const user = req['user'] as JwtUser;
 
@@ -64,7 +65,8 @@ export class ProblemController {
         where: {
             approved: user && user.role === Role.ADMIN ? undefined : true,
             name: query ? Like(`%${query}%`) : undefined,
-            difficulty: difficulty ? difficulty : undefined
+            difficulty: difficulty ? difficulty : undefined,
+            creatorId: creatorId ? creatorId : undefined
         },
         take: pageSize,
         skip: (page - 1) * pageSize,

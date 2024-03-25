@@ -68,7 +68,7 @@ function App() {
                                 <Route path='/create-problem' element={<CreateProblemPage/>}/>
                                 <Route path='/problem/:id' element={<ProblemPage/>} />
                                 <Route path='/logged-in' element={<LoggedInPage/>} />
-                                <Route path='/problems' element={<ProblemsPage/>} />
+                                <Route path='/problems' element={<ProblemsPage topMargin inContainer/>} />
                                 <Route path='/profile/:id' element={<ProfilePage/>} />
                                 <Route path='*' element={<NotFoundPage/>} />
                             </Routes>

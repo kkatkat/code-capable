@@ -1,5 +1,5 @@
 import { Editor } from "@monaco-editor/react";
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import { CreateProblemRequest, createProblem } from "../../services/problem-service";
@@ -111,6 +111,12 @@ export function ProblemForm() {
             }
         });
     }
+
+    useEffect(() => {
+        if (!loggedUser) {
+            nav('/login')
+        }
+    }, [])
 
     return (
         <form onSubmit={handleSubmit}>

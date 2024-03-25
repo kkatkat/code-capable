@@ -8,8 +8,7 @@ import { UserStatistics, getUserStatistics } from "../../services/problem-servic
 import SolutionsView from "../problem/SolutionsView";
 import NotFoundPage from "../not-found-page/NotFoundPage";
 import { Loading } from "../../components/loading/Loading";
-import { toast } from "react-toastify";
-
+import ProblemsPage from "../problems-page/ProblemsPage";
 
 
 export default function ProfilePage() {
@@ -18,7 +17,7 @@ export default function ProfilePage() {
 
     const [user, setUser] = useState<User | undefined>(undefined);
     const [statistics, setStatistics] = useState<UserStatistics | undefined>(undefined);
-    const [currentView, setCurrentView] = useState<'problems' | 'solutions'>('solutions');
+    const [currentView, setCurrentView] = useState<'problems' | 'solutions'>('problems');
     const [loading, setLoading] = useState(true);
 
     async function fetchUser() {
@@ -65,7 +64,7 @@ export default function ProfilePage() {
                     <div className="col-lg-4">
                         <div className="row">
                             <div className="col-12">
-                                <div className="card shadow-sm">
+                                <div className="card shadow-sm border-primary">
                                     <div className="card-body">
                                         <div className="d-flex">
                                             <div className="me-3">
@@ -116,14 +115,18 @@ export default function ProfilePage() {
                         }
                     </div>
                     <div className="col-lg-8">
-                        <div className="card shadow-sm">
-                            <div className="card-header">
-
-                            </div>
+                        <div className="card shadow-sm mt-lg-0 mt-2" style={{minHeight: '85vh'}}>
+                            <div className="card-header bg-white p-1">
+                                <button className={`btn btn-light text-secondary border-0 btn-sm ${currentView === 'problems' ? 'btn-active' : ''} me-1`} onClick={() => {setCurrentView('problems')}}><i className="bi bi-file-earmark-text me-1"></i>Created problems</button>
+                                <button className={`btn btn-light text-secondary border-0 btn-sm ${currentView === 'solutions' ? 'btn-active' : ''} me-1`} onClick={() => {setCurrentView('solutions')}}><i className="bi bi-lightbulb me-1"></i>Solutions</button>                            </div>
                             <div className="card-body">
                                 {
                                     currentView === 'solutions' && id &&
-                                    <SolutionsView problemId={0} problem={{} as any} userId={+id}/>
+                                    <SolutionsView problemId={-1} userId={+id}/>
+                                }
+                                {
+                                    currentView === 'problems' && id &&
+                                    <ProblemsPage fullWidth hideSearch creatorId={+id}/>
                                 }
                             </div>
                         </div>

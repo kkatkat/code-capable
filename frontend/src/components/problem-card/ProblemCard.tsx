@@ -11,7 +11,7 @@ export default function ProblemCard({ problem }: { problem: Problem }) {
             <div className="card-body py-1 w-100">
                 <div className="small d-flex justify-content-between">
                     <div>
-                        {problem.id}. {problem.name}
+                        {problem.id}. {problem.name} {!problem.approved && <span className="badge bg-danger">UNAPPROVED</span>}
                     </div>
                     <div className="text-muted">
                         by <span className="fw-semibold">{problem.creatorName}</span>

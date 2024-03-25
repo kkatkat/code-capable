@@ -6,8 +6,16 @@ import { Paginated, useScrollToTop } from "../../common/lib";
 import ProblemCard from "../../components/problem-card/ProblemCard";
 import { Pagination } from "@mui/material";
 
+export type ProblemsPageProps = {
+    fullWidth?: boolean;
+    creatorId?: number;
+    topMargin?: boolean;
+    hideSearch?: boolean;
+    inContainer?: boolean;
+}
 
-export default function ProblemsPage() {
+
+export default function ProblemsPage({fullWidth, creatorId, topMargin, hideSearch, inContainer}: ProblemsPageProps) {
     useScrollToTop();
     const [orderFilter, setOrderFilter] = useState<'desc' | 'asc' | ''>('');
     const [difficultyFilter, setDifficultyFilter] = useState<'easy' | 'medium' | 'hard' | ''>('');
@@ -67,7 +75,8 @@ export default function ProblemsPage() {
             difficulty: searchParams.get('difficulty') ?? undefined,
             query: searchParams.get('query') ?? undefined,
             page: searchParams.get('page') ?? undefined,
-            pageSize: searchParams.get('pageSize') ?? undefined
+            pageSize: searchParams.get('pageSize') ?? undefined,
+            creatorId: creatorId ?? undefined,
         }).then((res: Paginated<Problem>) => {
             setProblems(res.items);
             setPageFilter(res.currentPage.toString());
@@ -82,11 +91,11 @@ export default function ProblemsPage() {
         setDifficultyFilter(searchParams.get('difficulty') as '' | 'easy' | 'medium' | 'hard' || '');
         setOrderFilter(searchParams.get('order') as '' | 'desc' | 'asc' || '');
         setQueryFilter(searchParams.get('query') || '');
-    }, [searchParams])
+    }, [searchParams, creatorId])
 
     return (
-        <div className="cc-margin ProblemsPage">
-            <div className="container-lg pt-2">
+        <div className={`${topMargin ? 'cc-margin' : ''} ProblemsPage`}>
+            <div className={`${inContainer ? 'container-lg pt-2' : ''}`}>
                 <div className="card border-0 shadow-sm mb-3">
                     <div className="card-body py-2">
                         <form>
@@ -107,9 +116,12 @@ export default function ProblemsPage() {
                                             <option value='asc'>Oldest first</option>
                                         </select>
                                     </div>
-                                    <div className="me-2">
-                                        <input type="text" className="form-control form-control-sm bg-light" placeholder="Search" value={queryFilter} onChange={(e) => { setQueryFilter(e.target.value) }} />
-                                    </div>
+                                    {
+                                        !hideSearch &&
+                                        <div className="me-2">
+                                            <input type="text" className="form-control form-control-sm bg-light" placeholder="Search" value={queryFilter} onChange={(e) => { setQueryFilter(e.target.value) }} />
+                                        </div>
+                                    }
                                     <div>
                                         <button className="btn btn-light text-primary border-0 btn-sm me-2" onClick={handleFilterClick}><i className="bi bi-funnel me-1"></i>Filter</button>
                                     </div>
@@ -135,7 +147,7 @@ export default function ProblemsPage() {
                         :
                         problems.map((problem) => {
                             return (
-                                <div className="col-6">
+                                <div className={`${fullWidth ? 'col-12' : 'col-6'}`}>
                                     <ProblemCard key={problem.id} problem={problem} />
                                 </div>
                             )

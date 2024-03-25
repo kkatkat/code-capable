@@ -4,16 +4,20 @@ import SolutionCard from "../../components/solution-card/SolutionCard";
 import { getSolutionsForProblem, getSolutionsForUser } from "../../services/problem-service";
 import { toast } from "react-toastify";
 import { Problem } from "../../entities/problem";
+import { Pagination } from "@mui/material";
 
 
 
 export default function SolutionsView({problemId, problem, userId}: {problemId: number, problem?: Problem, userId?: number}) {
     const [solutions, setSolutions] = useState<Solution[]>([]);
     const [loading, setLoading] = useState(true);
+    const [page, setPage] = useState(1);
+    const [totalPages, setTotalPages] = useState(1);
 
-    async function fetchSolutionsForProblem() {
-        getSolutionsForProblem(problemId).then((solutions) => {
-            setSolutions(solutions);
+    async function fetchSolutionsForProblem(page: number = 1) {
+        getSolutionsForProblem(problemId, page).then((solutions) => {
+            setSolutions(solutions.items);
+            setTotalPages(solutions.totalPages);
         }).catch(() => {
             toast.error("Failed to fetch solutions for problem");
         }).finally(() => {
@@ -21,13 +25,14 @@ export default function SolutionsView({problemId, problem, userId}: {problemId: 
         })
     }
 
-    async function fetchSolutionsForUser() {
+    async function fetchSolutionsForUser(page: number = 1) {
         if (!userId) {
             return;
         }
 
-        getSolutionsForUser(userId).then((solutions) => {
-            setSolutions(solutions);
+        getSolutionsForUser(userId, page).then((solutions) => {
+            setSolutions(solutions.items);
+            setTotalPages(solutions.totalPages);
         }).catch(() => {
             toast.error("Failed to fetch solutions for user");
         }).finally(() => {
@@ -37,12 +42,15 @@ export default function SolutionsView({problemId, problem, userId}: {problemId: 
 
     useEffect(() => {
         if (userId) {
-            fetchSolutionsForUser();
+            fetchSolutionsForUser(page);
             return;
         }
 
-        fetchSolutionsForProblem();
-    }, [problemId])
+        if (problemId < 0) {
+            return;
+        }
+        fetchSolutionsForProblem(page);
+    }, [problemId, page, userId])
 
     if (loading) {
         return (
@@ -74,6 +82,9 @@ export default function SolutionsView({problemId, problem, userId}: {problemId: 
                     return <SolutionCard solution={s} problem={s?.problem ?? problem}/>
                 })
             }
+            <div className="text-center mt-4">
+                <Pagination count={totalPages} shape="rounded" page={page} onChange={(e, value) => {setPage(value)}} />
+            </div>
         </div>
     )
 }

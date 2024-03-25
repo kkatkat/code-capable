@@ -71,7 +71,7 @@ export default function ProfilePage() {
                                                 <img src={user?.pfp ?? defaultPfp} className="rounded-circle" height='70' width='70'></img>
                                             </div>
                                             <div>
-                                                <h5>{user?.username}</h5>
+                                                <h5>{user?.username} {user?.role === 'admin' && <span className="badge bg-primary">CodeCapable staff</span>}</h5>
                                                 <p>{user?.bio ?? 'Hello world!'}</p>
                                                 <p><i className="bi bi-calendar2-plus me-2"></i>Joined on {(new Date((user as User).createdAt)).toLocaleDateString('en-GB')}</p>
                                                 {

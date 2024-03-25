@@ -29,9 +29,9 @@ function LogInPage() {
             toast.success(`Welcome back, ${res.user.username}`, {autoClose: 2000})
             nav('/');
         })
-        .catch((error: AxiosError) => {
+        .catch((error: AxiosError<{message?: string}>) => {
             if (error.response?.status === 401) {
-                setErrMesg('Wrong username or password');
+                setErrMesg(error.response?.data.message ?? 'Wrong username or password');
             } else {
                 setErrMesg('An error occurred');
             }

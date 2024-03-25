@@ -9,4 +9,6 @@ export type User = {
     acceptedTermsAndConditions: boolean;
     bio?: string;
     createdAt: Date;
+    gitHubUsername?: string;
+    linkedInUsername?: string;
 }

@@ -1,3 +1,4 @@
+import { Problem } from "./problem";
 
 
 export type Solution = {
@@ -7,4 +8,5 @@ export type Solution = {
     code: string;
     problemId: number;
     createdAt: Date;
+    problem?: Problem;
 }

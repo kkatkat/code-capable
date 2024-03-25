@@ -27,6 +27,13 @@ export type ProblemFilter = {
     pageSize?: string;
 }
 
+export type UserStatistics = {
+    easies: number,
+    mediums: number,
+    hards: number,
+    total: number
+}
+
 export function createProblem(request: CreateProblemRequest) {
     return axios.post('/p/problem', request).then((res) => res.data);
 }
@@ -53,4 +60,12 @@ export function getSolutionsForProblem(problemId: number) {
 
 export function getAllProblemsFiltered(filters: ProblemFilter) {
     return axios.get('/p/problem', {params: filters}).then((res) => res.data as Paginated<Problem>)
+}
+
+export function getUserStatistics(userId: number) {
+    return axios.get(`/p/solution/statistics/user/${userId}`).then((res) => res.data as UserStatistics)
+}
+
+export function getSolutionsForUser(userId: number) {
+    return axios.get(`/p/solution/user/${userId}`).then((res) => res.data as Solution[])
 }

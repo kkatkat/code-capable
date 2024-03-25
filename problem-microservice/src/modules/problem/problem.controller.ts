@@ -51,6 +51,14 @@ export class ProblemController {
         order = 'desc';
     }
 
+    if (pageSize > 100) {
+        pageSize = 100;
+    }
+
+    if (pageSize < 1) {
+        pageSize = 1;
+    }
+
     const result = await this.problemService.findAndCount({
         where: {
             approved: user && user.role === Role.ADMIN ? undefined : true,
@@ -211,8 +219,6 @@ export class ProblemController {
     const channel = context.getChannelRef();
     const originalMsg = context.getMessage();
 
-    channel.ack(originalMsg);
-
     const problem = await this.problemService.findOne({
       where: {
         id: data
@@ -229,6 +235,8 @@ export class ProblemController {
     if (!problem) {
       throw new RpcException('problem not found');
     }
+
+    channel.ack(originalMsg);
 
     return problem;
   }

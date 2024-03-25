@@ -10,4 +10,10 @@ export class UserUpdateDTO {
 
     @Allow()
     bio?: string;
+
+    @Allow()
+    gitHubUsername?: string;
+
+    @Allow()
+    linkedInUsername?: string;
 }

@@ -45,6 +45,10 @@ export class GitHubService {
             }
         })
 
+        if (user && user.provider !== 'github') {
+            throw new UnauthorizedException('An account with this email/username already exists. Please login with your email and password.')
+        }
+
         if (!user) {
             const newUser = await this.sf.userService.create({
                 username: userData.login,
@@ -53,7 +57,8 @@ export class GitHubService {
                 provider: 'github',
                 pfp: userData.avatar_url,
                 acceptedTermsAndConditions: true,
-                accountConfirmed: true
+                accountConfirmed: true,
+                gitHubUsername: userData.login,
             })
 
             user = newUser;

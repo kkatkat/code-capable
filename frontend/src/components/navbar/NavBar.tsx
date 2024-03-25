@@ -24,6 +24,12 @@ const handleSearchBarChange = (e: any) => {
     setSearchTerm(e.target.value);
 }
 
+const handleSearch = (e: any) => {
+    e.preventDefault();
+    if (!searchTerm) return;
+    nav(`/problems?query=${searchTerm}`);
+}
+
   return (
     <div className="NavBar">
       <nav className="navbar navbar-expand-lg fixed-top border-0">
@@ -62,7 +68,7 @@ const handleSearchBarChange = (e: any) => {
             </ul>
             <form className="d-flex mx-5 mx-lg-0">
               <input className="form-control me-2" id="searchBar" type="search" placeholder="Search for problems" aria-label="Search" onChange={handleSearchBarChange}/>
-              <button className="btn btn-outline-primary border-0" type="submit"><i className="bi bi-search"></i></button>
+              <button className="btn btn-outline-primary border-0" type="submit" onClick={handleSearch}><i className="bi bi-search"></i></button>
             </form>
             {
               loggedUser && <div className="dropdown pt-3 pb-2 pb-lg-0 pt-lg-0 ms-lg-4 ms-5">

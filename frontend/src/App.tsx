@@ -17,6 +17,7 @@ import { ProblemPage } from './pages/problem/ProblemPage';
 import { MaybeShow } from './components/util/MaybeShow';
 import LoggedInPage from './pages/logged-in-page/LoggedInPage';
 import ProblemsPage from './pages/problems-page/ProblemsPage';
+import ProfilePage from './pages/profile-page/ProfilePage';
 
 
 function App() {
@@ -68,6 +69,7 @@ function App() {
                                 <Route path='/problem/:id' element={<ProblemPage/>} />
                                 <Route path='/logged-in' element={<LoggedInPage/>} />
                                 <Route path='/problems' element={<ProblemsPage/>} />
+                                <Route path='/profile/:id' element={<ProfilePage/>} />
                                 <Route path='*' element={<NotFoundPage/>} />
                             </Routes>
                         </div>

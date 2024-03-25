@@ -36,7 +36,7 @@ function HomePage() {
                 <div className="col-lg-3 justify-content-center">
                     <p className="text-light text-center">Still waiting?</p>
                     <div className="d-grid justify-content-center mb-4 mb-lg-0">
-                        <Link to="/offers" className="btn btn-sm btn-primary px-5">See the problems</Link>
+                        <Link to="/problems" className="btn btn-sm btn-primary px-5">See the problems</Link>
                     </div>
                 </div>
                 <div className="col-lg-3 justify-content-center">

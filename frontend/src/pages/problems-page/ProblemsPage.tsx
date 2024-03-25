@@ -2,12 +2,13 @@ import { useEffect, useState } from "react";
 import { useSearchParams } from "react-router-dom";
 import { Problem } from "../../entities/problem";
 import { getAllProblemsFiltered } from "../../services/problem-service";
-import { Paginated } from "../../common/lib";
+import { Paginated, useScrollToTop } from "../../common/lib";
 import ProblemCard from "../../components/problem-card/ProblemCard";
 import { Pagination } from "@mui/material";
 
 
 export default function ProblemsPage() {
+    useScrollToTop();
     const [orderFilter, setOrderFilter] = useState<'desc' | 'asc' | ''>('');
     const [difficultyFilter, setDifficultyFilter] = useState<'easy' | 'medium' | 'hard' | ''>('');
     const [queryFilter, setQueryFilter] = useState<string | undefined>('');
@@ -127,6 +128,11 @@ export default function ProblemsPage() {
                 </div>
                 <div className="row gx-2">
                     {
+                        problems.length === 0 ?
+                        <div className="text-center">
+                            <p className="text-muted">No problems found</p>
+                        </div>
+                        :
                         problems.map((problem) => {
                             return (
                                 <div className="col-6">

@@ -28,7 +28,11 @@ export class AuthService {
         })
 
         if (!user) {
-            throw new UnauthorizedException();
+            throw new UnauthorizedException('Wrong username or password');
+        }
+
+        if (!user.password) {
+            throw new UnauthorizedException('Please login with your provider')
         }
 
         const passwordsMatch = await bcrypt.compare(body.password, user.password);

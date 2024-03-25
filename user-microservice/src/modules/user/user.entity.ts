@@ -1,6 +1,6 @@
 import { Column, CreateDateColumn, Entity, PrimaryGeneratedColumn } from "typeorm";
 
-export const userFields = ["id", "email", "password", "username", "role", "pfp", "provider", "accountConfirmed", "acceptedTermsAndConditions", "confirmationCode", "createdAt", "bio"];
+export const userFields = ["id", "email", "password", "username", "role", "pfp", "provider", "accountConfirmed", "acceptedTermsAndConditions", "confirmationCode", "createdAt", "bio", "gitHubUsername", "linkedInUsername"];
 
 @Entity()
 export class User {
@@ -62,4 +62,14 @@ export class User {
 
     @CreateDateColumn()
     createdAt: Date;
+
+    @Column({
+        nullable: true
+    })
+    gitHubUsername?: string;
+
+    @Column({
+        nullable: true
+    })
+    linkedInUsername?: string;
 }

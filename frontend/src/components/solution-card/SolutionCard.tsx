@@ -25,7 +25,7 @@ export default function SolutionCard({ solution, problem }: { solution: Solution
                     </div>
                 </div>
             </button>
-            <SolutionDialog solution={solution} open={showDialog} onClose={() => setShowDialog(false)} problem={problem} />
+            <SolutionDialog solution={solution} open={showDialog} onClose={() => setShowDialog(false)} problem={solution.problem ?? problem} />
         </>
 
     )

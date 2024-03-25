@@ -1,11 +1,14 @@
 import Markdown from "react-markdown";
 import { Problem } from "../../entities/problem";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { User } from "../../entities/user";
 import defaultPfp from '../../assets/user.png';
+import { difficultyColor, firstCapital } from "../../common/lib";
 
 
 export function DescriptionView({ problem, user }: { user: User, problem: Problem | undefined }) {
+
+    const nav = useNavigate();
 
     return (
         <div className="DescriptionView">
@@ -18,8 +21,10 @@ export function DescriptionView({ problem, user }: { user: User, problem: Proble
                     <img src={user?.pfp ?? defaultPfp} className="rounded-circle ms-2" width="30" height="30" />
                 </div>
             </div>
-            <hr className="mt-1"/>
-
+            <hr className="mt-1 mb-2"/>
+            <div className="d-flex mb-2">
+                <button className={`btn btn-light text-${difficultyColor(problem?.difficulty)} border-0 btn-sm me-1`} onClick={() => {nav(`/problems?difficulty=${problem?.difficulty}`)}}>{firstCapital(problem?.difficulty)}</button>
+            </div>
             <Markdown className='md-format'>{problem?.description}</Markdown>
 
             {

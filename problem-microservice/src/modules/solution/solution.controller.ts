@@ -61,6 +61,9 @@ export class SolutionController {
             where: {
                 userId
             },
+            relations: {
+                problem: true
+            },
             order: {
                 createdAt: 'DESC'
             }
@@ -87,6 +90,11 @@ export class SolutionController {
         }
 
         return await this.solutionService.delete({id});
+    }
+
+    @Get('/statistics/user/:userId')
+    async getUserStatistics(@Param('userId') userId: number) {
+        return this.solutionService.getUserStatistics(userId);
     }
 
     @EventPattern('solution_submitted')

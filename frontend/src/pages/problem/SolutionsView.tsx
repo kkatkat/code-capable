@@ -1,13 +1,13 @@
 import { useEffect, useState } from "react";
 import { Solution } from "../../entities/solution";
 import SolutionCard from "../../components/solution-card/SolutionCard";
-import { getSolutionsForProblem } from "../../services/problem-service";
+import { getSolutionsForProblem, getSolutionsForUser } from "../../services/problem-service";
 import { toast } from "react-toastify";
 import { Problem } from "../../entities/problem";
 
 
 
-export default function SolutionsView({problemId, problem}: {problemId: number, problem?: Problem}) {
+export default function SolutionsView({problemId, problem, userId}: {problemId: number, problem?: Problem, userId?: number}) {
     const [solutions, setSolutions] = useState<Solution[]>([]);
     const [loading, setLoading] = useState(true);
 
@@ -21,7 +21,26 @@ export default function SolutionsView({problemId, problem}: {problemId: number, 
         })
     }
 
+    async function fetchSolutionsForUser() {
+        if (!userId) {
+            return;
+        }
+
+        getSolutionsForUser(userId).then((solutions) => {
+            setSolutions(solutions);
+        }).catch(() => {
+            toast.error("Failed to fetch solutions for user");
+        }).finally(() => {
+            setLoading(false);
+        })
+    }
+
     useEffect(() => {
+        if (userId) {
+            fetchSolutionsForUser();
+            return;
+        }
+
         fetchSolutionsForProblem();
     }, [problemId])
 
@@ -41,7 +60,7 @@ export default function SolutionsView({problemId, problem}: {problemId: number, 
         return (
             <div className="SolutionsView">
                 <div className="d-flex justify-content-center text-muted">
-                    Nobody has solved this problem yet. Be the first one!
+                    Nothing to see here yet!
                 </div>
             </div>
         )
@@ -52,7 +71,7 @@ export default function SolutionsView({problemId, problem}: {problemId: number, 
         <div className="SolutionsView">
             {
                 solutions.map((s) => {
-                    return <SolutionCard solution={s} problem={problem}/>
+                    return <SolutionCard solution={s} problem={s?.problem ?? problem}/>
                 })
             }
         </div>

@@ -1,6 +1,6 @@
 import { useNavigate } from "react-router-dom";
 import { Problem } from "../../entities/problem";
-import { truncateString } from "../../common/lib";
+import { difficultyColor, firstCapital, truncateString } from "../../common/lib";
 
 export default function ProblemCard({ problem }: { problem: Problem }) {
 
@@ -17,8 +17,13 @@ export default function ProblemCard({ problem }: { problem: Problem }) {
                         by <span className="fw-semibold">{problem.creatorName}</span>
                     </div>
                 </div>
-                <div className="small text-muted d-flex">
-                    {truncateString(problem.description, 50)}
+                <div className="small d-flex justify-content-between">
+                    <div className="text-muted">
+                        {truncateString(problem.description, 50)}
+                    </div>
+                    <div className={`text-${difficultyColor(problem.difficulty)}`}>
+                        {firstCapital(problem.difficulty)}
+                    </div>
                 </div>
             </div>
         </button>

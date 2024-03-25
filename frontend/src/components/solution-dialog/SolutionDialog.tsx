@@ -42,7 +42,7 @@ export default function SolutionDialog({ solution, open, onClose, problem }: Sol
             <DialogTitle>
                 <div className="small d-flex justify-content-between align-items-center">
                     <div className="m-0 p-0">
-                        Solution #{solution.id} {problem && <>for <Link to={`/problem/${problem.id}`}>{problem.id}. {problem.name}</Link></>}
+                        Solution #{solution.id} {problem && <>for <Link to={`/problem/${problem.id}`} className="text-decoration-none">{problem.id}. {problem.name}</Link></>}
                     </div>
                     <div className="d-flex align-items-center">
                         <div>

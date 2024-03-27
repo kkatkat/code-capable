@@ -1,0 +1,34 @@
+only:
+- main
+
+stages:
+- build
+- test
+
+build:
+  stage: build
+  script:
+  - echo "Build job started..."
+  - npm install -g @nestjs/cli
+  # Problem microservice
+  - cd problem-microservice
+  - npm install
+  - npm run build
+  # Runner microservice
+  - cd ../runner-microservice
+  - npm install
+  - npm run build
+  # User microservice
+  - cd ../user-microservice
+  - npm install
+  - npm run build
+
+test:
+  stage: test
+  script:
+  - echo "Test job started..."
+  - cd problem-microservice
+  - npm run test
+
+
+  

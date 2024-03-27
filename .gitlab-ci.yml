@@ -1,11 +1,10 @@
-only:
-- main
-
 stages:
 - build
 - test
 
 build:
+  only:
+  - main
   stage: build
   script:
   - echo "Build job started..."
@@ -24,6 +23,8 @@ build:
   - npm run build
 
 test:
+  only:
+  - main
   stage: test
   script:
   - echo "Test job started..."

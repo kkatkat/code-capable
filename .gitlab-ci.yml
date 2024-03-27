@@ -28,7 +28,9 @@ test:
   stage: test
   script:
   - echo "Test job started..."
+  - npm install -g @nestjs/cli
   - cd problem-microservice
+  - npm install
   - npm run test
 
 

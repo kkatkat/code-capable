@@ -21,12 +21,14 @@ async function seed() {
     console.log('Start seeding');
     await seedProblems(dataSource);
     console.log('Seeding finished');
+
+    await dataSource.close();
 }
 
 async function seedProblems(dataSource: DataSource) {
-    const userRepo = dataSource.getRepository(Problem);
+    const problemRepo = dataSource.getRepository(Problem);
 
-    await userRepo.save(problemData);
+    await problemRepo.save(problemData);
     console.log('Problems seeded', problemData.length)
 }
 

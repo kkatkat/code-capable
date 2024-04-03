@@ -13,11 +13,19 @@ export async function seed() {
         await dataSource.initialize();
     } catch (e) {
         console.log('Could not initialize typeorm')
-        throw e;
+        console.error(e);
+        process.exit(1);
     }
 
     console.log('Start seeding');
-    await seedUsers(dataSource);
+    try {
+        await seedUsers(dataSource);
+    } catch (e) {
+        console.log('Error while seeding');
+        console.error(e);
+        process.exit(1);
+    }
+    
     console.log('Seeding finished');
 
     await dataSource.close();

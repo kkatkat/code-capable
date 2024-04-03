@@ -17,5 +17,6 @@ export async function createDatabaseIfNotExist() {
     } catch(e) {
         console.log('Could not create database');
         console.error(e);
+        process.exit(1);
     }
 }

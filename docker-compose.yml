@@ -1,0 +1,62 @@
+version: '3.8'
+services:
+  problem-ms:
+    build: ./problem-microservice
+    ports:
+      - 3000:3000
+    environment:
+      - PORT=3000
+      - DB_HOST=db
+      - DB_NAME=problem-ms
+      - RABBITMQ_HOST=rabbitmq
+    env_file:
+      - .env.compose
+    depends_on:
+      - db
+      - rabbitmq
+    restart: always
+  
+  user-ms:
+    build: ./user-microservice
+    ports:
+      - 3001:3001
+    environment:
+      - PORT=3001
+      - DB_HOST=db
+      - DB_NAME=user-ms
+      - RABBITMQ_HOST=rabbitmq
+    env_file:
+      - .env.compose
+    depends_on:
+      - db
+      - rabbitmq
+    restart: always
+
+  runner-ms:
+    build: ./runner-microservice
+    ports:
+      - 3002:3002
+    environment:
+      - PORT=3002
+      - RABBITMQ_HOST=rabbitmq
+    env_file:
+      - .env.compose
+    depends_on:
+      - rabbitmq
+    restart: always
+  
+  db:
+    image: mysql
+    ports:
+      - 3306:3306
+    environment:
+      - MYSQL_ROOT_PASSWORD=root
+
+  rabbitmq:
+    image: rabbitmq:3-management
+    ports:
+      - 5672:5672
+      - 15672:15672
+
+volumes:
+  db_data:

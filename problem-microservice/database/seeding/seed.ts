@@ -5,7 +5,7 @@ import { DataSource } from "typeorm";
 import { UnitTest } from "src/modules/unit-test/unit-test.entity";
 import { Solution } from "src/modules/solution/solution.entity";
 
-async function seed() {
+export async function seed() {
     const options = {...dataSourceOptions};
     options.entities = [Problem, UnitTest, Solution];
 
@@ -27,9 +27,13 @@ async function seed() {
 
 async function seedProblems(dataSource: DataSource) {
     const problemRepo = dataSource.getRepository(Problem);
+    const count = await problemRepo.count();
+
+    if (count > 0) {
+        console.log('- Not seeding problems, table is not empty');
+        return;
+    }
 
     await problemRepo.save(problemData);
-    console.log('Problems seeded', problemData.length)
+    console.log('- Problems seeded', problemData.length)
 }
-
-seed();

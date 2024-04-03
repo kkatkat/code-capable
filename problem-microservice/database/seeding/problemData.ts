@@ -6,16 +6,17 @@ export const problemData: DeepPartial<Problem>[] = [
         id: 1,
         name: 'Two sum',
         description: `
-        Given an array of integers nums and an integer target, return indices of the two numbers such that they add up to target.
+Given an array of integers nums and an integer target, return indices of the two numbers such that they add up to target.
 
-        You may assume that each input would have exactly one solution, and you may not use the same element twice.
+You may assume that each input would have exactly one solution, and you may not use the same element twice.
 
-        You can return the answer in any order.
+You can return the answer in any order.
         `,
         difficulty: 'easy',
         starterCode: `def twoSum(nums, target):`,
         approved: true,
         creatorId: 7,
+        creatorName: 'kiril',
         unitTests: [
             {
                 id: 1,
@@ -41,14 +42,15 @@ export const problemData: DeepPartial<Problem>[] = [
         id: 2,
         name: 'Add Two Numbers',
         description: `
-        You are given two non-empty linked lists representing two non-negative integers. The digits are stored in reverse order, and each of their nodes contains a single digit. Add the two numbers and return the sum as a linked list.
+You are given two non-empty linked lists representing two non-negative integers. The digits are stored in reverse order, and each of their nodes contains a single digit. Add the two numbers and return the sum as a linked list.
 
-        You may assume the two numbers do not contain any leading zero, except the number 0 itself.
+You may assume the two numbers do not contain any leading zero, except the number 0 itself.
         `,
         difficulty: 'medium',
         starterCode: `def addTwoNumbers(l1, l2):`,
         approved: true,
         creatorId: 7,
+        creatorName: 'kiril',
         unitTests: [
             {
                 id: 4,
@@ -74,12 +76,13 @@ export const problemData: DeepPartial<Problem>[] = [
         id: 3,
         name: 'Longest Substring Without Repeating Characters',
         description: `
-        Given a string s, find the length of the longest substring without repeating characters.
+Given a string s, find the length of the longest substring without repeating characters.
         `,
         difficulty: 'medium',
         starterCode: `def lengthOfLongestSubstring(s):`,
         approved: true,
         creatorId: 7,
+        creatorName: 'kiril',
         unitTests: [
             {
                 id: 7,
@@ -105,14 +108,15 @@ export const problemData: DeepPartial<Problem>[] = [
         id: 4,
         name: 'Median of Two Sorted Arrays',
         description: `
-        Given two sorted arrays nums1 and nums2 of size m and n respectively, return the median of the two sorted arrays.
+Given two sorted arrays nums1 and nums2 of size m and n respectively, return the median of the two sorted arrays.
 
-        The overall run time complexity should be O(log (m+n)).
+The overall run time complexity should be O(log (m+n)).
         `,
         difficulty: 'hard',
         starterCode: `def findMedianSortedArrays(nums1, nums2):`,
         approved: true,
         creatorId: 7,
+        creatorName: 'kiril',
         unitTests: [
             {
                 id: 10,
@@ -128,24 +132,25 @@ export const problemData: DeepPartial<Problem>[] = [
             },
         ],
         constraints: `
-        * nums1.length == m
-        * nums2.length == n
-        * 0 <= m <= 1000
-        * 0 <= n <= 1000
-        * 1 <= m + n <= 2000
-        * -10^6 <= nums1[i], nums2[i] <= 10^6
+* nums1.length == m
+* nums2.length == n
+* 0 <= m <= 1000
+* 0 <= n <= 1000
+* 1 <= m + n <= 2000
+* -10^6 <= nums1[i], nums2[i] <= 10^6
         `
     },
     {
         id: 5,
         name: 'Longest Palindromic Substring',
         description: `
-        Given a string s, return the longest palindromic substring in s.
+Given a string s, return the longest palindromic substring in s.
         `,
         difficulty: 'medium',
         starterCode: `def longestPalindrome(s):`,
         approved: true,
         creatorId: 7,
+        creatorName: 'kiril',
         unitTests: [
             {
                 id: 12,
@@ -165,20 +170,21 @@ export const problemData: DeepPartial<Problem>[] = [
         id: 6,
         name: 'ZigZag Conversion',
         description: `
-        The string "PAYPALISHIRING" is written in a zigzag pattern on a given number of rows like this:
+The string "PAYPALISHIRING" is written in a zigzag pattern on a given number of rows like this:
 
-        P   A   H   N
-        A P L S I I G
-        Y   I   R
+P   A   H   N
+A P L S I I G
+Y   I   R
 
-        And then read line by line: "PAHNAPLSIIGYIR"
+And then read line by line: "PAHNAPLSIIGYIR"
 
-        Write the code that will take a string and make this conversion given a number of rows.
+Write the code that will take a string and make this conversion given a number of rows.
         `,
         difficulty: 'medium',
         starterCode: `def convert(s, numRows):`,
         approved: true,
         creatorId: 7,
+        creatorName: 'kiril',
         unitTests: [
             {
                 id: 14,
@@ -198,12 +204,13 @@ export const problemData: DeepPartial<Problem>[] = [
         id: 7,
         name: 'Reverse Integer',
         description: `
-        Given a signed 32-bit integer x, return x with its digits reversed. If reversing x causes the value to go outside the signed 32-bit integer range [-2^31, 2^31 - 1], then return 0.
+Given a signed 32-bit integer x, return x with its digits reversed. If reversing x causes the value to go outside the signed 32-bit integer range [-2^31, 2^31 - 1], then return 0.
         `,
         difficulty: 'easy',
         starterCode: `def reverse(x):`,
         approved: true,
         creatorId: 7,
+        creatorName: 'kiril',
         unitTests: [
             {
                 id: 16,
@@ -229,25 +236,26 @@ export const problemData: DeepPartial<Problem>[] = [
         id: 8,
         name: 'String to Integer (atoi)',
         description: `
-        Implement the myAtoi(string s) function, which converts a string to a 32-bit signed integer (similar to C/C++'s atoi function).
+Implement the myAtoi(string s) function, which converts a string to a 32-bit signed integer (similar to C/C++'s atoi function).
 
-        The algorithm for myAtoi(string s) is as follows:
+The algorithm for myAtoi(string s) is as follows:
 
-        1. Read in and ignore any leading whitespace.
-        2. Check if the next character (if not already at the end of the string) is '-' or '+'. Read this character in if it is either. This determines if the final result is negative or positive respectively. Assume the result is positive if neither is present.
-        3. Read in next the characters until the next non-digit character or the end of the input is reached. The rest of the string is ignored.
-        4. Convert these digits into an integer (i.e. "123" -> 123, "0032" -> 32). If no digits were read, then the integer is 0. Change the sign as necessary (from step 2).
-        5. If the integer is out of the 32-bit signed integer range [-231, 231 - 1], then clamp the integer so that it remains in the range. Specifically, integers less than -231 should be clamped to -231, and integers greater than 231 - 1 should be clamped to 231 - 1.
-        6. Return the integer as the final result.
+1. Read in and ignore any leading whitespace.
+2. Check if the next character (if not already at the end of the string) is '-' or '+'. Read this character in if it is either. This determines if the final result is negative or positive respectively. Assume the result is positive if neither is present.
+3. Read in next the characters until the next non-digit character or the end of the input is reached. The rest of the string is ignored.
+4. Convert these digits into an integer (i.e. "123" -> 123, "0032" -> 32). If no digits were read, then the integer is 0. Change the sign as necessary (from step 2).
+5. If the integer is out of the 32-bit signed integer range [-231, 231 - 1], then clamp the integer so that it remains in the range. Specifically, integers less than -231 should be clamped to -231, and integers greater than 231 - 1 should be clamped to 231 - 1.
+6. Return the integer as the final result.
 
-        **Note**:
-        - Only the space character \`' '\` is considered a whitespace character.
-        - Do not ignore any characters other than the leading whitespace or the rest of the string after the digits.
+**Note**:
+- Only the space character \`' '\` is considered a whitespace character.
+- Do not ignore any characters other than the leading whitespace or the rest of the string after the digits.
         `,
         difficulty: 'medium',
         starterCode: `def myAtoi(s):`,
         approved: true,
         creatorId: 7,
+        creatorName: 'kiril',
         unitTests: [
             {
                 id: 19,
@@ -273,14 +281,15 @@ export const problemData: DeepPartial<Problem>[] = [
         id: 9,
         name: 'Palindrome Number',
         description: `
-        Given an integer x, return true if x is a palindrome integer.
+Given an integer x, return true if x is a palindrome integer.
 
-        An integer is a palindrome when it reads the same backward as forward. For example, 121 is palindrome while 123 is not.
+An integer is a palindrome when it reads the same backward as forward. For example, 121 is palindrome while 123 is not.
         `,
         difficulty: 'easy',
         starterCode: `def isPalindrome(x):`,
         approved: true,
         creatorId: 7,
+        creatorName: 'kiril',
         unitTests: [
             {
                 id: 22,
@@ -306,17 +315,18 @@ export const problemData: DeepPartial<Problem>[] = [
         id: 10,
         name: 'Regular Expression Matching',
         description: `
-        Given an input string s and a pattern p, implement regular expression matching with support for '.' and '*' where:
+Given an input string s and a pattern p, implement regular expression matching with support for '.' and '*' where:
 
-        - '.' Matches any single character.
-        - '*' Matches zero or more of the preceding element.
+- '.' Matches any single character.
+- '*' Matches zero or more of the preceding element.
 
-        The matching should cover the entire input string (not partial).
+The matching should cover the entire input string (not partial).
         `,
         difficulty: 'hard',
         starterCode: `def isMatch(s, p):`,
         approved: true,
         creatorId: 7,
+        creatorName: 'kiril',
         unitTests: [
             {
                 id: 25,

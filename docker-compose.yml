@@ -1,6 +1,7 @@
 version: '3.8'
 services:
   problem-ms:
+    container_name: problem-ms
     build: ./problem-microservice
     ports:
       - 3000:3000
@@ -8,7 +9,7 @@ services:
       - PORT=3000
       - DB_HOST=db
       - DB_NAME=problem-ms
-      - RABBITMQ_HOST=rabbitmq
+      - RABBITMQ_HOST=rabbitmq-e2e
     env_file:
       - .env.compose
     depends_on:
@@ -17,6 +18,7 @@ services:
     restart: always
   
   user-ms:
+    container_name: user-ms
     build: ./user-microservice
     ports:
       - 3001:3001
@@ -24,7 +26,7 @@ services:
       - PORT=3001
       - DB_HOST=db
       - DB_NAME=user-ms
-      - RABBITMQ_HOST=rabbitmq
+      - RABBITMQ_HOST=rabbitmq-e2e
     env_file:
       - .env.compose
     depends_on:
@@ -33,12 +35,13 @@ services:
     restart: always
 
   runner-ms:
+    container_name: runner-ms
     build: ./runner-microservice
     ports:
       - 3002:3002
     environment:
       - PORT=3002
-      - RABBITMQ_HOST=rabbitmq
+      - RABBITMQ_HOST=rabbitmq-e2e
     env_file:
       - .env.compose
     depends_on:
@@ -46,6 +49,7 @@ services:
     restart: always
   
   db:
+    container_name: db
     image: mysql
     ports:
       - 3306:3306
@@ -53,10 +57,25 @@ services:
       - MYSQL_ROOT_PASSWORD=root
 
   rabbitmq:
+    container_name: rabbitmq-e2e
     image: rabbitmq:3-management
     ports:
       - 5672:5672
       - 15672:15672
+
+  gateway:
+    container_name: gateway
+    build: ./gateway
+    environment:
+      - USER_MS=user-ms:3001
+      - PROBLEM_MS=problem-ms:3000
+      - RUNNER_MS=runner-ms:3002
+    depends_on:
+      - problem-ms
+      - user-ms
+      - runner-ms
+    ports:
+      - 8000:8000
 
 volumes:
   db_data:

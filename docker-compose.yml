@@ -76,6 +76,18 @@ services:
       - runner-ms
     ports:
       - 8000:8000
+    restart: always
+  
+  frontend:
+    container_name: cc-frontend
+    build:
+      context: ./frontend
+      args:
+        PORT: 3333
+        GATEWAY_URL: http://localhost:8000
+        GITHUB_CLIENT_ID: ffeb9e270b563c7ba883
+    ports:
+      - 3333:3333
 
 volumes:
   db_data:

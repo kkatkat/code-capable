@@ -5,8 +5,7 @@ export const problemData: DeepPartial<Problem>[] = [
     {
         id: 1,
         name: 'Two sum',
-        description: `
-Given an array of integers nums and an integer target, return indices of the two numbers such that they add up to target.
+        description: `Given an array of integers nums and an integer target, return indices of the two numbers such that they add up to target.
 
 You may assume that each input would have exactly one solution, and you may not use the same element twice.
 
@@ -14,9 +13,14 @@ You can return the answer in any order.
         `,
         difficulty: 'easy',
         starterCode: `def twoSum(nums, target):`,
-        approved: true,
+        approved: false,
         creatorId: 7,
         creatorName: 'kiril',
+        constraints:`- 2 <= nums.length <= 10^4
+- -10^9 <= nums[i] <= 10^9
+- -10^9 <= target <= 10^9
+- **Only one valid answer exists.**
+        `,
         unitTests: [
             {
                 id: 1,
@@ -41,8 +45,7 @@ You can return the answer in any order.
     {
         id: 2,
         name: 'Add Two Numbers',
-        description: `
-You are given two non-empty linked lists representing two non-negative integers. The digits are stored in reverse order, and each of their nodes contains a single digit. Add the two numbers and return the sum as a linked list.
+        description: `You are given two non-empty linked lists representing two non-negative integers. The digits are stored in reverse order, and each of their nodes contains a single digit. Add the two numbers and return the sum as a linked list.
 
 You may assume the two numbers do not contain any leading zero, except the number 0 itself.
         `,

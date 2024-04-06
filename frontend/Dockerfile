@@ -20,7 +20,7 @@ COPY . .
 RUN npm run build
 
 # Production stage
-FROM nginx:stable-alpine AS production
+FROM nginxinc/nginx-unprivileged:alpine AS production
 
 ARG PORT
 

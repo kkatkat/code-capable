@@ -5,10 +5,11 @@ export async function createDatabaseIfNotExist() {
     console.log('Creating database...')
 
     const connectionOptions = {...dataSourceOptions, database: 'mysql'};
-    const connection = await createConnection(connectionOptions as any);
-    const queryRunner = connection.createQueryRunner();
 
     try {
+        const connection = await createConnection(connectionOptions as any);
+        const queryRunner = connection.createQueryRunner();
+        
         await queryRunner.connect();
         await queryRunner.createDatabase(dataSourceOptions.database as string ?? 'problem-ms', true);
         await queryRunner.release();

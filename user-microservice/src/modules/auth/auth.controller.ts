@@ -36,7 +36,7 @@ export class AuthController {
     async deleteAccount(@Req() req: Request) {
         const user = req['user'] as JwtUser
 
-        this.problemMicroservice.emit<number>('user_deleted', user.id);
+        this.problemMicroservice.send<number>('user_deleted', user.id).subscribe();
 
         await this.sf.userService.delete({
             id: user.id

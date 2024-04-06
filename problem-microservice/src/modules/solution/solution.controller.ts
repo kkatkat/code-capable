@@ -1,7 +1,7 @@
 import { Controller, Delete, ForbiddenException, Get, NotFoundException, Param, Query, Req, UseGuards } from "@nestjs/common";
 import { SolutionService } from "./solution.service";
 import { Solution } from "./solution.entity";
-import { Ctx, EventPattern, Payload, RmqContext } from "@nestjs/microservices";
+import { Ctx, MessagePattern, Payload, RmqContext } from "@nestjs/microservices";
 import { AuthGuard } from "src/common/guards/auth-guard";
 import { JwtUser } from "src/common/jwt-user";
 import { Role } from "src/common/roles";
@@ -128,7 +128,7 @@ export class SolutionController {
         return this.solutionService.getUserStatistics(userId);
     }
 
-    @EventPattern('solution_submitted')
+    @MessagePattern('solution_submitted')
     async handleSolutionSubmitted(@Payload() submission: any, @Ctx() context: RmqContext) {
         const channel = context.getChannelRef();
         const originamMsg = context.getMessage();

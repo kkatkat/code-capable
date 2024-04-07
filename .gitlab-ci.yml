@@ -53,6 +53,7 @@ e2e:
   - echo "E2E job started..."
   - cd frontend
   - npm install
+  - npx playwright install --with-deps
   - npx playwright test
 
 

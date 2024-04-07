@@ -1,4 +1,4 @@
-import { Body, Controller, ImATeapotException, Inject, Param, Post, Req, UseGuards, forwardRef } from "@nestjs/common";
+import { Body, Controller, ForbiddenException, ImATeapotException, Inject, Param, Post, Req, UseGuards, forwardRef } from "@nestjs/common";
 import { AuthService } from "./auth.service";
 import { LoginRequest } from "./login-request.dto";
 import { UserCreateDTO } from "../user/user-create.dto";
@@ -36,11 +36,15 @@ export class AuthController {
     async deleteAccount(@Req() req: Request) {
         const user = req['user'] as JwtUser
 
-        this.problemMicroservice.send<number>('user_deleted', user.id).subscribe();
+        try {
+            await this.sf.userService.delete({
+                id: user.id
+            })
+        } catch (e) {
+            throw new ForbiddenException('Your account could not be deleted at this time. Please try again later.');
+        }
 
-        await this.sf.userService.delete({
-            id: user.id
-        })
+        this.problemMicroservice.send<number>('user_deleted', user.id).subscribe();
     }
 
     @UseGuards(AuthGuard)

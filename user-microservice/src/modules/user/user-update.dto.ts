@@ -16,4 +16,10 @@ export class UserUpdateDTO {
 
     @Allow()
     linkedInUsername?: string;
+
+    @Allow()
+    password?: string;
+
+    @Allow()
+    oldPassword?: string;
 }

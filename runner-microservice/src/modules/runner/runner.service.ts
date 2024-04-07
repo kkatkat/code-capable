@@ -51,7 +51,7 @@ export class RunnerService {
         userName: user.username,
       }
 
-      this.problemMicroservice.emit<SolutionSubmission>('solution_submitted', submission);
+      this.problemMicroservice.send<SolutionSubmission>('solution_submitted', submission).subscribe();
     }
 
     return result;

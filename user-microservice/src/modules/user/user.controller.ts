@@ -1,8 +1,9 @@
-import { Body, Controller, Get, NotFoundException, Param, Post, Put, Req, UseGuards } from "@nestjs/common";
+import { Body, Controller, ForbiddenException, Get, HttpCode, HttpStatus, NotFoundException, Param, Post, Put, Req, Res, UseGuards } from "@nestjs/common";
 import { UserService } from "./user.service";
 import { UserUpdateDTO } from "./user-update.dto";
 import { AuthGuard } from "src/common/guards/auth-guard";
 import { JwtUser } from "src/common/jwt-user";
+import { Response } from "express";
 
 
 @Controller('user')
@@ -24,8 +25,20 @@ export class UserController {
         return user;
     }
 
+    @UseGuards(AuthGuard)
     @Put()
-    async updateUser(@Body() body: UserUpdateDTO) {
+    async updateUser(@Body() body: UserUpdateDTO, @Req() req: Request) {
+        const user = req['user'] as JwtUser;
+
+        if (user.id !== body.id) {
+            throw new ForbiddenException();
+        }
+        
         this.userService.update(body);
+    }
+
+    @Get('/health')
+    async health(@Res() res: Response) {
+        res.status(HttpStatus.OK)
     }
 }

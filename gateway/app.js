@@ -1,12 +1,22 @@
 const express = require('express');
 const httpProxy = require('http-proxy');
+const { config } = require('dotenv'); 
+const { resolve } = require('path');
+const cors = require('cors');
+
+// load env
+config({ path: resolve(process.cwd(), '.env')});
 
 const app = express();
+app.use(cors());
+
 const proxy = httpProxy.createProxyServer({});
 
-const userMicroservice = 'http://localhost:3001';
-const problemMicroservice = 'http://localhost:3000';
-const runnerMicroservice = 'http://localhost:3002';
+const userMicroservice = 'http://' + process.env.USER_MS
+const problemMicroservice = 'http://' + process.env.PROBLEM_MS
+const runnerMicroservice = 'http://' + process.env.RUNNER_MS
+
+console.log(userMicroservice, problemMicroservice, runnerMicroservice);
 
 app.use('/u', (req, res) => {
     proxy.web(req, res, { target: userMicroservice });

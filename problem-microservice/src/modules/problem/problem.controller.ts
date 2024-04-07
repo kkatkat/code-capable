@@ -1,4 +1,4 @@
-import { BadRequestException, Body, Controller, Delete, ForbiddenException, Get, Inject, NotFoundException, Param, ParseIntPipe, Post, Put, Query, Req, UseGuards, forwardRef } from "@nestjs/common";
+import { BadRequestException, Body, Controller, Delete, ForbiddenException, Get, Inject, NotFoundException, Param, Post, Put, Query, Req, UseGuards, forwardRef } from "@nestjs/common";
 import { ProblemService } from "./problem.service";
 import { ProblemInputDTO } from "./problemInput.dto";
 import { Problem } from "./problem.entity";
@@ -6,7 +6,7 @@ import { ProblemUpdateDTO } from "./problemUpdate.dto";
 import { AuthGuard } from "src/common/guards/auth-guard";
 import { JwtUser } from "src/common/jwt-user";
 import { Role } from "src/common/roles";
-import { Ctx, EventPattern, MessagePattern, Payload, RmqContext, RpcException } from "@nestjs/microservices";
+import { Ctx, MessagePattern, Payload, RmqContext, RpcException } from "@nestjs/microservices";
 import { ServiceFactory } from "../factory/service-factory.service";
 import { Like } from "typeorm";
 import { JwtUserGuard } from "src/common/guards/jwt-user-guard";
@@ -205,7 +205,7 @@ export class ProblemController {
     this.problemService.update(problem);
   }
 
-  @EventPattern('user_deleted')
+  @MessagePattern('user_deleted')
   async handleUserDeleted(@Payload() data: any, @Ctx() context: RmqContext) {
     const channel = context.getChannelRef();
     const originalMsg = context.getMessage();

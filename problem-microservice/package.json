@@ -22,7 +22,8 @@
     "migration:generate": "npm run typeorm -- migration:generate",
     "migration:run": "npm run typeorm -- migration:run",
     "migration:revert": "npm run typeorm -- migration:revert",
-    "seed": "npx ts-node ./database/seeding/seed.ts"
+    "seed": "npx ts-node ./database/seeding/index.ts",
+    "db:create": "npx ts-node ./database/create-database/index.ts"
   },
   "dependencies": {
     "@nestjs/common": "^10.0.0",

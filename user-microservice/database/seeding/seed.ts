@@ -1,13 +1,11 @@
 import { dataSourceOptions } from "database/data-source";
-import { Problem } from "src/modules/problem/problem.entity";
-import { problemData } from "./problemData";
+import { User } from "src/modules/user/user.entity";
 import { DataSource } from "typeorm";
-import { UnitTest } from "src/modules/unit-test/unit-test.entity";
-import { Solution } from "src/modules/solution/solution.entity";
+import { userData } from "./userData";
 
 export async function seed() {
     const options = {...dataSourceOptions};
-    options.entities = [Problem, UnitTest, Solution];
+    options.entities = [User];
 
     const dataSource = new DataSource(options);
 
@@ -20,29 +18,28 @@ export async function seed() {
     }
 
     console.log('Start seeding');
-    
     try {
-        await seedProblems(dataSource);
+        await seedUsers(dataSource);
     } catch (e) {
         console.log('Error while seeding');
         console.error(e);
         process.exit(1);
     }
-
+    
     console.log('Seeding finished');
 
     await dataSource.close();
 }
 
-async function seedProblems(dataSource: DataSource) {
-    const problemRepo = dataSource.getRepository(Problem);
-    const count = await problemRepo.count();
+async function seedUsers(dataSource: DataSource) {
+    const userRepo = dataSource.getRepository(User);
+    const count = await userRepo.count();
 
     if (count > 0) {
-        console.log('- Not seeding problems, table is not empty');
+        console.log('- Not seeding users, table is not empty');
         return;
     }
 
-    await problemRepo.save(problemData);
-    console.log('- Problems seeded', problemData.length)
+    await userRepo.save(userData);
+    console.log('- Users seeded', userData.length)
 }

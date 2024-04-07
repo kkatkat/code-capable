@@ -21,7 +21,9 @@
     "typeorm": "npm run build && npx typeorm -d dist/database/data-source.js",
     "migration:generate": "npm run typeorm -- migration:generate",
     "migration:run": "npm run typeorm -- migration:run",
-    "migration:revert": "npm run typeorm -- migration:revert"
+    "migration:revert": "npm run typeorm -- migration:revert",
+    "seed": "npx ts-node ./database/seeding/index.ts",
+    "db:create": "npx ts-node ./database/create-database/index.ts"
   },
   "dependencies": {
     "@nestjs/common": "^10.0.0",
@@ -85,6 +87,9 @@
       "**/*.(t|j)s"
     ],
     "coverageDirectory": "../coverage",
-    "testEnvironment": "node"
+    "testEnvironment": "node",
+    "moduleNameMapper": {
+      "^src/(.*)$": "<rootDir>/$1"
+    }
   }
 }

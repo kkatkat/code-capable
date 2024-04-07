@@ -48,6 +48,7 @@ e2e:
   only:
   - main
   stage: e2e
+  image: "mcr.microsoft.com/playwright:v1.40.0-jammy"
   script:
   - echo "E2E job started..."
   - npm install -g @nestjs/cli

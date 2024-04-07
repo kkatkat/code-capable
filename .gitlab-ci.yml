@@ -22,6 +22,10 @@ build:
   - cd ../user-microservice
   - npm install
   - npm run build
+  # Frontend
+  - cd ../frontend
+  - npm install
+  - npm run build
 
 test:
   only:

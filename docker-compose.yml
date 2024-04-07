@@ -26,6 +26,7 @@ services:
       - DB_HOST=db
       - DB_NAME=user-ms
       - RABBITMQ_HOST=rabbitmq-e2e
+      - GITHUB_CLIENT_ID=ffeb9e270b563c7ba883
     env_file:
       - .env.compose
     depends_on:

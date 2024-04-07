@@ -1,6 +1,7 @@
 stages:
 - build
 - test
+- e2e
 
 build:
   only:
@@ -21,6 +22,10 @@ build:
   - cd ../user-microservice
   - npm install
   - npm run build
+  # Frontend
+  - cd ../frontend
+  - npm install
+  - npm run build
 
 test:
   only:
@@ -38,6 +43,18 @@ test:
   - cd ../user-microservice
   - npm install
   - npm run test
+
+e2e:
+  only:
+  - main
+  stage: e2e
+  script:
+  - echo "E2E job started..."
+  - npm install -g @nestjs/cli
+  - cd frontend
+  - npm install
+  - npx playwright install --with-deps
+  - npx playwright test
 
 
   

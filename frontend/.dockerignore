@@ -1,4 +1,9 @@
 node_modules
+dist
 .env
 .env.example
 .gitignore
+test-results
+playwright-report
+blob-report
+playwright/.cache

@@ -156,13 +156,13 @@ describe('UserService', () => {
       const foundUser = { id: 1, username: 'testuser' };
       const updatedUser = { ...userData };
 
-      jest.spyOn(userService, 'findOne').mockResolvedValue(foundUser as any);
+      jest.spyOn(userService, 'findOneFull').mockResolvedValue(foundUser as any);
       jest.spyOn(userRepository, 'save').mockResolvedValue(updatedUser as any);
 
       const result = await userService.update(userData);
 
       expect(result).toEqual(updatedUser);
-      expect(userService.findOne).toHaveBeenCalledWith({ where: { id: userData.id } });
+      expect(userService.findOneFull).toHaveBeenCalledWith({ where: { id: userData.id } });
       expect(userRepository.save).toHaveBeenCalledWith(updatedUser);
     });
 
@@ -173,10 +173,10 @@ describe('UserService', () => {
         linkedInUsername: 'testuser'
       };
 
-      jest.spyOn(userService, 'findOne').mockResolvedValue(null);
+      jest.spyOn(userService, 'findOneFull').mockResolvedValue(null);
 
       await expect(userService.update(userData)).rejects.toThrow(NotFoundException);
-      expect(userService.findOne).toHaveBeenCalledWith({ where: { id: userData.id } });
+      expect(userService.findOneFull).toHaveBeenCalledWith({ where: { id: userData.id } });
     });
 
     it('should throw a ConflictException if email or username is already taken', async () => {
@@ -187,13 +187,13 @@ describe('UserService', () => {
 
       const foundUser = { id: 1, username: 'testuser' };
 
-      jest.spyOn(userService, 'findOne').mockResolvedValue(foundUser as any);
+      jest.spyOn(userService, 'findOneFull').mockResolvedValue(foundUser as any);
       jest.spyOn(userRepository, 'save').mockImplementation(() => {
         throw new QueryFailedError('', [], new Error())
       });
 
       await expect(userService.update(userData)).rejects.toThrow(ConflictException);
-      expect(userService.findOne).toHaveBeenCalledWith({ where: { id: userData.id } });
+      expect(userService.findOneFull).toHaveBeenCalledWith({ where: { id: userData.id } });
     });
   });
 

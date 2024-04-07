@@ -74,6 +74,12 @@ export default function ProfilePage() {
 
     async function handleAccountUpdate() {
         if (!loggedUser) return;
+        if (newPassword) {
+            if (newPassword !== repeatedNewPassword) {
+                toast.error("New passwords don't match")
+                return;
+            }
+        }
 
         const body: UpdateProfileRequest = {
             id: loggedUser.id,

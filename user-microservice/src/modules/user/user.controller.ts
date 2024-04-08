@@ -34,7 +34,7 @@ export class UserController {
             throw new ForbiddenException();
         }
         
-        this.userService.update(body);
+        return this.userService.update(body);
     }
 
     @Get('/health')

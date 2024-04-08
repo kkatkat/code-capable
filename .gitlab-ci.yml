@@ -48,13 +48,15 @@ e2e:
   only:
   - main
   stage: e2e
-  image: "mcr.microsoft.com/playwright:v1.40.0-jammy"
+  variables:
+    DOCKER_HOST: tcp://docker:2375
+    DOCKER_TLS_CERTDIR: ""
+  image: docker:24.0.5-dind
   script:
   - echo "E2E job started..."
-  - cd frontend
-  - npm install
-  - npx playwright install --with-deps
-  - npx playwright test
-
+  - cp .env.compose.example .env.compose
+  - docker compose up -d
+  - docker exec playwright sh -c "npm install"
+  - docker exec playwright sh -c "npx playwright test"
 
   

@@ -1,4 +1,4 @@
-import { ConflictException, Inject, Injectable, NotFoundException, forwardRef } from "@nestjs/common";
+import { BadRequestException, ConflictException, ForbiddenException, Inject, Injectable, NotFoundException, forwardRef } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
 import { User, userFields } from "./user.entity";
 import { FindManyOptions, FindOneOptions, FindOptionsSelect, FindOptionsWhere, QueryFailedError, Repository } from "typeorm";
@@ -6,6 +6,7 @@ import { ServiceFactory } from "../factory/service-factory.service";
 import { UserCreateDTO } from "./user-create.dto";
 import { UserUpdateDTO } from "./user-update.dto";
 import { randomString } from "src/common/lib";
+import * as bcrypt from 'bcrypt';
 
 
 @Injectable()
@@ -66,7 +67,7 @@ export class UserService {
     }
 
     async update(userData: Partial<User> & UserUpdateDTO): Promise<User> {
-        const foundUser = await this.findOne({
+        const foundUser = await this.findOneFull({
             where: {
                 id: userData.id,
             }
@@ -78,8 +79,26 @@ export class UserService {
 
         const user: Partial<User> = userData;
 
+        if (userData.password) {
+            if (userData.password.length < 9) {
+                throw new BadRequestException('Please choose a stronger password');
+            }
+
+            if (!userData.oldPassword) {
+                throw new BadRequestException('Please write your current password');
+            }
+            
+            if (!bcrypt.compare(userData.password, foundUser.password)) {
+                throw new ForbiddenException('Wrong current password');
+            }
+
+            user.password = await this.sf.authService.hashPassword(userData.password);
+        }
+
         try {
-            return this.userRepo.save(user);
+            const savedUser = await this.userRepo.save(user);
+            delete savedUser.password
+            return savedUser;
         } catch (error) {
             if (error instanceof QueryFailedError) {
                 throw new ConflictException('Email or username already taken');

@@ -8,6 +8,7 @@ import { LoginResponse } from "./login-response.dto";
 import { ConfigService } from "@nestjs/config";
 import { UserCreateDTO } from "../user/user-create.dto";
 import * as bcrypt from 'bcrypt';
+import { Equal } from "typeorm";
 
 
 
@@ -33,6 +34,10 @@ export class AuthService {
 
         if (!user.password) {
             throw new UnauthorizedException('Please login with your provider')
+        }
+
+        if (user.username !== body.username) {
+            throw new UnauthorizedException('Wrong username or password');
         }
 
         const passwordsMatch = await bcrypt.compare(body.password, user.password);

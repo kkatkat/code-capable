@@ -13,6 +13,16 @@ export type RegisterRequest = {
     acceptedTermsAndConditions?: boolean;
 }
 
+export type UpdateProfileRequest = {
+    id: number;
+    pfp?: string;
+    bio?: string;
+    gitHubUsername?: string;
+    linkedInUsername?: string;
+    password?: string;
+    oldPassword?: string
+}
+
 
 export function login(request: {username: string, password: string}) {
     return axios.post('/u/auth/login', request).then((res: {data: LoginResponse}) => res.data);
@@ -32,4 +42,12 @@ export function getUserById(id: number) {
 
 export function gitHubLogin(code: string) {
     return axios.post(`/u/auth/github/token/${code}`).then((res) => res.data)
+}
+
+export function deleteOwnAccount() {
+    return axios.post(`/u/auth/delete-account`).then(() => true);
+}
+
+export function updateProfile(body: UpdateProfileRequest) {
+    return axios.put(`/u/user`, body).then((res) => res.data);
 }

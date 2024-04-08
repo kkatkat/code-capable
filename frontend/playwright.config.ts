@@ -31,8 +31,8 @@ export default defineConfig({
   /* Configure projects for major browsers */
   projects: [
     {
-      name: 'chromium',
-      use: { ...devices['Desktop Chrome'] },
+      name: 'init',
+      testMatch: 'init.spec.ts',
     }
 
     /* Test against mobile viewports. */

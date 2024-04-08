@@ -49,8 +49,8 @@ e2e:
   - main
   stage: e2e
   variables:
-  - DOCKER_HOST: tcp://docker:2375
-  - DOCKER_TLS_CERTDIR: ""
+    DOCKER_HOST: tcp://docker:2375
+    DOCKER_TLS_CERTDIR: ""
   image: docker:24.0.5-dind
   script:
   - echo "E2E job started..."

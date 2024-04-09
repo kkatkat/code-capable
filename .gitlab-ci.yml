@@ -66,6 +66,7 @@ e2e:
   - docker compose up -d
   - docker exec playwright sh -c "pwd"
   - docker exec playwright sh -c "ls"
+  - sleep 15
   - docker exec playwright sh -c "npm install"
   - docker exec playwright sh -c "npx playwright test"
 

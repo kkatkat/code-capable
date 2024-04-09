@@ -10,8 +10,6 @@ variables:
 build:
   only:
   - main
-  when:
-  - never
   stage: build
   script:
   - echo "Build job started..."

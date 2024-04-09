@@ -50,9 +50,9 @@ e2e:
   only:
   - main
   stage: e2e
-  # variables:
-  #   DOCKER_HOST: tcp://docker:2375
-  #   DOCKER_TLS_CERTDIR: ""
+  variables:
+    DOCKER_HOST: tcp://docker:2375
+    DOCKER_TLS_CERTDIR: ""
   image: docker
   services:
     - docker:dind
@@ -66,7 +66,6 @@ e2e:
   - docker compose up -d
   - docker exec playwright sh -c "pwd"
   - docker exec playwright sh -c "ls"
-  - sleep 15
   - docker exec playwright sh -c "npm install"
   - docker exec playwright sh -c "npx playwright test"
 

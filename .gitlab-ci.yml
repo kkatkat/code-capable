@@ -50,12 +50,12 @@ e2e:
   only:
   - main
   stage: e2e
-  variables:
-    DOCKER_HOST: tcp://docker:2375
-    DOCKER_TLS_CERTDIR: ""
-  image: docker:24.0.5
+  # variables:
+  #   DOCKER_HOST: tcp://docker:2375
+  #   DOCKER_TLS_CERTDIR: ""
+  image: docker
   services:
-    - docker:24.0.5-dind
+    - docker:dind
   script:
   - echo "E2E job started..."
   - cp .env.compose.example .env.compose

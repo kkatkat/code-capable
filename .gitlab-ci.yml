@@ -51,7 +51,7 @@ e2e:
   - main
   stage: e2e
   variables:
-    DOCKER_HOST: tcp://docker:2375
+    DOCKER_HOST: tcp://localhost:2375
     DOCKER_TLS_CERTDIR: ""
   image: docker
   services:

@@ -8,6 +8,7 @@ variables:
   DOCKER_TLS_CERTDIR: ""
 
 build:
+  image: node:21
   only:
   - main
   stage: build
@@ -32,6 +33,7 @@ build:
   - npm run build
 
 test:
+  image: node:21
   only:
   - main
   stage: test

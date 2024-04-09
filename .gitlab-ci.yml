@@ -59,8 +59,13 @@ e2e:
   script:
   - echo "E2E job started..."
   - cp .env.compose.example .env.compose
+  - cd frontend
+  - ls
+  - cd ..
+  - docker compose down -v
   - docker compose up -d
-  - echo "We are here"
+  - docker exec playwright sh -c "pwd"
+  - docker exec playwright sh -c "ls"
   - docker exec playwright sh -c "npm install"
   - docker exec playwright sh -c "npx playwright test"
 

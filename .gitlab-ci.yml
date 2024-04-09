@@ -7,7 +7,7 @@ variables:
   DOCKER_HOST: tcp://docker:2375
   DOCKER_TLS_CERTDIR: ""
 
-.build:
+build:
   only:
   - main
   when:
@@ -33,7 +33,7 @@ variables:
   - npm install
   - npm run build
 
-.test:
+test:
   only:
   - main
   stage: test
@@ -60,13 +60,10 @@ e2e:
   script:
   - echo "E2E job started..."
   - cp .env.compose.example .env.compose
-  - cd frontend
-  - ls
-  - cd ..
-  - docker compose down -v
+  - docker compose down -v # clear any cached volumes
   - docker compose up -d
-  - docker exec playwright sh -c "pwd"
-  - docker exec playwright sh -c "ls"
+  - docker exec playwright sh -c "pwd" # Verify that the playwright container
+  - docker exec playwright sh -c "ls"  # properly mounted the frontend directory
   - docker exec playwright sh -c "npm install"
   - docker exec playwright sh -c "npx playwright test"
 

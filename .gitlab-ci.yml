@@ -56,7 +56,8 @@ e2e:
   - echo "E2E job started..."
   - cp .env.compose.example .env.compose
   - docker compose up -d
-  - docker exec playwright sh -c "npm install"
-  - docker exec playwright sh -c "npx playwright test"
+  - sleep 60
+  - docker compose exec playwright sh -c "npm install"
+  - docker compose exec playwright sh -c "npx playwright test"
 
   

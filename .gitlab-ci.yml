@@ -61,7 +61,7 @@ e2e:
   - cp .env.compose.example .env.compose
   - docker compose up -d
   - echo "We are here"
-  - docker compose exec playwright sh -c "npm install"
-  - docker compose exec playwright sh -c "npx playwright test"
+  - docker exec playwright sh -c "npm install"
+  - docker exec playwright sh -c "npx playwright test"
 
   

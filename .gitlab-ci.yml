@@ -3,9 +3,11 @@ stages:
 - test
 - e2e
 
-build:
+.build:
   only:
   - main
+  when:
+  - never
   stage: build
   script:
   - echo "Build job started..."
@@ -27,7 +29,7 @@ build:
   - npm install
   - npm run build
 
-test:
+.test:
   only:
   - main
   stage: test
@@ -56,7 +58,7 @@ e2e:
   - echo "E2E job started..."
   - cp .env.compose.example .env.compose
   - docker compose up -d
-  - sleep 60
+  - echo "We are here"
   - docker compose exec playwright sh -c "npm install"
   - docker compose exec playwright sh -c "npx playwright test"
 

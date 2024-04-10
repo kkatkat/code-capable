@@ -123,10 +123,10 @@ export default function ProblemsPage({fullWidth, creatorId, topMargin, hideSearc
                                         </div>
                                     }
                                     <div>
-                                        <button className="btn btn-light text-primary border-0 btn-sm me-2" onClick={handleFilterClick}><i className="bi bi-funnel me-1"></i>Filter</button>
+                                        <button className="btn btn-light text-primary border-0 btn-sm me-2" onClick={handleFilterClick} data-testid='filter-button'><i className="bi bi-funnel me-1"></i>Filter</button>
                                     </div>
                                     <div>
-                                        <button className="btn btn-light text-danger border-0 btn-sm" onClick={handleClearClick}><i className="bi bi-backspace me-1"></i>Clear</button>
+                                        <button className="btn btn-light text-danger border-0 btn-sm" onClick={handleClearClick} data-testid='filter-clear-button'><i className="bi bi-backspace me-1"></i>Clear</button>
                                     </div>
                                 </div>
                                 <div>
@@ -138,7 +138,7 @@ export default function ProblemsPage({fullWidth, creatorId, topMargin, hideSearc
                         </form>
                     </div>
                 </div>
-                <div className="row gx-2">
+                <div className="row gx-2" id='problems-container'>
                     {
                         problems.length === 0 ?
                         <div className="text-center">

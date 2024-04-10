@@ -195,7 +195,7 @@ export default function ProfilePage() {
                                             editing ?
                                                 <button className="btn btn-danger shadow-sm border btn-sm w-100" onClick={() => {setEditing(false); resetForm();}}><i className="bi bi-x-circle me-2"></i>Cancel</button>
                                                 :
-                                                <button className="btn btn-light shadow-sm border btn-sm w-100" onClick={() => setDataOverviewDialogOpen(true)}><i className="bi bi-person-lock me-2"></i>My data overview</button>
+                                                <button className="btn btn-light shadow-sm border btn-sm w-100" onClick={() => setDataOverviewDialogOpen(true)} data-testid='data-overview-button'><i className="bi bi-person-lock me-2"></i>My data overview</button>
                                         }
                                     </div>
                                 </div>

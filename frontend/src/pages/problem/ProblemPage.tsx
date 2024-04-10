@@ -185,11 +185,11 @@ export function ProblemPage() {
                             }
                             {
                                 (loggedUser?.role === 'admin' && problem?.approved === false) &&
-                                <button className="btn btn-outline-light text-success border-0 btm-sm me-2" onClick={handleApprove}><i className="bi bi-check-circle me-2"></i>Approve</button>
+                                <button className="btn btn-outline-light text-success border-0 btm-sm me-2" onClick={handleApprove} data-testid='approve-problem'><i className="bi bi-check-circle me-2"></i>Approve</button>
                             }
                             {
                                 (loggedUser?.role === 'admin' || loggedUser?.id === problem?.creatorId) &&
-                                <button className="btn btn-outline-light text-danger border-0 btm-sm" onClick={() => { setConfirmDeleteDialogOpen(true) }}><i className="bi bi-x-circle me-2"></i>Delete</button>
+                                <button className="btn btn-outline-light text-danger border-0 btm-sm" onClick={() => { setConfirmDeleteDialogOpen(true) }} data-testid='delete-problem'><i className="bi bi-x-circle me-2"></i>Delete</button>
                             }
                         </div>
                         <div className="d-flex justify-content-center align-items-center">

@@ -7,7 +7,7 @@ export default function ProblemCard({ problem }: { problem: Problem }) {
     const nav = useNavigate();
 
     return (
-        <button className="card shadow-sm mb-2 w-100 hoverable-card" onClick={() => nav(`/problem/${problem.id}`)}>
+        <button className="card shadow-sm mb-2 w-100 hoverable-card" onClick={() => nav(`/problem/${problem.id}`)} data-testid='problem-card'>
             <div className="card-body py-1 w-100">
                 <div className="small d-flex justify-content-between">
                     <div>

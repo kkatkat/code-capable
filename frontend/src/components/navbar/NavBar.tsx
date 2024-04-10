@@ -84,13 +84,13 @@ const handleSearch = (e: any) => {
                     <li><Link to="/adminpanel" className="dropdown-item">Admin panel</Link></li>
                   }
                   <li><hr className="dropdown-divider" /></li>
-                  <li><a onClick={logOut} className="dropdown-item" href="#"><i className="bi bi-box-arrow-left me-2"></i>Sign out</a></li>
+                  <li><a onClick={logOut} className="dropdown-item" href="#" data-testid='signout-button'><i className="bi bi-box-arrow-left me-2"></i>Sign out</a></li>
                 </ul>
               </div>
             }
             {
               !loggedUser && <>
-                <Link to='/login' className="btn text-primary border-0 ms-2"><i className="bi bi-box-arrow-in-right me-2"></i>Login</Link>
+                <Link to='/login' className="btn text-primary border-0 ms-2" data-testid='login-button'><i className="bi bi-box-arrow-in-right me-2"></i>Login</Link>
                 <Link to='/signUp' className="btn btn-primary ms-2 border-0">Sign up</Link>
               </>
             }

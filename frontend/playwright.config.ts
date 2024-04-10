@@ -18,6 +18,7 @@ export default defineConfig({
   workers: 1,
   /* Reporter to use. See https://playwright.dev/docs/test-reporters */
   reporter: 'list',
+  timeout: 60000,
   /* Shared settings for all the projects below. See https://playwright.dev/docs/api/class-testoptions. */
   use: {
     /* Base URL to use in actions like `await page.goto('/')`. */
@@ -36,19 +37,16 @@ export default defineConfig({
     {
       name: 'init',
       testMatch: 'init.spec.ts',
-      use: { ...devices['Desktop Chrome'] }
     },
     {
         name: 'auth',
         testDir: './tests/auth',
-        use: { ...devices['Desktop Chrome'] }
-
+        dependencies: ['init']
     },
     {
         name: 'problem',
         testDir: './tests/problem',
-        use: { ...devices['Desktop Chrome'] }
-
+        dependencies: ['init']
     }
 
     /* Test against mobile viewports. */

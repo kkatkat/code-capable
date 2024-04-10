@@ -1,6 +1,6 @@
 import test, { Page } from "@playwright/test";
 
-//test.describe.configure({ mode: 'serial' })
+test.describe.configure({ mode: 'serial' })
 
 let page: Page;
 

@@ -40,15 +40,22 @@ test:
   script:
   - echo "Test job started..."
   - npm install -g @nestjs/cli
+  # Problem microservice
   - cd problem-microservice
   - npm install
   - npm run test
+  - npm run test:cov
+  # Runner microservice
   - cd ../runner-microservice
   - npm install
   - npm run test
+  - npm run test:cov
+  # User microservice
   - cd ../user-microservice
   - npm install
   - npm run test
+  - npm run test:cov
+
 
 e2e:
   only:

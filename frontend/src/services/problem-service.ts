@@ -70,3 +70,7 @@ export function getUserStatistics(userId: number) {
 export function getSolutionsForUser(userId: number, page?: number) {
     return axios.get(`/p/solution/user/${userId}?page=${page}`).then((res) => res.data as Paginated<Solution>)
 }
+
+export function deleteSolution(id: number) {
+    return axios.delete(`/p/solution/${id}`).then(() => true);
+}

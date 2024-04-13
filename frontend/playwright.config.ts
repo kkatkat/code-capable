@@ -47,6 +47,16 @@ export default defineConfig({
         name: 'problem',
         testDir: './tests/problem',
         dependencies: ['init']
+    },
+    {
+        name: 'running',
+        testDir: './tests/running',
+        dependencies: ['init']
+    },
+    {
+        name: 'profile',
+        testDir: './tests/profile',
+        dependencies: ['init']
     }
 
     /* Test against mobile viewports. */

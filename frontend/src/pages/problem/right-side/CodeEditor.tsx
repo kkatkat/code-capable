@@ -1,6 +1,7 @@
 import { Editor } from "@monaco-editor/react";
 import { Problem } from "../../../entities/problem";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
+import { UserContext } from "../../../UserProvider";
 
 export type CodeEditorProps = {
     problem: Problem | undefined;
@@ -16,12 +17,18 @@ export type CodeEditorProps = {
 export function CodeEditor({ problem, running, output, error, codeValue, setCodeValue, success }: CodeEditorProps) {
     
     const [currentLowerView, setCurrentLowerView] = useState<'tests' | 'output'>('tests');
+    const {loggedUser} = useContext(UserContext);
 
     function formatTests(): string {
         let tests = '';
 
         if (problem?.unitTests) {
             problem?.unitTests.forEach((test, index) => {
+                if (loggedUser?.role === 'admin') {
+                    tests += `${test.visible ? '' : '[HIDDEN]'} ${test.code}${index !== problem.unitTests.length - 1 ? '\n\n' : ''}`
+                    return;
+                }
+
                 if (test.visible) {
                     tests += `${test.code}${index !== problem.unitTests.length - 1 ? '\n\n' : ''}`
                 }
@@ -94,7 +101,7 @@ export function CodeEditor({ problem, running, output, error, codeValue, setCode
                             }
                             {
                                 !running && success &&
-                                <button className={`btn btn-light text-success fw-bold border-0 btn-sm me-1`} disabled><i className="bi bi-check-circle me-1"></i>All test cases passed</button>
+                                <button className={`btn btn-light text-success fw-bold border-0 btn-sm me-1`} disabled data-testid='success-button'><i className="bi bi-check-circle me-1"></i>All test cases passed</button>
                             }
                         </div>
                     </div>

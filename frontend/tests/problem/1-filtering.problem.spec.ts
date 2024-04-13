@@ -33,6 +33,7 @@ test('Search problems', async () => {
     await page.getByPlaceholder('Search', { exact: true }).click();
     await page.getByPlaceholder('Search', { exact: true }).fill('atoi');
     await page.getByTestId('filter-button').click();
+    await page.waitForTimeout(3000);
     
     const problemsAmount = await page.$$eval('.hoverable-card', elements => elements.length);
     expect(problemsAmount).toBe(1);

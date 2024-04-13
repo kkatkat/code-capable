@@ -230,7 +230,7 @@ export default function ProfilePage() {
                             <div className="card shadow-sm mt-lg-0 mt-2" style={{ minHeight: '85vh' }}>
                                 <div className="card-header bg-white p-1">
                                     <button className={`btn btn-light text-secondary border-0 btn-sm ${currentView === 'problems' ? 'btn-active' : ''} me-1`} onClick={() => { setCurrentView('problems') }}><i className="bi bi-file-earmark-text me-1"></i>Created problems</button>
-                                    <button className={`btn btn-light text-secondary border-0 btn-sm ${currentView === 'solutions' ? 'btn-active' : ''} me-1`} onClick={() => { setCurrentView('solutions') }}><i className="bi bi-lightbulb me-1"></i>Solutions</button>                            </div>
+                                    <button className={`btn btn-light text-secondary border-0 btn-sm ${currentView === 'solutions' ? 'btn-active' : ''} me-1`} onClick={() => { setCurrentView('solutions') }} data-testid='solutions-view-button'><i className="bi bi-lightbulb me-1"></i>Solutions</button>                            </div>
                                 <div className="card-body">
                                     {
                                         currentView === 'solutions' && id &&

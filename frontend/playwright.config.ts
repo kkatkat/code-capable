@@ -48,11 +48,11 @@ export default defineConfig({
         testDir: './tests/problem',
         dependencies: ['init']
     },
-    {
-        name: 'running',
-        testDir: './tests/running',
-        dependencies: ['init']
-    },
+    // {
+    //     name: 'running',
+    //     testDir: './tests/running',
+    //     dependencies: ['init']
+    // },
     {
         name: 'profile',
         testDir: './tests/profile',

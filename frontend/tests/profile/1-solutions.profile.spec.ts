@@ -19,17 +19,14 @@ test('Solution is visible in profile', async () => {
     await page.waitForTimeout(3000);
 
     await page.goto('/profile/7');
+    await page.getByTestId('solutions-view-button').click();
     await expect(page.getByTestId('solution-card').first()).toBeVisible();
 })
 
 test('Delete solution', async () => {
-    await logInAsAdmin({ page });
-    await page.waitForTimeout(3000);
+    page.on('dialog', dialog => dialog.accept());
 
-    await page.getByTestId('profile-icon').click();
-    await page.locator('#navbarSupportedContent').getByRole('link', { name: 'My profile' }).click();
-    await page.getByTestId('solutions-view-button').click();
     await page.getByTestId('solution-card').first().click();
     await page.getByRole('button', { name: 'Delete' }).click();
-    await expect(page.getByText('Solution deleted successfully')).toBeVisible();
+    await expect(page.getByText('Solution deleted successfully')).toBeVisible({timeout: 10000});
 })

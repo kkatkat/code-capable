@@ -1,8 +1,10 @@
 import axios from "axios";
 
-const instance = axios.create({
-  baseURL: import.meta.env.VITE_GATEWAY_URL,
-});
+const gatewayUrl = import.meta.env.VITE_GATEWAY_URL;
+
+const instance = gatewayUrl ? axios.create({
+  baseURL: import.meta.env.VITE_GATEWAY_URL
+}) : axios.create();
 
 instance.interceptors.request.use(function (config) {
     const token = window.localStorage.getItem('accessToken');

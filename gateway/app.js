@@ -19,14 +19,17 @@ const runnerMicroservice = 'http://' + process.env.RUNNER_MS
 console.log(userMicroservice, problemMicroservice, runnerMicroservice);
 
 app.use('/u', (req, res) => {
+    req.url = '/u' + req.url;
     proxy.web(req, res, { target: userMicroservice });
 })
 
 app.use('/p', (req, res) => {
+    req.url = '/p' + req.url; 
     proxy.web(req, res, { target: problemMicroservice });
 })
 
 app.use('/r', (req, res) => {
+    req.url = '/r' + req.url;
     proxy.web(req, res, { target: runnerMicroservice });
 })
 

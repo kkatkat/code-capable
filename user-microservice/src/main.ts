@@ -15,6 +15,7 @@ async function bootstrap() {
 
     const app = await NestFactory.create(AppModule);
     app.enableCors();
+    app.setGlobalPrefix('u');
     const config = app.get(ConfigService);
 
     app.useGlobalPipes(new ValidationPipe({

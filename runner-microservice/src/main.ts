@@ -6,6 +6,7 @@ import { ConfigService } from '@nestjs/config';
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
   app.enableCors();
+  app.setGlobalPrefix('r');
   const config = app.get(ConfigService);
 
   app.useGlobalPipes(new ValidationPipe({

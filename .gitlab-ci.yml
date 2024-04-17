@@ -2,12 +2,13 @@ stages:
 - build
 - test
 - e2e
+- build_images
 
 variables:
   DOCKER_HOST: tcp://docker:2375
   DOCKER_TLS_CERTDIR: ""
 
-build:
+.build:
   image: node:21
   only:
   - main
@@ -32,7 +33,7 @@ build:
   - npm install
   - npm run build
 
-test:
+.test:
   image: node:21
   only:
   - main
@@ -57,7 +58,7 @@ test:
   - npm run test:cov
 
 
-e2e:
+.e2e:
   only:
   - main
   stage: e2e
@@ -73,5 +74,22 @@ e2e:
   - docker exec playwright sh -c "ls"  # properly mounted the frontend directory
   - docker exec playwright sh -c "npm install"
   - docker exec playwright sh -c "npx playwright test"
+
+build_images:
+  only:
+  - main
+  stage: build_images
+  image: docker
+  services:
+    - docker:dind
+  script:
+  - echo "Build docker images job started..."
+  - cd frontend
+  - docker build -t $DOCKER_USER/frontend --build-arg PORT=3333 --build-arg GITHUB_CLIENT_ID=$GITHUB_CLIENT_ID --build-arg GATEWAY_URL=http://localhost:8000 .
+  - docker login -u $DOCKER_USER -p $DOCKER_TOKEN
+  - docker push $DOCKER_USER/frontend
+  # - docker build -t problem-ms ./problem-microservice
+  # - docker build -t runner-ms ./runner-microservice
+  # - docker build -t user-ms ./user-microservice
 
   

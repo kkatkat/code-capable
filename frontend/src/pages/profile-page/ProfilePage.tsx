@@ -195,7 +195,7 @@ export default function ProfilePage() {
                                             editing ?
                                                 <button className="btn btn-danger shadow-sm border btn-sm w-100" onClick={() => {setEditing(false); resetForm();}}><i className="bi bi-x-circle me-2"></i>Cancel</button>
                                                 :
-                                                <button className="btn btn-light shadow-sm border btn-sm w-100" onClick={() => setDataOverviewDialogOpen(true)}><i className="bi bi-person-lock me-2"></i>My data overview</button>
+                                                <button className="btn btn-light shadow-sm border btn-sm w-100" onClick={() => setDataOverviewDialogOpen(true)} data-testid='data-overview-button'><i className="bi bi-person-lock me-2"></i>My data overview</button>
                                         }
                                     </div>
                                 </div>
@@ -230,7 +230,7 @@ export default function ProfilePage() {
                             <div className="card shadow-sm mt-lg-0 mt-2" style={{ minHeight: '85vh' }}>
                                 <div className="card-header bg-white p-1">
                                     <button className={`btn btn-light text-secondary border-0 btn-sm ${currentView === 'problems' ? 'btn-active' : ''} me-1`} onClick={() => { setCurrentView('problems') }}><i className="bi bi-file-earmark-text me-1"></i>Created problems</button>
-                                    <button className={`btn btn-light text-secondary border-0 btn-sm ${currentView === 'solutions' ? 'btn-active' : ''} me-1`} onClick={() => { setCurrentView('solutions') }}><i className="bi bi-lightbulb me-1"></i>Solutions</button>                            </div>
+                                    <button className={`btn btn-light text-secondary border-0 btn-sm ${currentView === 'solutions' ? 'btn-active' : ''} me-1`} onClick={() => { setCurrentView('solutions') }} data-testid='solutions-view-button'><i className="bi bi-lightbulb me-1"></i>Solutions</button>                            </div>
                                 <div className="card-body">
                                     {
                                         currentView === 'solutions' && id &&

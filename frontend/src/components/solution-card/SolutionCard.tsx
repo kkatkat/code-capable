@@ -10,7 +10,7 @@ export default function SolutionCard({ solution, problem }: { solution: Solution
 
     return (
         <>
-            <button className="card shadow-sm mb-2 w-100 hoverable-card" onClick={() => setShowDialog(true)}>
+            <button className="card shadow-sm mb-2 w-100 hoverable-card" onClick={() => setShowDialog(true)} data-testid='solution-card'>
                 <div className="card-body py-1 w-100">
                     <div className="small d-flex justify-content-between">
                         <div>

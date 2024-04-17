@@ -8,6 +8,9 @@ import { Editor } from "@monaco-editor/react";
 import defaultPfp from '../../assets/user.png';
 import { Problem } from "../../entities/problem";
 import { UserContext } from "../../UserProvider";
+import { deleteSolution } from "../../services/problem-service";
+import { AxiosError } from "axios";
+import { toast } from "react-toastify";
 
 export type SolutionDialogProps = {
     solution: Solution,
@@ -29,6 +32,17 @@ export default function SolutionDialog({ solution, open, onClose, problem }: Sol
         await getUserById(solution.userId).then((user) => {
             setUser(user);
         })
+    }
+
+    async function handleDeleteSolution() {
+        if (window.confirm('Are you sure you want to delete this solution?')) {
+            await deleteSolution(solution.id).then(() => {
+                onClose();
+                toast.success('Solution deleted successfully');
+            }).catch((err: AxiosError<{message?: string}>) => {
+                toast.error(err.response?.data.message ?? 'An error occurred while deleting the solution');
+            })
+        }
     }
 
     useEffect(() => {
@@ -61,6 +75,12 @@ export default function SolutionDialog({ solution, open, onClose, problem }: Sol
                 </div>
             </DialogContent>
             <DialogActions>
+                {
+                    user?.id === loggedUser?.id &&
+                    <button className="btn btn-light text-danger" onClick={handleDeleteSolution}>
+                        Delete
+                    </button>
+                }
                 <button className="btn btn-light text-secondary" onClick={onClose}>
                     Close
                 </button>

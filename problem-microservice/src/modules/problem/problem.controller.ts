@@ -221,6 +221,7 @@ export class ProblemController {
   async handleGetProblem(@Payload() data: number, @Ctx() context: RmqContext) {
     const channel = context.getChannelRef();
     const originalMsg = context.getMessage();
+    console.log('get_problem message received, fetching data for:', data)
 
     const problem = await this.problemService.findOne({
       where: {

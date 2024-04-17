@@ -8,7 +8,7 @@ variables:
   DOCKER_HOST: tcp://docker:2375
   DOCKER_TLS_CERTDIR: ""
 
-.build:
+build:
   image: node:21
   only:
   - main
@@ -33,7 +33,7 @@ variables:
   - npm install
   - npm run build
 
-.test:
+test:
   image: node:21
   only:
   - main
@@ -58,7 +58,7 @@ variables:
   - npm run test:cov
 
 
-.e2e:
+e2e:
   only:
   - main
   stage: e2e

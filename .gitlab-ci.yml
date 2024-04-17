@@ -84,12 +84,23 @@ build_images:
     - docker:dind
   script:
   - echo "Build docker images job started..."
-  - cd frontend
-  - docker build -t $DOCKER_USER/frontend --build-arg PORT=3333 --build-arg GITHUB_CLIENT_ID=$GITHUB_CLIENT_ID --build-arg GATEWAY_URL=http://localhost:8000 .
   - docker login -u $DOCKER_USER -p $DOCKER_TOKEN
+  # Frontend
+  - cd frontend
+  - docker build -t $DOCKER_USER/frontend --build-arg PORT=3333 --build-arg GITHUB_CLIENT_ID=$GITHUB_CLIENT_ID .
   - docker push $DOCKER_USER/frontend
-  # - docker build -t problem-ms ./problem-microservice
-  # - docker build -t runner-ms ./runner-microservice
-  # - docker build -t user-ms ./user-microservice
+  # Problem microservice
+  - cd ../problem-microservice
+  - docker build -t $DOCKER_USER/problem-ms .
+  - docker push $DOCKER_USER/problem-ms
+  # Runner microservice
+  - cd ../runner-microservice
+  - docker build -t $DOCKER_USER/runner-ms .
+  - docker push $DOCKER_USER/runner-ms
+  # User microservice
+  - cd ../user-microservice
+  - docker build -t $DOCKER_USER/user-ms .
+  - docker push $DOCKER_USER/user-ms
+
 
   

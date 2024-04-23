@@ -41,6 +41,7 @@ services:
     environment:
       - PORT=3002
       - RABBITMQ_HOST=rabbitmq-e2e
+      - USE_JUDGE=false
     env_file:
       - .env.compose
     depends_on:

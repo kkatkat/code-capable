@@ -28,7 +28,7 @@ spec:
             value: "3002"
           - name: RABBITMQ_HOST
             value: rabbitmq-service
-          - name: RABBITMQ_POST
+          - name: RABBITMQ_PORT
             value: "5672"
           - name: JWT_PUBLIC_KEY
             valueFrom:

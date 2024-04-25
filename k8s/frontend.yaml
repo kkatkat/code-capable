@@ -1,0 +1,49 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: frontend-deployment
+  namespace: codecapable
+  labels:
+    app: frontend
+    version: "1.0"
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: frontend
+  template:
+    metadata:
+      labels:
+        app: frontend
+        version: "1.0"
+    spec:
+      containers:
+      - name: frontend-container
+        image: kkatsarski/frontend
+        imagePullPolicy: Always
+        ports:
+          - containerPort: 3333
+        resources:
+          limits:
+            cpu: 300m
+            memory: 512Mi
+          requests:
+            cpu: 100m
+            memory: 256Mi
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: frontend
+  name: frontend-service
+  namespace: codecapable
+spec:
+  ports:
+    - name: http
+      port: 3333
+      targetPort: 3333
+  selector:
+    app: frontend

@@ -33,6 +33,7 @@
     "@types/jsonwebtoken": "^9.0.6",
     "amqp-connection-manager": "^4.1.14",
     "amqplib": "^0.10.3",
+    "axios": "^1.6.8",
     "class-transformer": "^0.5.1",
     "class-validator": "^0.14.1",
     "ioredis": "^5.3.2",
@@ -84,7 +85,7 @@
     "coverageDirectory": "../coverage",
     "testEnvironment": "node",
     "moduleNameMapper": {
-        "^src/(.*)$": "<rootDir>/$1"
-      }
+      "^src/(.*)$": "<rootDir>/$1"
+    }
   }
 }

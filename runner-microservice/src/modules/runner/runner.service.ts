@@ -1,4 +1,4 @@
-import { ForbiddenException, Inject, Injectable } from '@nestjs/common';
+import { ForbiddenException, Inject, Injectable, ServiceUnavailableException } from '@nestjs/common';
 import { RunResponse } from './runResponse.dto';
 import {PythonShell} from 'python-shell';
 import { Problem, SolutionSubmission, UnitTest } from 'src/common/types';
@@ -6,12 +6,15 @@ import { ClientProxy } from '@nestjs/microservices';
 import { JwtUser } from 'src/common/jwt-user';
 import template from './template';
 import { Role } from 'src/common/roles';
+import axios, { AxiosRequestConfig } from 'axios';
+import { ConfigService } from '@nestjs/config';
 
 @Injectable()
 export class RunnerService {
   constructor(
     @Inject('PROBLEM_MICROSERVICE')
     private problemMicroservice: ClientProxy,
+    private readonly configService: ConfigService
   ) {}
 
 
@@ -72,5 +75,51 @@ export class RunnerService {
     }
 
     return sanitizedArray;
+  }
+
+  async runCodeWithJudge(code: string, problem: Problem, user: JwtUser, submit?: boolean) {
+    const judgeKey = this.configService.get('JUDGE_KEY');
+
+    if (!judgeKey) {
+        throw new ServiceUnavailableException('This service is currently unavailable. If this persists, please contact the administrator.')
+    }
+
+    if (!problem.approved && user.role !== Role.ADMIN) {
+        throw new ForbiddenException('This problem has not been approved yet. Please try again later.')
+    }
+    
+    const originalCode = code;
+    
+    problem.unitTests.forEach((unitTest) => {
+        if (submit) {
+            code += `\n${unitTest.code}`
+        } else {
+            if (unitTest.visible) {
+                code += `\n${unitTest.code}`
+            }
+        }
+    })
+
+    const judgeRequest: AxiosRequestConfig = {
+        method: 'POST',
+        url: 'https://judge0-ce.p.rapidapi.com/submissions',
+        params: {
+            base64_encoded: false,
+            wait: false,
+        },
+        data: {
+            source_code: code,
+            language_id: 71,
+        },
+        headers: {
+            'content-type': 'application/json',
+            'Content-Type': 'application/json',
+            'X-RapidAPI-Key': judgeKey,
+            'X-RapidAPI-Host': 'judge0-ce.p.rapidapi.com'
+        }
+
+    }
+
+    const response = await axios.request(judgeRequest)
   }
 }

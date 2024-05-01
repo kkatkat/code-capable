@@ -5,6 +5,8 @@ import { ClientProxy } from '@nestjs/microservices';
 import { Problem } from 'src/common/types';
 import { AuthGuard } from 'src/common/guards/auth-guard';
 import { JwtUser } from 'src/common/jwt-user';
+import { ConfigService } from '@nestjs/config';
+import { RunResponse } from './runResponse.dto';
 
 @Controller('runner')
 export class RunnerController {
@@ -12,12 +14,15 @@ export class RunnerController {
     private readonly runnerService: RunnerService, 
     @Inject('PROBLEM_MICROSERVICE')
     private problemMicroservice: ClientProxy,
+    private readonly config: ConfigService,
   ) { }
 
   @UseGuards(AuthGuard)
   @Post('run')
   async runCode(@Body() body: RunRequest, @Req() req: Request): Promise<any> {
     const user = req['user'] as JwtUser;
+    const useJudge = this.config.get('useJudge');
+    const judgeKey = this.config.get('judgeKey');
 
     if (!body.problemId || !body.code.trim()) {
         throw new BadRequestException('Invalid request')
@@ -27,10 +32,17 @@ export class RunnerController {
       throw new NotFoundException('Problem not found')
     })
 
-    const response =  await this.runnerService.runCode(body.code, problem, user, body.submit);
+    let response: RunResponse; 
     
-    if (response.output) {
-        response.output = this.runnerService.sanitizeOutput(response.output);
+    if (!useJudge) {
+        response = await this.runnerService.runCode(body.code, problem, user, body.submit);
+
+        if (response.output) {
+            response.output = this.runnerService.sanitizeOutput(response.output);
+        }
+        
+    } else {
+        response = await this.runnerService.runCodeWithJudge(body.code, problem, user, judgeKey, body.submit);
     }
 
     return response;

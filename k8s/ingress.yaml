@@ -1,0 +1,39 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  labels:
+    app: codecapable-ingress
+  name: codecapable-ingress
+  namespace: codecapable
+spec:
+  rules:
+  - http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: frontend-service
+            port:
+              number: 3333
+      - path: /u
+        pathType: Prefix
+        backend:
+          service:
+            name: user-ms-service
+            port:
+              number: 3001
+      - path: /p
+        pathType: Prefix
+        backend:
+          service:
+            name: problem-ms-service
+            port:
+              number: 3000
+      - path: /r
+        pathType: Prefix
+        backend:
+          service:
+            name: runner-ms-service
+            port:
+              number: 3002

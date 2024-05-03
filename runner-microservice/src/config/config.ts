@@ -6,5 +6,7 @@ export default () => {
         jwtPublicKey: parseEnv(process.env.JWT_PUBLIC_KEY),
         rmqHost: parseEnv(process.env.RABBITMQ_HOST),
         rmqPort: parseEnv(process.env.RABBITMQ_PORT),
+        useJudge: parseEnv(process.env.USE_JUDGE),
+        judgeKey: parseEnv(process.env.JUDGE_KEY),
     }
 }

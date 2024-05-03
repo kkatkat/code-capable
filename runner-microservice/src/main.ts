@@ -13,6 +13,7 @@ async function bootstrap() {
     whitelist: true
   }));
   
+  console.log("Using Judge0: " + config.get('useJudge'))
   console.log("App running on port " + config.get('port'));
   await app.listen(config.get('port'));
 }

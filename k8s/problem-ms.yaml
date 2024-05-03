@@ -1,0 +1,103 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: problem-ms-deployment
+  namespace: codecapable
+  labels:
+    app: problem-ms
+    version: "1.0"
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: problem-ms
+  template:
+    metadata:
+      labels:
+        app: problem-ms
+        version: "1.0"
+    spec:
+      containers:
+      - name: problem-ms-container
+        image: kkatsarski/problem-ms
+        imagePullPolicy: Always
+        env:
+          - name: NODE_ENV
+            value: production
+          - name: PORT
+            value: "3000"
+          - name: RABBITMQ_HOST
+            value: rabbitmq-service
+          - name: RABBITMQ_PORT
+            value: "5672"
+          - name: JWT_PUBLIC_KEY
+            valueFrom:
+              secretKeyRef:
+                name: cc-secrets
+                key: JWT_PUBLIC_KEY
+          # Database
+          - name: DB_TYPE
+            value: mysql
+          - name: DB_HOST
+            valueFrom:
+              secretKeyRef:
+                name: cc-secrets
+                key: DB_HOST
+          - name: DB_PORT
+            value: "3306"
+          - name: DB_USERNAME
+            valueFrom:
+              secretKeyRef:
+                name: cc-secrets
+                key: DB_USERNAME
+          - name: DB_PASSWORD
+            valueFrom:
+              secretKeyRef:
+                name: cc-secrets
+                key: DB_PASSWORD
+          - name: DB_NAME
+            value: problem-ms
+        ports:
+        - containerPort: 3000
+        resources:
+          limits:
+            cpu: 300m
+            memory: 521Mi
+          requests:
+            cpu: 150m
+            memory: 256Mi
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: problem-ms
+  name: problem-ms-service
+  namespace: codecapable
+spec:
+  ports:
+    - name: http
+      port: 3000
+      targetPort: 3000
+  selector:
+    app: problem-ms
+
+---
+
+apiVersion: autoscaling/v1
+kind: HorizontalPodAutoscaler
+metadata:
+  name: problem-ms-autoscaler
+  namespace: codecapable
+spec:
+  scaleTargetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: problem-ms-deployment
+  minReplicas: 1
+  maxReplicas: 10
+  targetCPUUtilizationPercentage: 50
+          
+          

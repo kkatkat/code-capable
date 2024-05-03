@@ -1,0 +1,120 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: user-ms-deployment
+  namespace: codecapable
+  labels:
+    app: user-ms
+    version: "1.0"
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: user-ms
+  template:
+    metadata:
+      labels:
+        app: user-ms
+        version: "1.0"
+    spec:
+      containers:
+      - name: user-ms-container
+        image: kkatsarski/user-ms
+        imagePullPolicy: Always
+        env:
+          - name: NODE_ENV
+            value: production
+          - name: PORT
+            value: "3001"
+            # RMQ
+          - name: RABBITMQ_HOST
+            value: rabbitmq-service
+          - name: RABBITMQ_PORT
+            value: "5672"
+            # Auth
+          - name: JWT_PUBLIC_KEY
+            valueFrom:
+              secretKeyRef:
+                name: cc-secrets
+                key: JWT_PUBLIC_KEY
+          - name: JWT_PRIVATE_KEY
+            valueFrom:
+              secretKeyRef:
+                name: cc-secrets
+                key: JWT_PRIVATE_KEY
+          - name: GITHUB_CLIENT_ID
+            valueFrom:
+              secretKeyRef:
+                name: cc-secrets
+                key: GITHUB_CLIENT_ID
+          - name: GITHUB_CLIENT_SECRET
+            valueFrom:
+              secretKeyRef:
+                name: cc-secrets
+                key: GITHUB_CLIENT_SECRET
+          # Database
+          - name: DB_TYPE
+            value: mysql
+          - name: DB_HOST
+            valueFrom:
+              secretKeyRef:
+                name: cc-secrets
+                key: DB_HOST
+          - name: DB_PORT
+            value: "3306"
+          - name: DB_USERNAME
+            valueFrom:
+              secretKeyRef:
+                name: cc-secrets
+                key: DB_USERNAME
+          - name: DB_PASSWORD
+            valueFrom:
+              secretKeyRef:
+                name: cc-secrets
+                key: DB_PASSWORD
+          - name: DB_NAME
+            value: user-ms
+        ports:
+        - containerPort: 3001
+        resources:
+          limits:
+            cpu: 300m
+            memory: 521Mi
+          requests:
+            cpu: 150m
+            memory: 256Mi
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: user-ms
+  name: user-ms-service
+  namespace: codecapable
+spec:
+  ports:
+    - name: http
+      port: 3001
+      targetPort: 3001
+  selector:
+    app: user-ms
+
+---
+
+apiVersion: autoscaling/v1
+kind: HorizontalPodAutoscaler
+metadata:
+  name: user-ms-autoscaler
+  namespace: codecapable
+spec:
+  scaleTargetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: user-ms-deployment
+  minReplicas: 1
+  maxReplicas: 10
+  targetCPUUtilizationPercentage: 50
+          
+          

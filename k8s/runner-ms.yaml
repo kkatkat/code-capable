@@ -37,6 +37,11 @@ spec:
               secretKeyRef:
                 name: cc-secrets
                 key: JWT_PUBLIC_KEY
+          - name: JUDGE_KEY
+            valueFrom:
+              secretKeyRef:
+                name: cc-secrets
+                key: JUDGE_KEY
         ports:
         - containerPort: 3002
         resources:

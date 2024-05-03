@@ -18,7 +18,6 @@ export class RunnerService {
     constructor(
         @Inject('PROBLEM_MICROSERVICE')
         private problemMicroservice: ClientProxy,
-        private readonly configService: ConfigService
     ) { }
 
 

@@ -134,9 +134,9 @@ export class RunnerService {
             }
 
             this.problemMicroservice.send<SolutionSubmission>('solution_submitted', submission).subscribe();
+            result.submitted = submit;
         }
 
-        result.submitted = submit;
         return result;
 
     }

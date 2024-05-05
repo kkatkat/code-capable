@@ -12,5 +12,6 @@ export default () => {
         jwtPublicKey: parseEnv(process.env.JWT_PUBLIC_KEY),
         rmqHost: parseEnv(process.env.RABBITMQ_HOST),
         rmqPort: parseEnv(process.env.RABBITMQ_PORT),
+        sentryDsn: parseEnv(process.env.SENTRY_DSN),
     }
 }

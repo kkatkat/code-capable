@@ -23,7 +23,9 @@ import { SentryInterceptor, SentryModule } from '@ntegral/nestjs-sentry';
         dsn: process.env.SENTRY_DSN,
         environment: process.env.NODE_ENV,
         release: 'v1.0',
-        enableTracing: true
+        enableTracing: true,
+        debug: false,
+        maxBreadcrumbs: 10,
     })
   ],
   controllers: [],

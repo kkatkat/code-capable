@@ -74,6 +74,12 @@ spec:
                 key: DB_PASSWORD
           - name: DB_NAME
             value: user-ms
+          # Sentry
+          - name: SENTRY_DSN
+            valueFrom:
+              secretKeyRef:
+                name: cc-secrets
+                key: SENTRY_DSN_USER
         ports:
         - containerPort: 3001
         resources:

@@ -13,6 +13,10 @@ async function bootstrap() {
         await seed();
     }
 
+    if (!!process.env.SENTRY_DSN && process.env.NODE_ENV !== 'development') {
+        console.log('Sentry enabled');
+    }
+
     const app = await NestFactory.create(AppModule);
     app.enableCors();
     app.setGlobalPrefix('u');

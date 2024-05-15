@@ -37,6 +37,10 @@ async function bootstrap() {
 
     app.startAllMicroservices();
 
+    if (!!process.env.SENTRY_DSN && process.env.NODE_ENV !== 'development') {
+        console.log('Sentry enabled');
+    }
+
     console.log("App running on port " + config.get('port'));
     await app.listen(config.get('port'));
 }

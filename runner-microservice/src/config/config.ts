@@ -8,5 +8,6 @@ export default () => {
         rmqPort: parseEnv(process.env.RABBITMQ_PORT),
         useJudge: parseEnv(process.env.USE_JUDGE),
         judgeKey: parseEnv(process.env.JUDGE_KEY),
+        sentryDsn: parseEnv(process.env.SENTRY_DSN),
     }
 }

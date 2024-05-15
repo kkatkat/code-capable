@@ -42,6 +42,12 @@ spec:
               secretKeyRef:
                 name: cc-secrets
                 key: JUDGE_KEY
+          # Sentry
+          - name: SENTRY_DSN
+            valueFrom:
+              secretKeyRef:
+                name: cc-secrets
+                key: SENTRY_DSN_RUNNER
         ports:
         - containerPort: 3002
         resources:

@@ -20,6 +20,13 @@ spec:
       containers:
       - name: user-ms-container
         image: kkatsarski/user-ms
+        readinessProbe:
+          httpGet:
+            path: /u/health
+            port: 3001
+          initialDelaySeconds: 5
+          periodSeconds: 3
+          failureThreshold: 15
         imagePullPolicy: Always
         env:
           - name: NODE_ENV

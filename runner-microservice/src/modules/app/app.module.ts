@@ -5,6 +5,7 @@ import config from 'src/config/config';
 import { RmqModule } from '../rmq/rmq.module';
 import { SentryInterceptor, SentryModule } from '@ntegral/nestjs-sentry';
 import { APP_INTERCEPTOR } from '@nestjs/core';
+import { HealthController } from './health.controller';
 
 @Module({
   imports: [
@@ -23,7 +24,7 @@ import { APP_INTERCEPTOR } from '@nestjs/core';
         maxBreadcrumbs: 10,
     })
   ],
-  controllers: [],
+  controllers: [HealthController],
   providers: [{
     provide: APP_INTERCEPTOR,
     useFactory: () => new SentryInterceptor({

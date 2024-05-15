@@ -8,6 +8,7 @@ import { dataSourceOptions } from 'database/data-source';
 import { SolutionModule } from '../solution/solution.module';
 import { APP_INTERCEPTOR } from '@nestjs/core';
 import { SentryInterceptor, SentryModule } from '@ntegral/nestjs-sentry';
+import { HealthController } from './health.controller';
 
 @Module({
   imports: [
@@ -28,7 +29,7 @@ import { SentryInterceptor, SentryModule } from '@ntegral/nestjs-sentry';
         maxBreadcrumbs: 10,
     })
   ],
-  controllers: [],
+  controllers: [HealthController],
   providers: [{
     provide: APP_INTERCEPTOR,
     useFactory: () => new SentryInterceptor({

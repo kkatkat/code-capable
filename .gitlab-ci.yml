@@ -44,17 +44,14 @@ variables:
   # Problem microservice
   - cd problem-microservice
   - npm install
-  - npm run test
   - npm run test:cov
   # Runner microservice
   - cd ../runner-microservice
   - npm install
-  - npm run test
   - npm run test:cov
   # User microservice
   - cd ../user-microservice
   - npm install
-  - npm run test
   - npm run test:cov
 
 

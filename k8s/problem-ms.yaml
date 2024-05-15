@@ -20,6 +20,13 @@ spec:
       containers:
       - name: problem-ms-container
         image: kkatsarski/problem-ms
+        readinessProbe:
+          httpGet:
+            path: /p/health
+            port: 3000
+          initialDelaySeconds: 5
+          periodSeconds: 3
+          failureThreshold: 15
         imagePullPolicy: Always
         env:
           - name: NODE_ENV

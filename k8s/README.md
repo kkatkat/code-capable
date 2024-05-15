@@ -28,3 +28,9 @@ To configure kubectl to use the codecapable namespace, use `kubectl config set-c
 
 1. `kubectl get service` to show you the running services
 2. In a new terminal `minikube service service-name` will expose an IP so you can access the service
+
+##### Rollout (restart deployments)
+
+1. `kubectl rollout restart -n codecapable deployment problem-ms-deployment`
+2. `kubectl rollout restart -n codecapable deployment user-ms-deployment`
+3. `kubectl rollout restart -n codecapable deployment runner-ms-deployment`

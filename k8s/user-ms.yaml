@@ -20,13 +20,13 @@ spec:
       containers:
       - name: user-ms-container
         image: kkatsarski/user-ms
-        readinessProbe:
-          httpGet:
-            path: /u/health
-            port: 3001
-          initialDelaySeconds: 5
-          periodSeconds: 3
-          failureThreshold: 15
+        # startupProbe:
+        #   httpGet:
+        #     path: /u/health
+        #     port: 3001
+        #   initialDelaySeconds: 5
+        #   periodSeconds: 3
+        #   failureThreshold: 15
         imagePullPolicy: Always
         env:
           - name: NODE_ENV
@@ -128,6 +128,6 @@ spec:
     name: user-ms-deployment
   minReplicas: 1
   maxReplicas: 10
-  targetCPUUtilizationPercentage: 50
+  targetCPUUtilizationPercentage: 60
           
           

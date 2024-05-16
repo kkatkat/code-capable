@@ -20,13 +20,13 @@ spec:
       containers:
       - name: problem-ms-container
         image: kkatsarski/problem-ms
-        readinessProbe:
-          httpGet:
-            path: /p/health
-            port: 3000
-          initialDelaySeconds: 5
-          periodSeconds: 3
-          failureThreshold: 15
+        # startupProbe:
+        #   httpGet:
+        #     path: /p/health
+        #     port: 3000
+        #   initialDelaySeconds: 5
+        #   periodSeconds: 3
+        #   failureThreshold: 15
         imagePullPolicy: Always
         env:
           - name: NODE_ENV
@@ -111,6 +111,6 @@ spec:
     name: problem-ms-deployment
   minReplicas: 1
   maxReplicas: 10
-  targetCPUUtilizationPercentage: 50
+  targetCPUUtilizationPercentage: 60
           
           

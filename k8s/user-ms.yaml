@@ -7,6 +7,7 @@ metadata:
     app: user-ms
     version: "1.0"
 spec:
+  revisionHistoryLimit: 3
   replicas: 1
   selector:
     matchLabels:
@@ -20,13 +21,13 @@ spec:
       containers:
       - name: user-ms-container
         image: kkatsarski/user-ms
-        # startupProbe:
-        #   httpGet:
-        #     path: /u/health
-        #     port: 3001
-        #   initialDelaySeconds: 5
-        #   periodSeconds: 3
-        #   failureThreshold: 15
+        startupProbe:
+          httpGet:
+            path: /u/health
+            port: 3001
+          initialDelaySeconds: 10
+          periodSeconds: 5
+          failureThreshold: 11
         imagePullPolicy: Always
         env:
           - name: NODE_ENV
@@ -42,12 +43,12 @@ spec:
           - name: JWT_PUBLIC_KEY
             valueFrom:
               secretKeyRef:
-                name: cc-secrets
+                name: jwt-public
                 key: JWT_PUBLIC_KEY
           - name: JWT_PRIVATE_KEY
             valueFrom:
               secretKeyRef:
-                name: cc-secrets
+                name: jwt-private
                 key: JWT_PRIVATE_KEY
           - name: GITHUB_CLIENT_ID
             valueFrom:

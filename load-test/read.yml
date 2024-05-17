@@ -1,0 +1,14 @@
+config:
+  target: http://127.0.0.1
+  phases:
+  # For 60 seconds, 100 users per second will arrive
+    - duration: 60
+      arrivalRate: 100
+      name: Read
+scenarios:
+  # Each user that arrives will make 100 requests and then disappear
+  - flow:
+    - loop:
+      - get:
+          url: '/u/user/7'
+      count: 100

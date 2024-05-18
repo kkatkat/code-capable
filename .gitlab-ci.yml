@@ -90,7 +90,15 @@ vulnerability_scan:
   - echo "Vulnerability scan job started..."
   # Build
   - docker build -t frontend --build-arg PORT=3333 --build-arg GITHUB_CLIENT_ID=$GITHUB_CLIENT_ID frontend
+  - docker build -t problem-ms problem-microservice
+  - docker build -t runner-ms runner-microservice
+  - docker build -t user-ms user-microservice
+  # Scan
   - docker scout cves frontend --exit-code --only-severity critical,high
+  - docker scout cves problem-ms --exit-code --only-severity critical,high
+  - docker scout cves runner-ms --exit-code --only-severity critical,high
+  - docker scout cves user-ms --exit-code --only-severity critical,high
+  
 
 .push_images:
   only:

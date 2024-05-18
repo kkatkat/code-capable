@@ -2,13 +2,14 @@ stages:
 - build
 - test
 - e2e
+- vulnerability_scan
 - build_images
 
 variables:
   DOCKER_HOST: tcp://docker:2375
   DOCKER_TLS_CERTDIR: ""
 
-build:
+.build:
   image: node:21
   only:
   - main
@@ -33,7 +34,7 @@ build:
   - npm install
   - npm run build
 
-test:
+.test:
   image: node:21
   only:
   - main
@@ -55,7 +56,7 @@ test:
   - npm run test:cov
 
 
-e2e:
+.e2e:
   only:
   - main
   stage: e2e
@@ -72,7 +73,21 @@ e2e:
   - docker exec playwright sh -c "npm install"
   - docker exec playwright sh -c "npx playwright test"
 
-build_images:
+vulnerability_scan:
+  only:
+  - main
+  stage: vulnerability_scan
+  image: docker
+  services:
+    - docker:dind
+  before_script:
+  - docker scout install
+  script:
+  - echo "Vulnerability scan job started..."
+  - docker build -t $DOCKER_USER/frontend --build-arg PORT=3333 --build-arg GITHUB_CLIENT_ID=$GITHUB_CLIENT_ID .
+  - docker scout cves $DOCKER_USER/frontend
+
+.build_images:
   only:
   - main
   stage: build_images

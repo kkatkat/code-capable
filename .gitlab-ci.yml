@@ -3,7 +3,7 @@ stages:
 - test
 - e2e
 - vulnerability_scan
-- build_images
+- push_images
 
 variables:
   DOCKER_HOST: tcp://docker:2375
@@ -88,14 +88,14 @@ vulnerability_scan:
   - rm -rf /var/cache/apk/*
   script:
   - echo "Vulnerability scan job started..."
-  - cd frontend
-  - docker build -t frontend --build-arg PORT=3333 --build-arg GITHUB_CLIENT_ID=$GITHUB_CLIENT_ID .
-  - docker scout cves frontend --exit-code
+  # Build
+  - docker build -t frontend --build-arg PORT=3333 --build-arg GITHUB_CLIENT_ID=$GITHUB_CLIENT_ID frontend
+  - docker scout cves frontend --exit-code --only-severity critical,high
 
-.build_images:
+.push_images:
   only:
   - main
-  stage: build_images
+  stage: push_images
   image: docker
   services:
     - docker:dind

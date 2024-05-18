@@ -1,0 +1,17 @@
+config:
+  target: http://127.0.0.1
+  phases:
+  # For 60 seconds, 10 users per second will arrive
+    - duration: 60
+      arrivalRate: 10
+      name: Login
+scenarios:
+  # Each user that arrives will make 20 requests and then disappear
+  - flow:
+    - loop:
+      - post:
+          url: '/u/auth/login'
+          json:
+            username: 'Bush'
+            password: '123qwe123'
+      count: 20

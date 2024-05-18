@@ -7,6 +7,7 @@ metadata:
     app: problem-ms
     version: "1.0"
 spec:
+  revisionHistoryLimit: 3
   replicas: 1
   selector:
     matchLabels:
@@ -20,13 +21,13 @@ spec:
       containers:
       - name: problem-ms-container
         image: kkatsarski/problem-ms
-        # startupProbe:
-        #   httpGet:
-        #     path: /p/health
-        #     port: 3000
-        #   initialDelaySeconds: 5
-        #   periodSeconds: 3
-        #   failureThreshold: 15
+        startupProbe:
+          httpGet:
+            path: /p/health
+            port: 3000
+          initialDelaySeconds: 10
+          periodSeconds: 5
+          failureThreshold: 11
         imagePullPolicy: Always
         env:
           - name: NODE_ENV
@@ -40,7 +41,7 @@ spec:
           - name: JWT_PUBLIC_KEY
             valueFrom:
               secretKeyRef:
-                name: cc-secrets
+                name: jwt-public
                 key: JWT_PUBLIC_KEY
           # Database
           - name: DB_TYPE

@@ -1,0 +1,26 @@
+config:
+  target: http://127.0.0.1
+  phases:
+  # For 60 seconds, 20 users per second will arrive
+    - duration: 60
+      arrivalRate: 20
+      name: Create problem
+scenarios:
+  # Each user that arrives will make 35 requests and then disappear
+  - flow:
+    - loop:
+      - post:
+          url: '/p/problem'
+          json:
+            name: 'Load test problem'
+            creatorId: 7
+            creatorName: 'jdoe'
+            description: 'qwerty123'
+            starterCode: 'qwerty123'
+            difficulty: 'easy'
+            unitTests:
+              - code: 'unittest1'
+                visible: 'true'
+          headers:
+            authorization: 'put jwt here'
+      count: 35

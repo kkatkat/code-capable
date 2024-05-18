@@ -7,6 +7,7 @@ metadata:
     app: runner-ms
     version: "1.0"
 spec:
+  revisionHistoryLimit: 3
   replicas: 1
   selector:
     matchLabels:
@@ -20,13 +21,13 @@ spec:
       containers:
       - name: runner-ms-container
         image: kkatsarski/runner-ms
-        # startupProbe:
-        #   httpGet:
-        #     path: /r/health
-        #     port: 3002
-        #   initialDelaySeconds: 5
-        #   periodSeconds: 3
-        #   failureThreshold: 15
+        startupProbe:
+          httpGet:
+            path: /r/health
+            port: 3002
+          initialDelaySeconds: 10
+          periodSeconds: 5
+          failureThreshold: 11
         imagePullPolicy: Always
         env:
           - name: NODE_ENV
@@ -42,7 +43,7 @@ spec:
           - name: JWT_PUBLIC_KEY
             valueFrom:
               secretKeyRef:
-                name: cc-secrets
+                name: jwt-public
                 key: JWT_PUBLIC_KEY
           - name: JUDGE_KEY
             valueFrom:

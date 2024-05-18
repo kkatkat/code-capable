@@ -3,12 +3,15 @@
 1. Install kubectl
 2. Install minikube
 3. `minikube start`
-4. `minikube addons enable ingress`
+4. `minikube addons enable ingress` and `minikube addons enable metrics-server`
 5. Restart minikube after enabling ingress addon.
 6. Copy .env.k8s.example as .env.k8s and fill in the secrets
-7. To push the secrets to the cluster, do `kubectl create secret generic cc-secrets --from-env-file=k8s/.env.k8s`.
-8. Since kubectl doesn't parse newlines (which are inevitably present in the PEM-formatted keypair JWT_PUBLIC_KEY and JWT_PRIVATE_KEY), you need to go to the cluster dashboard and fix the PEM strings manually. To start the K8s dashboard, do `minikube dashboard` in a new terminal
-9. In a terminal in the root of the project, do `kubectl apply -f k8s/`
+7. `kubectl apply -f k8s/namespace.yaml`
+8. `kubectl config set-context --current --namespace=codecapable`
+9. To push the secrets to the cluster, do `kubectl create secret generic cc-secrets --from-env-file=k8s/.env.k8s`.
+10. `kubectl create secret generic jwt-public --from-literal=JWT_PUBLIC_KEY="keyhere"` (make sure to place key inside quotes)
+11. `kubectl create secret generic jwt-private --from-literal=JWT_PRIVATE_KEY="keyhere"` (make sure to place key inside quotes)
+12. In a terminal in the root of the project, do `kubectl apply -f k8s/`
 
 ##### Start the cluster locally:
 

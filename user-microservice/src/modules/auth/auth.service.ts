@@ -9,8 +9,11 @@ import { ConfigService } from "@nestjs/config";
 import { UserCreateDTO } from "../user/user-create.dto";
 import * as bcrypt from 'bcrypt';
 import { Equal } from "typeorm";
+import axios from "axios";
 
-
+const GOOGLE_HASH_PWD = 'https://europe-west4-codecapable.cloudfunctions.net/hash-password'
+const GOOGLE_COMPARE_PWD = 'https://europe-west4-codecapable.cloudfunctions.net/compare-password'
+const SECRET_KEY = process.env.SECRET_KEY
 
 @Injectable()
 export class AuthService {
@@ -40,7 +43,7 @@ export class AuthService {
             throw new UnauthorizedException('Wrong username or password');
         }
 
-        const passwordsMatch = await bcrypt.compare(body.password, user.password);
+        const passwordsMatch = await this.comparePassword(body.password, user.password);
 
         if (!passwordsMatch) {
             throw new UnauthorizedException();
@@ -100,7 +103,52 @@ export class AuthService {
     }
 
     async hashPassword(rawPassword: string): Promise<string> {
-        return bcrypt.hash(rawPassword, 10)
+        let hash: string | null = null;
+
+        if (SECRET_KEY) {
+            await axios.post(GOOGLE_HASH_PWD, {
+                password: rawPassword,
+                secret: SECRET_KEY
+            }).then((response) => {
+                hash = response.data.hash
+            }).catch((error) => {
+                console.error(error);
+                hash = null;
+            })
+        } else {
+            hash = await bcrypt.hash(rawPassword, 10);
+        }
+
+        if (!hash) {
+            throw new InternalServerErrorException('Unknown error');
+        }
+
+        return hash;
+    }
+
+    async comparePassword(rawPassword: string, hashedPassword: string): Promise<boolean> {
+        let match: boolean | null = null;
+
+        if (SECRET_KEY) {
+            await axios.post(GOOGLE_COMPARE_PWD, {
+                raw: rawPassword,
+                hashed: hashedPassword,
+                secret: SECRET_KEY
+            }).then((response) => {
+                match = response.data.match
+            }).catch((error) => {
+                console.error(error);
+                match = null;
+            })
+        } else {
+            match = await bcrypt.compare(rawPassword, hashedPassword);
+        }
+
+        if (match === null) {
+            throw new InternalServerErrorException('Unknown error 2');
+        }
+
+        return match;
     }
 
     async checkToken(jwtUser: JwtUser): Promise<Omit<LoginResponse, 'accessToken'>> {

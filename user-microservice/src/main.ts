@@ -27,6 +27,7 @@ async function bootstrap() {
     }));
 
     console.log("App running on port " + config.get('port'));
+    console.log("Using Google Cloud functions: " + !!process.env.SECRET_KEY)
     await app.listen(config.get('port'));
 }
 bootstrap();

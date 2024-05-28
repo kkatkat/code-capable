@@ -115,12 +115,10 @@ export class AuthService {
                 console.error(error);
                 hash = null;
             })
-        } else {
-            hash = await bcrypt.hash(rawPassword, 10);
         }
 
         if (!hash) {
-            throw new InternalServerErrorException('Unknown error');
+            hash = await bcrypt.hash(rawPassword, 10);
         }
 
         return hash;
@@ -140,12 +138,10 @@ export class AuthService {
                 console.error(error);
                 match = null;
             })
-        } else {
-            match = await bcrypt.compare(rawPassword, hashedPassword);
         }
 
         if (match === null) {
-            throw new InternalServerErrorException('Unknown error 2');
+            match = await bcrypt.compare(rawPassword, hashedPassword);
         }
 
         return match;

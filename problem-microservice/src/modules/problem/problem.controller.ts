@@ -116,11 +116,6 @@ export class ProblemController {
     return problem;
   }
 
-  @Get()
-  async getAll() {
-    return this.problemService.find();
-  }
-
   @UseGuards(AuthGuard)
   @Post()
   async create(@Body() input: ProblemInputDTO, @Req() req: Request): Promise<Problem> {

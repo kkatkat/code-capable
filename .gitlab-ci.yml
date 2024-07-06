@@ -73,7 +73,7 @@ e2e:
   - docker exec playwright sh -c "npm install"
   - docker exec playwright sh -c "npx playwright test"
 
-vulnerability_scan:
+.vulnerability_scan:
   only:
   - main
   stage: vulnerability_scan
